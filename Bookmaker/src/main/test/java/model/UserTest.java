@@ -16,7 +16,7 @@ public class UserTest {
         user.setLastName("Doe");
         user.setPassword("test");
 
-        EntityManager em = Persistence.createEntityManagerFactory("model").createEntityManager();
+        EntityManager em = Persistence.createEntityManagerFactory("BMUnit").createEntityManager();
 
         em.getTransaction().begin();
         em.persist(user);
