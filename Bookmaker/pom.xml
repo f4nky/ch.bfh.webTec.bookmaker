@@ -44,6 +44,12 @@
       <artifactId>bootstrap</artifactId>
       <version>3.3.5</version>
     </dependency>
+      <dependency>
+          <groupId>org.eclipse.persistence</groupId>
+          <artifactId>eclipselink</artifactId>
+          <version>2.5.2</version>
+          <scope>compile</scope>
+      </dependency>
   </dependencies>
   <build>
     <finalName>bookmaker</finalName>
