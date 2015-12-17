@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:body>
+        <ui:composition template="/template/defaultLayout.xhtml">
+            <ui:param name="headline" value="Übersicht" />
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Letzte Wetten</h5>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Datum</th>
+                                    <th>+/-</th>
+                                    <th>Saldo CHF</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>01.12.15</td>
+                                    <td>+15.00</td>
+                                    <td>155.00</td>
+                                </tr>
+                                <tr>
+                                    <td>02.12.15</td>
+                                    <td>-30.50</td>
+                                    <td>124.50</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
