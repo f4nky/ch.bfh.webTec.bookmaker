@@ -1,9 +1,6 @@
 package model;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Model for user-objects.
@@ -22,16 +19,23 @@ import javax.persistence.Id;
  */
 @Entity
 public class User {
+
+    public static final String TABLE_NAME = "User";
+    public static final String COLUMN_NAME_EMAIL = "email";
+    public static final String COLUMN_NAME_PASSWORD = "password";
+
     @GeneratedValue
     @Id
     private Long id;
     @Basic
+    @Column(name = COLUMN_NAME_EMAIL)
     private String email;
     @Basic
     private String firstName;
     @Basic
     private String lastName;
     @Basic
+    @Column(name = COLUMN_NAME_PASSWORD)
     private String password;
     @Basic
     private Boolean isAdmin;

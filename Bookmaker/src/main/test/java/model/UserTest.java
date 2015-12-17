@@ -1,5 +1,6 @@
 package model;
 
+import model.User;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
@@ -11,7 +12,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Unit Tests for the user model class.
+ * Unit Tests for the user orm.model class.
  * Tests the crud db-operations (create, read, update, delete).
  * <br/><br/>
  *
