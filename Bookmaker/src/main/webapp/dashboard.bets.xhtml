@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:body>
+        <ui:composition template="/template/defaultLayout.xhtml">
+            <ui:param name="headline" value="Meine Wetten" />
+            <ui:define name="content">
+                <div class="row">
+                    <!--<div class="col-md"-->
+                </div>
+                <div class="row top-buffer">
+                    <div class="col-sm-12">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#upcoming" data-toggle="pill">
+                                    <i class="fa fa-fw fa-clock-o"></i> Pendent
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#finished" data-toggle="pill">
+                                    <i class="fa fa-fw fa-check-square-o"></i> Abgeschlossen
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="tab-content col-sm-12">
+                        <div class="tab-pane active" id="upcoming">
+                            <h6>Zur Zeit keine pendenten Wetten.</h6>
+                        </div>
+                        <div class="tab-pane" id="finished">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-1">Datum</th>
+                                        <th class="col-md-6">Begegnung<br />Kriterium</th>
+                                        <th class="col-md-1 text-right">Quote</th>
+                                        <th class="col-md-2 text-right">Gesetzter Betrag</th>
+                                        <th class="col-md-2 text-right">Gew./Verl. Betrag</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>15.11.15</td>
+                                        <td>
+                                            <a href="match.detail.xhtml">Frankreich - Niederlande</a>
+                                            <p>Frankreich gewinnt</p>
+                                        </td>
+                                        <td class="text-right">1.2</td>
+                                        <td class="text-right">CHF 10.00</td>
+                                        <td class="text-right text-success">CHF +12.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>01.12.15</td>
+                                        <td>
+                                            <a href="match.detail.xhtml">Schweiz - Spanien</a>
+                                            <p>Schweiz führt zur Halbzeit</p>
+                                        </td>
+                                        <td class="text-right">3.0</td>
+                                        <td class="text-right">CHF 30.00</td>
+                                        <td class="text-right text-success">CHF +90.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>02.12.15</td>
+                                        <td>
+                                            <a href="#">Schweiz - Spanien</a>
+                                            <p>Spanien führt zur Halbzeit</p>
+                                        </td>
+                                        <td class="text-right">1.3</td>
+                                        <td class="text-right">CHF 20.00</td>
+                                        <td class="text-right text-danger">CHF -20.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
