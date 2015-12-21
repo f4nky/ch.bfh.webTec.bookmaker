@@ -23,6 +23,9 @@
         <!-- Google font Open Sans -->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400,300' rel='stylesheet' type='text/css' />
 
+        <!-- Language File -->
+        <f:loadBundle basename="language.Messages" var="messages" />
+
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -33,7 +36,7 @@
     </h:head>
     <h:body class="landing-page landing-page1">
         <ui:insert name="header">
-            <ui:include src="defaultHeader.xhtml" />
+            <ui:include src="defaultNavigation.xhtml" />
         </ui:insert>
 
         <div class="wrapper">

@@ -38,7 +38,7 @@ public class User {
     @Column(name = COLUMN_NAME_PASSWORD)
     private String password;
     @Basic
-    private Boolean isAdmin;
+    private Boolean isManager;
 
     /**
      * Returns the unique id of the user.
@@ -122,22 +122,22 @@ public class User {
     }
 
     /**
-     * Returns the isAdmin-Flag of the user.
-     * If this flag is set to true, then the user is an admin, else the user is a normal user.
-     * @return isAdmin-Flag of the user. true = admin user, false = normal user.
+     * Returns the isManager-Flag of the user.
+     * If this flag is set to true, then the user is a manager, else the user is a normal user.
+     * @return isManager-Flag of the user. true = manager user, false = normal user.
      * @since 29.10.2015
      */
-    public Boolean getIsAdmin() {
-        return isAdmin;
+    public Boolean getIsManager() {
+        return isManager;
     }
 
     /**
-     * Sets the isAdmin-Flag of the user.
-     * If this flag is set to true, then the user is an admin, else the user is a normal user.
-     * @param isAdmin Value to set for the isAdmin-Flag. true = Admin user, false = normal user.
+     * Sets the isManager-Flag of the user.
+     * If this flag is set to true, then the user is a manager, else the user is a normal user.
+     * @param isManager Value to set for the isManager-Flag. true = Manager user, false = normal user.
      * @since 29.10.2015
      */
-    public void setIsAdmin(Boolean isAdmin) {
-        this.isAdmin = isAdmin;
+    public void setIsManager(Boolean isManager) {
+        this.isManager = isManager;
     }
 }

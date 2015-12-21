@@ -4,7 +4,9 @@ import dao.UserDao;
 import model.User;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 
@@ -44,6 +46,9 @@ public class LoginBean implements Serializable {
         this.password = password;
     }
 
+    @ManagedProperty(value="#{navigationBean}")
+    private NavigationBean navigationBean;
+
     /**
      * TODO
      * @return
@@ -55,9 +60,12 @@ public class LoginBean implements Serializable {
         if (user != null) {
             HttpSession session = SessionBean.getSession();
             session.setAttribute(SessionBean.USER_KEY, user);
-            return "home";
+            if (user.getIsManager()) {
+                return navigationBean.redirectToManagerHome();
+            }
+            return navigationBean.redirectToUserHome();
         }
-        return "login";
+        return navigationBean.redirectToStartPage();
     }
 
     /**
@@ -66,8 +74,11 @@ public class LoginBean implements Serializable {
      * @since 12.11.2015
      */
     public String logout() {
-        //TODO
-        return  "login";
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return navigationBean.redirectToStartPage();
     }
 
+    public void setNavigationBean(NavigationBean navigationBean) {
+        this.navigationBean = navigationBean;
+    }
 }

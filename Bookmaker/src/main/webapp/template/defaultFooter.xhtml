@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
     <h:body>
         <ui:composition>
@@ -19,23 +20,24 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h3>Login</h3>
+                            <h3>#{messages.view_login_title}</h3>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <h:form id="loginForm">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="E-Mail" />
+                                    <h:inputText class="form-control" id="loginEmail" value="#{loginBean.email}" p:placeholder="#{messages.view_login_email}"/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" placeholder="Passwort" />
+                                    <h:inputSecret class="form-control" id="loginPassword" value="#{loginBean.password}" p:placeholder="#{messages.view_login_password}"/>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-info btn-fill btn-block">Login</button>
+                                    <h:commandLink class="btn btn-info btn-fill btn-block" id="loginButton" action="#{loginBean.login}"
+                                                   value="#{messages.view_login_login}"/>
                                     <span class="pull-right">
                                         <a href="#" data-toggle="modal" data-target="#registerModal" data-dismiss="modal">Registrieren</a>
                                     </span>
                                 </div>
-                            </form>
+                            </h:form>
                         </div>
                         <!--<div class="modal-footer">
                             Noch kein Account? <a href="#" data-toggle="modal" data-target="#registerModal" data-dismiss="modal">Registrieren</a> Sie sich noch heute!

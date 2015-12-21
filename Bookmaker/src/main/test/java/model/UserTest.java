@@ -34,15 +34,24 @@ public class UserTest {
      */
     @Test
     public void testCreate() throws ParseException {
+        User manager = new User();
+        manager.setEmail("manager@test.ch");
+        manager.setFirstName("Manager");
+        manager.setLastName("Doe");
+        manager.setPassword("test");
+        manager.setIsManager(true);
+
         User user = new User();
-        user.setEmail("test@test.ch");
-        user.setFirstName("John");
+        user.setEmail("user@test.ch");
+        user.setFirstName("User");
         user.setLastName("Doe");
         user.setPassword("test");
+        user.setIsManager(false);
 
         EntityManager em = Persistence.createEntityManagerFactory("BMUnit").createEntityManager();
 
         em.getTransaction().begin();
+        em.persist(manager);
         em.persist(user);
         em.getTransaction().commit();
     }

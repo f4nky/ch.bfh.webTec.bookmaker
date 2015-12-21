@@ -4,7 +4,6 @@
 
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://java.sun.com/xml/ns/javaee"
-         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          id="WebApp_ID" version="2.5">
@@ -19,6 +18,48 @@
         <param-name>javax.faces.CONFIG_FILES</param-name>
         <param-value>WEB-INF/faces-config.xml</param-value>
     </context-param>
+
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+
+    <!-- Login Filter. Is used to forward home page requests if user or manager is logged in -->
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>helpers.LoginFilter</filter-class>
+    </filter>
+    <!-- Set the login filter for all pages of the application -->
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <url-pattern>/faces/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Manager Login Filter. Is used to protect pages for the logged in manager from unauthorized access -->
+    <filter>
+        <filter-name>ManagerLoginFilter</filter-name>
+        <filter-class>helpers.ManagerLoginFilter</filter-class>
+    </filter>
+    <!-- Set the manager login filter to secure all the pages in the /managerViews/* path of the application  -->
+    <filter-mapping>
+        <filter-name>ManagerLoginFilter</filter-name>
+        <url-pattern>/managerViews/*</url-pattern>
+        <url-pattern>/faces/managerViews/*</url-pattern>
+    </filter-mapping>
+
+    <!-- User Login Filter. Is used to protect pages for the logged in user from unauthorized access -->
+    <filter>
+        <filter-name>UserLoginFilter</filter-name>
+        <filter-class>helpers.UserLoginFilter</filter-class>
+    </filter>
+    <!-- Set the user login filter to secure all the pages in the /userViews/* path of the application  -->
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <url-pattern>/userViews/*</url-pattern>
+        <url-pattern>/faces/userViews/*</url-pattern>
+    </filter-mapping>
 
     <!-- Welcome page -->
     <welcome-file-list>
