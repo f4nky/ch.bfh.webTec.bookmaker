@@ -13,6 +13,181 @@
                         <button class="btn btn-default" data-toggle="modal" data-target="#newMatchModal">Neuer Match</button>
                     </div>
                 </div>
+                <div class="row top-buffer">
+                    <div class="col-sm-12">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#upcoming" data-toggle="pill">
+                                    <i class="fa fa-fw fa-clock-o"></i> Anstehende
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#finished" data-toggle="pill">
+                                    <i class="fa fa-fw fa-check-square-o"></i> Vergangene
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="tab-content col-sm-12">
+                        <div class="tab-pane active" id="upcoming">
+                            <h4>Gruppenphase</h4>
+                            <table class="table table-responsive table-striped" id="matches">
+                                <thead>
+                                <tr>
+                                    <th class="col-md-1">#</th>
+                                    <th class="col-md-2">Datum/Zeit</th>
+                                    <th class="col-md-1">Grp</th>
+                                    <th class="col-md-2 text-right">Home</th>
+                                    <th class="col-md-1"></th>
+                                    <th class="col-md-2">Guest</th>
+                                    <th class="col-md-2 text-right">Gew./Verl. Betrag</th>
+                                    <th class="col-md-1"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr data-href="managerMatchesDetail.xhtml">
+                                    <td>7</td>
+                                    <td>Sa, 11.06. 18:00</td>
+                                    <td>B</td>
+                                    <td class="text-right">Schweiz<img src="http://img.uefa.com/imgml/flags/50x50/sui.png" width="24px" /></td>
+                                    <td class="text-center">- : -</td>
+                                    <td><img src="http://img.uefa.com/imgml/flags/50x50/esp.png" width="24px" />Spanien</td>
+                                    <td class="text-right">CHF 50.00</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td>Sa, 11.06. 21:00</td>
+                                    <td>B</td>
+                                    <td class="text-right">B1</td>
+                                    <td class="text-center">- : -</td>
+                                    <td>B2</td>
+                                    <td class="text-right">CHF 20.00</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td>Mi, 15.06. 15:00</td>
+                                    <td>B</td>
+                                    <td class="text-right">B2</td>
+                                    <td class="text-center">- : -</td>
+                                    <td>B4</td>
+                                    <td class="text-right">CHF 0.00</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>10</td>
+                                    <td>Do, 16.06. 15:00</td>
+                                    <td>B</td>
+                                    <td class="text-right">B3</td>
+                                    <td class="text-center">- : -</td>
+                                    <td>B1</td>
+                                    <td class="text-right">CHF 0.00</td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <h4>Achtelfinale</h4>
+                            <table class="table table-responsive table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="col-md-1">#</th>
+                                    <th class="col-md-2">Datum/Zeit</th>
+                                    <th class="col-md-1"></th>
+                                    <th class="col-md-2 text-right">Home</th>
+                                    <th class="col-md-1"></th>
+                                    <th class="col-md-2">Guest</th>
+                                    <th class="col-md-2 text-right">Gesetzer Betrag</th>
+                                    <th class="col-md-1"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>?</td>
+                                    <td>Sa, 25.06. 15:00</td>
+                                    <td></td>
+                                    <td class="text-right">Zweiter Gruppe A</td>
+                                    <td class="text-center">- : -</td>
+                                    <td>Zeiter Gruppe C</td>
+                                    <td class="text-right">CHF 10.00</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>?</td>
+                                    <td>Sa, 25.06. 21:00</td>
+                                    <td></td>
+                                    <td class="text-right">Sieger Gruppe D</td>
+                                    <td class="text-center">- : -</td>
+                                    <td>Dritter Gruppe B/E/F</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="finished">
+                            <h4>Gruppenphase</h4>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="col-md-1">#</th>
+                                    <th class="col-md-2">Datum/Zeit</th>
+                                    <th class="col-md-1">Grp</th>
+                                    <th class="col-md-2 text-right">Home</th>
+                                    <th class="col-md-1"></th>
+                                    <th class="col-md-2">Guest</th>
+                                    <th class="col-md-2 text-right">Gew./Verl. Betrag</th>
+                                    <th class="col-md-1"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Fr, 10.06. 21:00</td>
+                                    <td>A</td>
+                                    <td class="text-right">Frankreich<img src="http://img.uefa.com/imgml/flags/50x50/fra.png" width="24px" /></td>
+                                    <td class="text-center">- : -</td>
+                                    <td>A2</td>
+                                    <td class="text-right text-success">CHF +30.55</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Sa, 11.06. 15:00</td>
+                                    <td>A</td>
+                                    <td class="text-right">A3</td>
+                                    <td class="text-center">- : -</td>
+                                    <td>A4</td>
+                                    <td class="text-right">-</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Mi, 15.06. 18:00</td>
+                                    <td>A</td>
+                                    <td class="text-right">A2</td>
+                                    <td class="text-center">- : -</td>
+                                    <td>A4</td>
+                                    <td class="text-right text-danger">CHF -13.20</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Mi, 15.06. 21:00</td>
+                                    <td>A</td>
+                                    <td class="text-right">Frankreich</td>
+                                    <td class="text-center">- : -</td>
+                                    <td>A3</td>
+                                    <td class="text-right text-success">CHF +10.00</td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
                 <div id="newMatchModal" class="modal fade" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog">

@@ -29,6 +29,10 @@ label {
     cursor: pointer;
 }
 
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
 .table p {
     font-size: inherit;
 }
