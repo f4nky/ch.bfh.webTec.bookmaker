@@ -1,9 +1,12 @@
 package helpers;
 
+import validators.ValidationFault;
+
 import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
+import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -67,5 +70,31 @@ public class LanguageHelper implements ActionListener {
             translatedText = "Object for the Key " + translationKey + " in the language file is not a string";
         }
         return translatedText;
+    }
+
+    public static String getErrorTranslation(String formName, String field, byte errorCode) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        String translatedText = "";
+        String translationKeyField = "form_" + formName + "_" + field;
+        String translationKeyError = "form_" + formName + "_" + field + "_" + errorCode;
+        try {
+            ResourceBundle bundle = ResourceBundle.getBundle(RESOURCE_BUNDLE_BASE_NAME, context.getViewRoot().getLocale());
+            translatedText = "<strong>"+bundle.getString(translationKeyField) + ":</strong> " + bundle.getString(translationKeyError);
+        } catch (NullPointerException nullPointerException) {
+            translatedText = "No translation for " + translationKeyField + " or " + translationKeyError;
+        } catch (MissingResourceException missingResourceException) {
+            translatedText = "Key " + translationKeyError + " or " + translationKeyField + " does not exist in language file";
+        } catch (ClassCastException classCastException) {
+            translatedText = "Object for the Key " + translationKeyError + " or " + translationKeyField + " in the language file is not a string";
+        }
+        return translatedText;
+    }
+
+    public static String createErrorOutput(String formName, List<ValidationFault> validationFaults) {
+        String errorMessage = "";
+        for(ValidationFault validationFault : validationFaults) {
+            errorMessage += LanguageHelper.getErrorTranslation(formName, validationFault.getField(), validationFault.getFaultCode()) + "<br/>";
+        }
+        return errorMessage;
     }
 }

@@ -29,3 +29,39 @@ $('.table tr[data-toggle]').each(function() {
         }
     )
 });
+
+//Event for the ajax request to display a progress icon
+jsf.ajax.addOnEvent(function(data) {
+    var ajaxstatus = data.status;
+    var ajaxloader = document.getElementById("ajaxloader");
+
+    switch (ajaxstatus) {
+        case "begin":
+            ajaxloader.style.display = 'block';
+            break;
+
+        case "complete":
+            ajaxloader.style.display = 'none';
+            break;
+
+        case "success":
+            break;
+    }
+});
+jsf.ajax.addOnEvent(function(data) {
+    var ajaxstatus = data.status;
+    var ajaxloader = document.getElementById("ajaxloader2");
+
+    switch (ajaxstatus) {
+        case "begin":
+            ajaxloader.style.display = 'block';
+            break;
+
+        case "complete":
+            ajaxloader.style.display = 'none';
+            break;
+
+        case "success":
+            break;
+    }
+});

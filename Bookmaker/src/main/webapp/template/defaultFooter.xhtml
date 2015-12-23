@@ -23,15 +23,16 @@
                             <h3>#{messages.defaultFooter_login_title}</h3>
                         </div>
                         <div class="modal-body">
+                            <h:graphicImage id="ajaxloader" library="img" name="ajax-loader.gif" style="display: none;" />
                             <h:panelGroup layout="block" id="loginValidationMessage" class="form-group">
                                 <h:outputText class="errorbox" rendered="#{userBean.loginValidationMessage !=null}" value="#{userBean.loginValidationMessage}"/>
                             </h:panelGroup>
                             <h:form id="loginForm">
                                 <div class="form-group">
-                                    <h:inputText class="form-control" id="loginEmail" value="#{userBean.email}" p:placeholder="#{messages.defaultFooter_login_email}"/>
+                                    <h:inputText class="form-control" id="loginEmail" value="#{userBean.email}" p:placeholder="#{messages.form_login_email}"/>
                                 </div>
                                 <div class="form-group">
-                                    <h:inputSecret class="form-control" id="loginPassword" value="#{userBean.password}" p:placeholder="#{messages.defaultFooter_login_password}"/>
+                                    <h:inputSecret class="form-control" id="loginPassword" value="#{userBean.password}" p:placeholder="#{messages.form_login_password}"/>
                                 </div>
                                 <div class="form-group">
                                     <h:commandLink class="btn btn-info btn-fill btn-block" id="loginButton" value="#{messages.defaultFooter_login_login}" action="#{userBean.login}">
@@ -55,27 +56,35 @@
                             <h3>#{messages.defaultFooter_register_title}</h3>
                         </div>
                         <div class="modal-body">
+                            <h:graphicImage id="ajaxloader2" library="img" name="ajax-loader.gif" style="display: none;" />
+                            <h:panelGroup layout="block" id="registerErrorMessage" class="form-group">
+                                <h:outputText escape="false" class="errorbox" rendered="#{userBean.registerErrorMessage !=null}" value="#{userBean.registerErrorMessage}"/>
+                            </h:panelGroup>
+                            <h:panelGroup layout="block" id="registerSuccessfulMessage" class="form-group">
+                                <h:outputText class="successbox" rendered="#{userBean.registerSuccessMessage !=null}" value="#{userBean.registerSuccessMessage}"/>
+                            </h:panelGroup>
                             <h:form id="registerForm">
                                 <div class="form-group">
-                                    <h:inputText class="form-control" id="registerEmail" value="#{userBean.email}" p:placeholder="#{messages.defaultFooter_register_email}"/>
+                                    <h:inputText class="form-control" id="registerEmail" value="#{userBean.email}" p:placeholder="#{messages.form_register_email}"/>
                                 </div>
                                 <div class="form-group">
-                                    <h:inputText class="form-control" id="registerFirstname" value="#{userBean.firstName}" p:placeholder="#{messages.defaultFooter_register_firstname}"/>
+                                    <h:inputText class="form-control" id="registerFirstname" value="#{userBean.firstName}" p:placeholder="#{messages.form_register_firstname}"/>
                                 </div>
                                 <div class="form-group">
-                                    <h:inputText class="form-control" id="registerLastname" value="#{userBean.lastName}" p:placeholder="#{messages.defaultFooter_register_lastname}"/>
+                                    <h:inputText class="form-control" id="registerLastname" value="#{userBean.lastName}" p:placeholder="#{messages.form_register_lastname}"/>
                                 </div>
                                 <div class="form-group">
-                                    <h:inputSecret class="form-control" id="registerPassword" value="#{userBean.password}" p:placeholder="#{messages.defaultFooter_register_password}"/>
+                                    <h:inputSecret class="form-control" id="registerPassword" value="#{userBean.password}" p:placeholder="#{messages.form_register_password}"/>
                                 </div>
                                 <div class="form-group">
-                                    <h:inputSecret class="form-control" id="registerPassword2" value="#{userBean.passwordRepetition}" p:placeholder="#{messages.defaultFooter_register_password2}"/>
+                                    <h:inputSecret class="form-control" id="registerPassword2" value="#{userBean.passwordRepetition}" p:placeholder="#{messages.form_register_password2}"/>
                                 </div>
                                 <div class="form-group">
-                                    <h:commandLink class="btn btn-info btn-fill btn-block" id="registerButton" action="#{userBean.register}"
-                                                   value="#{messages.defaultFooter_register_register}"/>
+                                    <h:commandLink class="btn btn-info btn-fill btn-block" id="registerButton" value="#{messages.defaultFooter_register_register}" action="#{userBean.register}">
+                                        <f:ajax execute="registerEmail registerFirstname registerLastname registerPassword registerPassword2" render="registerErrorMessage registerSuccessfulMessage" />
+                                    </h:commandLink>
                                     <span class="pull-right">
-                                        <a href="#" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">#{messages.defaultFooter_register_login}</a>
+                                        <a href="#" data-toggle="modal" data-target="#registerModal" data-dismiss="modal">#{messages.defaultFooter_register_login}</a>
                                     </span>
                                 </div>
                             </h:form>

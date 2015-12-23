@@ -17,7 +17,8 @@ import java.util.List;
  * <b>History:</b>
  * <pre>
  * 1.0	12.11.2015	Joel Holzer         Class created.
- * 1.1  23.12.2015  Joel Holzer         Added method to create a user in the database.
+ * 1.1  23.12.2015  Joel Holzer         Added method to create a user in the database. Added method to check if an user
+ *                                      already exists.
  * </pre>
  *
  * @author Joel Holzer
@@ -63,12 +64,31 @@ public class UserDao {
     }
 
     /**
+     * Checks if already exists an user with the given email address.
+     *
+     * @param email Email to check if an user exists in the database.
+     * @return True if an other user exists, false if not.
+     * @since 23.12.2015
+     */
+    public boolean checkIfUserWithEmailExists(String email) {
+        Query query = entityManager.createQuery("SELECT u FROM " + User.TABLE_NAME + " u WHERE u." + User.COLUMN_NAME_EMAIL + " = :email");
+        query.setParameter("email", email);
+        List<User> users = query.getResultList();
+        if (users.size() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Creates a new record in the database for the given user.
      *
      * @param userToCreate User to create the record in the database.
      * @since 12.11.2015
      */
     public void createUser(User userToCreate) {
+        entityManager.getTransaction().begin();
         entityManager.persist(userToCreate);
+        entityManager.getTransaction().commit();
     }
 }

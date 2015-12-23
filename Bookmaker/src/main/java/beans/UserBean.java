@@ -2,7 +2,10 @@ package beans;
 
 import dao.UserDao;
 import helpers.LanguageHelper;
+import helpers.PasswordHasher;
 import model.User;
+import validators.UserValidator;
+import validators.ValidationFault;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -11,6 +14,9 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * TODO
@@ -38,6 +44,10 @@ public class UserBean implements Serializable {
     @ManagedProperty(value="#{navigationBean}")
     private NavigationBean navigationBean;
     private String loginValidationMessage = null;
+    private String registerErrorMessage = null;
+    private String registerSuccessMessage = null;
+
+    private static final String REGISTER_FORM_NAME = "register";
 
     public String getEmail() {
         return email;
@@ -95,19 +105,51 @@ public class UserBean implements Serializable {
         this.loginValidationMessage = loginValidationMessage;
     }
 
+    public String getRegisterErrorMessage() {
+        return registerErrorMessage;
+    }
+
+    public void setRegisterErrorMessage(String registerErrorMessage) {
+        this.registerErrorMessage = registerErrorMessage;
+    }
+
+    public String getRegisterSuccessMessage() {
+        return registerSuccessMessage;
+    }
+
+    public void setRegisterSuccessMessage(String registerSuccessMessage) {
+        this.registerSuccessMessage = registerSuccessMessage;
+    }
+
     /**
      *
      * @return
      * @since 23.12.2015
      */
-    public String register() {
+    public void register() {
         //Validate data
-        //TODO validate data and return error messages if not correct
-
         user = new User(email, firstName, lastName, password, false);
-        UserDao.getInstance().createUser(user);
+        UserValidator userValidator = new UserValidator();
 
-        return "todo";
+        List<ValidationFault> validationFaults = userValidator.validateRegister(user, passwordRepetition);
+
+        if (validationFaults.size() == 0) {
+            //No validation faults
+            //Encrypt password
+            try {
+                user.setPassword(PasswordHasher.generatePasswordHash(user.getPassword()));
+            } catch (NoSuchAlgorithmException e) {
+                //TODO exception handling
+            } catch (UnsupportedEncodingException e) {
+                //TODO exception handling
+            }
+            UserDao.getInstance().createUser(user);
+            registerErrorMessage = null;
+            registerSuccessMessage = LanguageHelper.getTranslation("form_register_correct");
+        } else {
+            //Validation faults
+            registerErrorMessage = LanguageHelper.createErrorOutput(REGISTER_FORM_NAME, validationFaults);
+        }
     }
 
     /**
@@ -120,6 +162,14 @@ public class UserBean implements Serializable {
      * @since 12.11.2015, Updated: 23.12.2015
      */
     public void login() throws IOException {
+        //Encrypt password
+        try {
+            password = PasswordHasher.generatePasswordHash(password);
+        } catch (NoSuchAlgorithmException e) {
+            //TODO exception handling
+        } catch (UnsupportedEncodingException e) {
+            //TODO exception handling
+        }
         user = UserDao.getInstance().getUserByEmailPassword(email, password);
 
         if (user != null) {
@@ -132,7 +182,7 @@ public class UserBean implements Serializable {
                 navigationBean.redirectToUserHome();
             }
         }
-        loginValidationMessage = LanguageHelper.getTranslation("error_login_incorrect");
+        loginValidationMessage = LanguageHelper.getTranslation("form_login_incorrect");
     }
 
     /**
