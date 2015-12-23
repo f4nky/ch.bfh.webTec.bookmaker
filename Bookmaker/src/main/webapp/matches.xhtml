@@ -5,19 +5,19 @@
 
     <h:body>
         <ui:composition template="/template/defaultLayout.xhtml">
-            <ui:param name="headline" value="Matches" />
+            <ui:param name="headline" value="#{messages.matches_title}" />
             <ui:define name="content">
                 <div class="row">
                     <div class="col-sm-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
                                 <a href="#upcoming" data-toggle="pill">
-                                    <i class="fa fa-fw fa-clock-o"></i> Anstehende
+                                    <i class="fa fa-fw fa-clock-o"></i> #{messages.matches_coming}
                                 </a>
                             </li>
                             <li>
                                 <a href="#finished" data-toggle="pill">
-                                    <i class="fa fa-fw fa-check-square-o"></i> Vergangene
+                                    <i class="fa fa-fw fa-check-square-o"></i> #{messages.matches_finished}
                                 </a>
                             </li>
                         </ul>
@@ -31,11 +31,11 @@
                                 <thead>
                                 <tr>
                                     <th class="col-md-1">#</th>
-                                    <th class="col-md-2">Datum/Zeit</th>
-                                    <th class="col-md-1">Grp</th>
-                                    <th class="col-md-2 text-right">Home</th>
+                                    <th class="col-md-2">#{messages.matches_datetime}</th>
+                                    <th class="col-md-1">#{messages.matches_group}</th>
+                                    <th class="col-md-2 text-right">#{messages.matches_home}</th>
                                     <th class="col-md-1"></th>
-                                    <th class="col-md-2">Guest</th>
+                                    <th class="col-md-2">#{messages.matches_guest}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -78,11 +78,11 @@
                                 <thead>
                                 <tr>
                                     <th class="col-md-1">#</th>
-                                    <th class="col-md-2">Datum/Zeit</th>
+                                    <th class="col-md-2">#{messages.matches_datetime}</th>
                                     <th class="col-md-1"></th>
-                                    <th class="col-md-2 text-right">Home</th>
+                                    <th class="col-md-2 text-right">#{messages.matches_home}</th>
                                     <th class="col-md-1"></th>
-                                    <th class="col-md-2">Guest</th>
+                                    <th class="col-md-2">#{messages.matches_guest}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -111,11 +111,11 @@
                                 <thead>
                                 <tr>
                                     <th class="col-md-1">#</th>
-                                    <th class="col-md-2">Datum/Zeit</th>
-                                    <th class="col-md-1">Grp</th>
-                                    <th class="col-md-2 text-right">Home</th>
+                                    <th class="col-md-2">#{messages.matches_datetime}</th>
+                                    <th class="col-md-1">#{messages.matches_group}</th>
+                                    <th class="col-md-2 text-right">#{messages.matches_home}</th>
                                     <th class="col-md-1"></th>
-                                    <th class="col-md-2">Guest</th>
+                                    <th class="col-md-2">#{messages.matches_guest}</th>
                                 </tr>
                                 </thead>
                                 <tbody>

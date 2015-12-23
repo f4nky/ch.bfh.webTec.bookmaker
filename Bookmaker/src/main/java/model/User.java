@@ -11,11 +11,12 @@ import javax.persistence.*;
  * <pre>
  * 1.0	29.10.2015	Michael Fankhauser  Class created.
  * 1.1  12.11.2015  Joel Holzer         Format code, Added comments.
+ * 1.2  23.12.2015  Joel Holzer         Added new constructors.
  * </pre>
  *
  * @author Michael Fankhauser, Joel Holzer
- * @version 1.1
- * @since 12.11.2015
+ * @version 1.2
+ * @since 23.12.2015
  */
 @Entity
 public class User {
@@ -39,6 +40,27 @@ public class User {
     private String password;
     @Basic
     private Boolean isManager;
+
+    /**
+     * Empty constructor.
+     * Needed from jpa.
+     * @since 23.12.2015
+     */
+    public User() {
+
+    }
+
+    /**
+     * Constructor to create a user and initialize the member variables.
+     * @since 23.12.2015
+     */
+    public User(String email, String firstName, String lastName, String password, Boolean isManager) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.isManager = isManager;
+    }
 
     /**
      * Returns the unique id of the user.

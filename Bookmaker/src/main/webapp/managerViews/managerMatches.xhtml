@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <h:body>
         <ui:composition template="managerLayout.xhtml">
-            <ui:param name="headline" value="Administration: Matches" />
+            <ui:param name="headline" value="#{messages.managerMatches_title}" />
             <ui:define name="content">
                 <div class="row">
                     <div class="col-md-12">
@@ -18,12 +17,12 @@
                         <ul class="nav nav-tabs">
                             <li class="active">
                                 <a href="#upcoming" data-toggle="pill">
-                                    <i class="fa fa-fw fa-clock-o"></i> Anstehende
+                                    <i class="fa fa-fw fa-clock-o"></i>  #{messages.managerMatches_coming}
                                 </a>
                             </li>
                             <li>
                                 <a href="#finished" data-toggle="pill">
-                                    <i class="fa fa-fw fa-check-square-o"></i> Vergangene
+                                    <i class="fa fa-fw fa-check-square-o"></i> #{messages.managerMatches_finished}
                                 </a>
                             </li>
                         </ul>
@@ -37,12 +36,12 @@
                                 <thead>
                                 <tr>
                                     <th class="col-md-1">#</th>
-                                    <th class="col-md-2">Datum/Zeit</th>
-                                    <th class="col-md-1">Grp</th>
-                                    <th class="col-md-2 text-right">Home</th>
+                                    <th class="col-md-2">#{messages.managerMatches_datetime}</th>
+                                    <th class="col-md-1">#{messages.managerMatches_group}</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatches_home}</th>
                                     <th class="col-md-1"></th>
-                                    <th class="col-md-2">Guest</th>
-                                    <th class="col-md-2 text-right">Gew./Verl. Betrag</th>
+                                    <th class="col-md-2">#{messages.managerMatches_guest}</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatches_amount_win_lost}</th>
                                     <th class="col-md-1"></th>
                                 </tr>
                                 </thead>
@@ -94,12 +93,12 @@
                                 <thead>
                                 <tr>
                                     <th class="col-md-1">#</th>
-                                    <th class="col-md-2">Datum/Zeit</th>
+                                    <th class="col-md-2">#{messages.managerMatches_datetime}</th>
                                     <th class="col-md-1"></th>
-                                    <th class="col-md-2 text-right">Home</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatches_home}</th>
                                     <th class="col-md-1"></th>
-                                    <th class="col-md-2">Guest</th>
-                                    <th class="col-md-2 text-right">Gesetzer Betrag</th>
+                                    <th class="col-md-2">#{messages.managerMatches_guest}</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatches_set_amount}</th>
                                     <th class="col-md-1"></th>
                                 </tr>
                                 </thead>
@@ -133,12 +132,12 @@
                                 <thead>
                                 <tr>
                                     <th class="col-md-1">#</th>
-                                    <th class="col-md-2">Datum/Zeit</th>
-                                    <th class="col-md-1">Grp</th>
-                                    <th class="col-md-2 text-right">Home</th>
+                                    <th class="col-md-2">#{messages.managerMatches_datetime}</th>
+                                    <th class="col-md-1">#{messages.managerMatches_group}</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatches_home}</th>
                                     <th class="col-md-1"></th>
-                                    <th class="col-md-2">Guest</th>
-                                    <th class="col-md-2 text-right">Gew./Verl. Betrag</th>
+                                    <th class="col-md-2">#{messages.managerMatches_guest}</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatches_amount_win_lost}</th>
                                     <th class="col-md-1"></th>
                                 </tr>
                                 </thead>

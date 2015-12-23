@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
@@ -23,9 +22,6 @@
         <!-- Google font Open Sans -->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400,300' rel='stylesheet' type='text/css' />
 
-        <!-- Language File -->
-        <f:loadBundle basename="language.Messages" var="messages" />
-
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -46,9 +42,7 @@
                         <h:graphicImage library="img" class="parallax-background-image" name="bg-stadium.jpg" />
                     </div>
                     <div class= "container">
-                        <ui:insert name="content">
-
-                        </ui:insert>
+                        <ui:insert name="content"></ui:insert>
                     </div>
                 </div>
             </div>

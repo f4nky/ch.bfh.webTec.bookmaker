@@ -29,6 +29,7 @@
                     </div>
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="example" >
+                        <h:form>
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -58,33 +59,13 @@
                                     </li>
                                     <li class="divider"></li>
                                     <li>
-                                        <h:form>
-                                            <h:commandLink action="#{loginBean.logout}"
-                                                           value="#{messages.view_home_logout}"/>
-                                        </h:form>
+                                        <h:commandLink action="#{userBean.logout}" value="#{messages.view_home_logout}"/>
                                     </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-globe"></i><span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="">Deutsch</a>
-                                    </li>
-                                    <li>
-                                        <a href="">Fraçais</a>
-                                    </li>
-                                    <li>
-                                        <a href="">Italiano</a>
-                                    </li>
-                                    <li>
-                                        <a href="">English</a>
-                                    </li>
-                                </ul>
-                            </li>
+                            <ui:include src="../template/languageSelection.xhtml"/>
                         </ul>
+                        </h:form>
                     </div>
                     <!-- /.navbar-collapse -->
                 </div>

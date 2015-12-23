@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <h:body>
         <ui:composition template="managerLayout.xhtml">
-            <ui:param name="headline" value="Administration: Matches" />
+            <ui:param name="headline" value="#{messages.managerMatchesDetail_title}" />
             <ui:define name="content">
                 <div class="row">
                     <div class="col-sm-12">
-                        <a href="managerMatches.xhtml">&lt; Zurück zur Übersicht</a>
+                        <a href="managerMatches.xhtml">&lt; #{messages.managerMatchesDetail_back}</a>
                     </div>
                 </div>
                 <div class="row top-buffer">

@@ -17,11 +17,12 @@ import java.util.List;
  * <b>History:</b>
  * <pre>
  * 1.0	12.11.2015	Joel Holzer         Class created.
+ * 1.1  23.12.2015  Joel Holzer         Added method to create a user in the database.
  * </pre>
  *
  * @author Joel Holzer
- * @version 1.0
- * @since 12.11.2015
+ * @version 1.1
+ * @since 23.12.2015
  */
 public class UserDao {
 
@@ -59,5 +60,15 @@ public class UserDao {
             user = users.get(0);
         }
         return user;
+    }
+
+    /**
+     * Creates a new record in the database for the given user.
+     *
+     * @param userToCreate User to create the record in the database.
+     * @since 12.11.2015
+     */
+    public void createUser(User userToCreate) {
+        entityManager.persist(userToCreate);
     }
 }

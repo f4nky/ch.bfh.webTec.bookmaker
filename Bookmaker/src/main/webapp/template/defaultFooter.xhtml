@@ -20,28 +20,29 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h3>#{messages.view_login_title}</h3>
+                            <h3>#{messages.defaultFooter_login_title}</h3>
                         </div>
                         <div class="modal-body">
+                            <h:panelGroup layout="block" id="loginValidationMessage" class="form-group">
+                                <h:outputText class="errorbox" rendered="#{userBean.loginValidationMessage !=null}" value="#{userBean.loginValidationMessage}"/>
+                            </h:panelGroup>
                             <h:form id="loginForm">
                                 <div class="form-group">
-                                    <h:inputText class="form-control" id="loginEmail" value="#{loginBean.email}" p:placeholder="#{messages.view_login_email}"/>
+                                    <h:inputText class="form-control" id="loginEmail" value="#{userBean.email}" p:placeholder="#{messages.defaultFooter_login_email}"/>
                                 </div>
                                 <div class="form-group">
-                                    <h:inputSecret class="form-control" id="loginPassword" value="#{loginBean.password}" p:placeholder="#{messages.view_login_password}"/>
+                                    <h:inputSecret class="form-control" id="loginPassword" value="#{userBean.password}" p:placeholder="#{messages.defaultFooter_login_password}"/>
                                 </div>
                                 <div class="form-group">
-                                    <h:commandLink class="btn btn-info btn-fill btn-block" id="loginButton" action="#{loginBean.login}"
-                                                   value="#{messages.view_login_login}"/>
+                                    <h:commandLink class="btn btn-info btn-fill btn-block" id="loginButton" value="#{messages.defaultFooter_login_login}" action="#{userBean.login}">
+                                        <f:ajax execute="loginEmail loginPassword" render="loginValidationMessage" />
+                                    </h:commandLink>
                                     <span class="pull-right">
-                                        <a href="#" data-toggle="modal" data-target="#registerModal" data-dismiss="modal">Registrieren</a>
+                                        <a href="#" data-toggle="modal" data-target="#registerModal" data-dismiss="modal">#{messages.defaultFooter_login_register}</a>
                                     </span>
                                 </div>
                             </h:form>
                         </div>
-                        <!--<div class="modal-footer">
-                            Noch kein Account? <a href="#" data-toggle="modal" data-target="#registerModal" data-dismiss="modal">Registrieren</a> Sie sich noch heute!
-                        </div>-->
                     </div>
                 </div>
             </div>
@@ -51,29 +52,33 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h3>Registrieren</h3>
+                            <h3>#{messages.defaultFooter_register_title}</h3>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <h:form id="registerForm">
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="email" placeholder="E-Mail" />
+                                    <h:inputText class="form-control" id="registerEmail" value="#{userBean.email}" p:placeholder="#{messages.defaultFooter_register_email}"/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="name" placeholder="Name" />
+                                    <h:inputText class="form-control" id="registerFirstname" value="#{userBean.firstName}" p:placeholder="#{messages.defaultFooter_register_firstname}"/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" id="pwd" placeholder="Passwort" />
+                                    <h:inputText class="form-control" id="registerLastname" value="#{userBean.lastName}" p:placeholder="#{messages.defaultFooter_register_lastname}"/>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" class="form-control" id="pwd-confirm" placeholder="Passwort wiederholen" />
+                                    <h:inputSecret class="form-control" id="registerPassword" value="#{userBean.password}" p:placeholder="#{messages.defaultFooter_register_password}"/>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-info btn-fill btn-block">Registrieren</button>
+                                    <h:inputSecret class="form-control" id="registerPassword2" value="#{userBean.passwordRepetition}" p:placeholder="#{messages.defaultFooter_register_password2}"/>
+                                </div>
+                                <div class="form-group">
+                                    <h:commandLink class="btn btn-info btn-fill btn-block" id="registerButton" action="#{userBean.register}"
+                                                   value="#{messages.defaultFooter_register_register}"/>
                                     <span class="pull-right">
-                                        <a href="#" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">Login</a>
+                                        <a href="#" data-toggle="modal" data-target="#loginModal" data-dismiss="modal">#{messages.defaultFooter_register_login}</a>
                                     </span>
                                 </div>
-                            </form>
+                            </h:form>
                         </div>
                     </div>
                 </div>

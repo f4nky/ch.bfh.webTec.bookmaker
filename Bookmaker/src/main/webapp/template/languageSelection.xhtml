@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+<h:body>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <i class="fa fa-globe"></i><span class="caret"></span>
+        </a>
+        <h:form>
+            <ul class="dropdown-menu">
+                <li>
+                    <h:commandLink id="de" value="#{messages.navigation_language_german}">
+                        <f:actionListener type="helpers.LanguageHelper" />
+                    </h:commandLink>
+                </li>
+                <li>
+                    <h:commandLink id="fr" value="#{messages.navigation_language_french}">
+                        <f:actionListener type="helpers.LanguageHelper" />
+                    </h:commandLink>
+                </li>
+                <li>
+                    <h:commandLink id="it" value="#{messages.navigation_language_italian}">
+                        <f:actionListener type="helpers.LanguageHelper" />
+                    </h:commandLink>
+                </li>
+                <li>
+                    <h:commandLink id="en" value="#{messages.navigation_language_english}">
+                        <f:actionListener type="helpers.LanguageHelper" />
+                    </h:commandLink>
+                </li>
+            </ul>
+        </h:form>
+    </li>
+</h:body>
+</html>
