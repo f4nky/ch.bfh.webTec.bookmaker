@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <h:body>
         <ui:composition template="userLayout.xhtml">
@@ -12,172 +13,103 @@
                     <div class="col-sm-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
-                                <a href="#upcoming" data-toggle="pill">
-                                    <i class="fa fa-fw fa-clock-o"></i> Anstehende
+                                <a href="#coming" data-toggle="pill">
+                                    <i class="fa fa-fw fa-clock-o"></i> #{messages.matches_coming}
                                 </a>
                             </li>
                             <li>
                                 <a href="#finished" data-toggle="pill">
-                                    <i class="fa fa-fw fa-check-square-o"></i> Vergangene
+                                    <i class="fa fa-fw fa-check-square-o"></i> #{messages.matches_finished}
                                 </a>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row top-buffer">
                     <div class="tab-content col-sm-12">
-                        <div class="tab-pane active" id="upcoming">
-                            <h4>Gruppenphase</h4>
-                            <table class="table table-responsive table-striped" id="matches">
+                        <div class="tab-pane active" id="coming">
+                            <table class="table table-responsive table-striped" id="matchesComing">
                                 <thead>
                                 <tr>
                                     <th class="col-md-1">#</th>
-                                    <th class="col-md-2">Datum/Zeit</th>
-                                    <th class="col-md-1">Grp</th>
-                                    <th class="col-md-2 text-right">Home</th>
+                                    <th class="col-md-2">#{messages.matches_datetime}</th>
+                                    <th class="col-md-2">#{messages.matches_stage}<br />#{messages.matches_group}</th>
+                                    <th class="col-md-2 text-right">#{messages.matches_home}</th>
                                     <th class="col-md-1"></th>
-                                    <th class="col-md-2">Guest</th>
-                                    <th class="col-md-2 text-right">Gesetzer Betrag</th>
-                                    <th class="col-md-1"></th>
+                                    <th class="col-md-2">#{messages.matches_away}</th>
+                                    <th class="col-md-2 text-right">Gesetzter Betrag</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr data-href="userMatchDetail.xhtml">
-                                    <td>7</td>
-                                    <td>Sa, 11.06. 18:00</td>
-                                    <td>B</td>
-                                    <td class="text-right">Schweiz</td>
-                                    <td class="text-center">- : -</td>
-                                    <td>Spanien</td>
-                                    <td class="text-right">CHF 50.00</td>
-                                    <td><a href="#" class="btn btn-default btn-xs">Wetten</a></td>
-                                </tr>
-                                <tr>
-                                    <td>8</td>
-                                    <td>Sa, 11.06. 21:00</td>
-                                    <td>B</td>
-                                    <td class="text-right">B1</td>
-                                    <td class="text-center">- : -</td>
-                                    <td>B2</td>
-                                    <td class="text-right">CHF 20.00</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>9</td>
-                                    <td>Mi, 15.06. 15:00</td>
-                                    <td>B</td>
-                                    <td class="text-right">B2</td>
-                                    <td class="text-center">- : -</td>
-                                    <td>B4</td>
-                                    <td class="text-right">CHF 0.00</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>10</td>
-                                    <td>Do, 16.06. 15:00</td>
-                                    <td>B</td>
-                                    <td class="text-right">B3</td>
-                                    <td class="text-center">- : -</td>
-                                    <td>B1</td>
-                                    <td class="text-right">CHF 0.00</td>
-                                    <td></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <h4>Achtelfinale</h4>
-                            <table class="table table-responsive table-striped">
-                                <thead>
-                                <tr>
-                                    <th class="col-md-1">#</th>
-                                    <th class="col-md-2">Datum/Zeit</th>
-                                    <th class="col-md-1"></th>
-                                    <th class="col-md-2 text-right">Home</th>
-                                    <th class="col-md-1"></th>
-                                    <th class="col-md-2">Guest</th>
-                                    <th class="col-md-2 text-right">Gesetzer Betrag</th>
-                                    <th class="col-md-1"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>?</td>
-                                    <td>Sa, 25.06. 15:00</td>
-                                    <td></td>
-                                    <td class="text-right">Zweiter Gruppe A</td>
-                                    <td class="text-center">- : -</td>
-                                    <td>Zeiter Gruppe C</td>
-                                    <td class="text-right">CHF 10.00</td>
-                                    <td><button class="btn btn-default btn-xs">Wetten</button></td>
-                                </tr>
-                                <tr>
-                                    <td>?</td>
-                                    <td>Sa, 25.06. 21:00</td>
-                                    <td></td>
-                                    <td class="text-right">Sieger Gruppe D</td>
-                                    <td class="text-center">- : -</td>
-                                    <td>Dritter Gruppe B/E/F</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <ui:repeat value="#{championship.matchEventsComing}" var="matchEvent">
+                                    <tr>
+                                        <td>#{matchEvent.matchEventNr}</td>
+                                        <td>
+                                            <h:outputText value="#{matchEvent.matchEventDateTime}" >
+                                                <f:convertDateTime pattern="E, dd.MM. HH:mm" locale="de_DE" />
+                                            </h:outputText>
+                                        </td>
+                                        <td>
+                                            <p>#{matchEvent.stage.nameEn}</p>
+                                            <h:outputText value="#{messages.matches_group} #{matchEvent.matchEventGroup}" rendered="#{not empty matchEvent.matchEventGroup}" />
+                                        </td>
+                                        <td class="text-right">#{matchEvent.teamHome.nameEn}
+                                            <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamHome.nameEn}" />
+                                        </td>
+                                        <td class="text-center">
+                                            <h:outputText value="#{not empty matchEvent.scoreTeamHome ? matchEvent.scoreTeamHome : '-'}" /> :
+                                            <h:outputText value="#{not empty matchEvent.scoreTeamAway ? matchEvent.scoreTeamAway : '-'}" />
+                                        </td>
+                                        <td>
+                                            <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
+                                            #{matchEvent.teamAway.nameEn}
+                                        </td>
+                                        <td class="text-right">CHF 50.00</td>
+                                    </tr>
+                                </ui:repeat>
                                 </tbody>
                             </table>
                         </div>
                         <div class="tab-pane" id="finished">
-                            <h4>Gruppenphase</h4>
-                            <table class="table table-striped">
+                            <table class="table table-responsive table-striped" id="matchesFinished">
                                 <thead>
                                 <tr>
                                     <th class="col-md-1">#</th>
-                                    <th class="col-md-2">Datum/Zeit</th>
-                                    <th class="col-md-1">Grp</th>
-                                    <th class="col-md-2 text-right">Home</th>
+                                    <th class="col-md-2">#{messages.matches_datetime}</th>
+                                    <th class="col-md-2">#{messages.matches_stage}<br />#{messages.matches_group}</th>
+                                    <th class="col-md-2 text-right">#{messages.matches_home}</th>
                                     <th class="col-md-1"></th>
-                                    <th class="col-md-2">Guest</th>
-                                    <th class="col-md-2 text-right">Gew./Verl. Betrag</th>
-                                    <th class="col-md-1"></th>
+                                    <th class="col-md-2">#{messages.matches_away}</th>
+                                    <th class="col-md-2 text-right">Gesetzter Betrag</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Fr, 10.06. 21:00</td>
-                                    <td>A</td>
-                                    <td class="text-right">Frankreich<img src="http://img.fifa.com/images/flags/3/fra.png" width="16px" /></td>
-                                    <td class="text-center">- : -</td>
-                                    <td>A2</td>
-                                    <td class="text-right text-success">CHF +30.55</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Sa, 11.06. 15:00</td>
-                                    <td>A</td>
-                                    <td class="text-right">A3</td>
-                                    <td class="text-center">- : -</td>
-                                    <td>A4</td>
-                                    <td class="text-right">-</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Mi, 15.06. 18:00</td>
-                                    <td>A</td>
-                                    <td class="text-right">A2</td>
-                                    <td class="text-center">- : -</td>
-                                    <td>A4</td>
-                                    <td class="text-right text-danger">CHF -13.20</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Mi, 15.06. 21:00</td>
-                                    <td>A</td>
-                                    <td class="text-right">Frankreich</td>
-                                    <td class="text-center">- : -</td>
-                                    <td>A3</td>
-                                    <td class="text-right text-success">CHF +10.00</td>
-                                    <td></td>
-                                </tr>
+                                <ui:repeat value="#{championship.matchEventsFinished}" var="matchEvent">
+                                    <tr>
+                                        <td>#{matchEvent.matchEventNr}</td>
+                                        <td>
+                                            <h:outputText value="#{matchEvent.matchEventDateTime}" >
+                                                <f:convertDateTime pattern="E, dd.MM. HH:mm" locale="de_DE" />
+                                            </h:outputText>
+                                        </td>
+                                        <td>
+                                            <p>#{matchEvent.stage.nameEn}</p>
+                                            <h:outputText value="#{messages.matches_group} #{matchEvent.matchEventGroup}" rendered="#{not empty matchEvent.matchEventGroup}" />
+                                        </td>
+                                        <td class="text-right">#{matchEvent.teamHome.nameEn}
+                                            <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamHome.nameEn}" />
+                                        </td>
+                                        <td class="text-center">
+                                            <h:outputText value="#{not empty matchEvent.scoreTeamHome ? matchEvent.scoreTeamHome : '-'}" /> :
+                                            <h:outputText value="#{not empty matchEvent.scoreTeamAway ? matchEvent.scoreTeamAway : '-'}" />
+                                        </td>
+                                        <td>
+                                            <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
+                                            #{matchEvent.teamAway.nameEn}
+                                        </td>
+                                        <td class="text-right">CHF 50.00</td>
+                                    </tr>
+                                </ui:repeat>
                                 </tbody>
                             </table>
                         </div>

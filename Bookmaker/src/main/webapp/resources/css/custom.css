@@ -35,6 +35,7 @@ label {
 
 .table p {
     font-size: inherit;
+    margin: 2px 0;
 }
 
 .top-buffer {
