@@ -1,6 +1,6 @@
 package dao;
 
-import model.User;
+import model.Team;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -8,19 +8,19 @@ import javax.persistence.Query;
 import java.util.List;
 
 /**
- * Data Access Object (DAO) for user-objects.
- * Contains methods to read and write user-objects to the database.
+ * Data Access Object (DAO) for team-objects.
+ * Contains methods to read and write team-objects to the database.
  * Singleton-class.
  * <br/><br/>
  *
  * <b>History:</b>
  * <pre>
- * 1.0	12.11.2015	Joel Holzer         Class created.
+ * 1.0	22.12.2015	Michael Fankhauser         Class created.
  * </pre>
  *
- * @author Joel Holzer
+ * @author Michael Fankhauser
  * @version 1.0
- * @since 12.11.2015
+ * @since 22.12.2015
  */
 public class TeamDao {
 
@@ -32,7 +32,7 @@ public class TeamDao {
      * Singleton pattern, only one instance of this class can exists.
      *
      * @return Active instance.
-     * @since 12.11.2015
+     * @since 22.12.2015
      */
     public static TeamDao getInstance() {
         if (instance == null) {
@@ -43,20 +43,13 @@ public class TeamDao {
     }
 
     /**
-     * Gets the user with the given email and password from the database and return the user.
-     * If no user exists, returns null.
-     * @return The user with the given email and password. If no user exists, returns null.
-     * @since 12.11.2015
+     * Gets all teams from the database and returns them.
+     * @return A List of Teams
+     * @since 22.12.2015
      */
-    public User getUserByEmailPassword(String email, String password) {
-        Query query = entityManager.createQuery("SELECT u FROM " + User.TABLE_NAME + " u WHERE u." + User.COLUMN_NAME_EMAIL + " = :email AND u." + User.COLUMN_NAME_PASSWORD + " = :password");
-        query.setParameter("email", email);
-        query.setParameter("password", password);
-        List<User> users = query.getResultList();
-        User user = null;
-        if (users.size() > 0) {
-            user = users.get(0);
-        }
-        return user;
+    public List<Team> getTeams() {
+        Query query = entityManager.createQuery("SELECT t FROM " + Team.TABLE_NAME + " t");
+        List<Team> teams = query.getResultList();
+        return teams;
     }
 }

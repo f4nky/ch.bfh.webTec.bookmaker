@@ -5,6 +5,8 @@ import model.MatchEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,5 +53,29 @@ public class MatchEventDao {
         Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m");
         List<MatchEvent> matchEvents = query.getResultList();
         return matchEvents;
+    }
+
+    /**
+     * Gets only the coming matches from the database and returns them.
+     * @return A List of Matches
+     * @since 25.12.2015
+     */
+    public List<MatchEvent> getMatchesComing() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m WHERE m.matchEventDateTime > '" + sdf.format(new Date()) + "'");
+        List<MatchEvent> matchEventsComing = query.getResultList();
+        return matchEventsComing;
+    }
+
+    /**
+     * Gets only the finished matches from the database and returns them.
+     * @return A List of Matches
+     * @since 25.12.2015
+     */
+    public List<MatchEvent> getMatchesFinished() {
+        Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m " +
+                                                "WHERE (m.scoreTeamHome IS NOT NULL) AND (m.scoreTeamAway IS NOT NULL)");
+        List<MatchEvent> matchEventsFinished = query.getResultList();
+        return matchEventsFinished;
     }
 }
