@@ -36,12 +36,12 @@
                                     <th class="col-md-2 text-right">#{messages.managerMatches_home}</th>
                                     <th class="col-md-1"></th>
                                     <th class="col-md-2">#{messages.managerMatches_away}</th>
-                                    <th class="col-md-2 text-right">#{messages.managerMatches_amount_win_lost}</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatches_amount_won_lost}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <ui:repeat value="#{championship.matchEventsComing}" var="matchEvent">
-                                    <tr>
+                                    <tr data-href="managerMatchDetail.xhtml?matchEventId=#{matchEvent.id}">
                                         <td>#{matchEvent.matchEventNr}</td>
                                         <td>
                                             <h:outputText value="#{matchEvent.matchEventDateTime}" >

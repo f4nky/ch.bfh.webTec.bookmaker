@@ -34,13 +34,16 @@ public class CreateEntitiesTest {
         Team team = new Team();
         Stage stage = new Stage();
         MatchEvent matchEvent = new MatchEvent();
+        MatchBet matchBet = new MatchBet();
+        UserBet userBet = new UserBet();
 
         em.persist(user);
         em.persist(team);
         em.persist(stage);
         em.persist(matchEvent);
+        em.persist(matchBet);
+        em.persist(userBet);
 
-        em.persist(matchEvent);
         em.getTransaction().commit();
     }
 }

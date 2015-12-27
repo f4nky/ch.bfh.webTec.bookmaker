@@ -18,11 +18,12 @@ import java.util.List;
  * <b>History:</b>
  * <pre>
  * 1.0	22.12.2015	Michael Fankhauser         Class created.
+ * 1.1  27.12.2015  Michael Fankhauser         Method for finding a single matchEvent by id implemented.
  * </pre>
  *
  * @author Michael Fankhauser
- * @version 1.0
- * @since 22.12.2015
+ * @version 1.1
+ * @since 27.12.2015
  */
 public class MatchEventDao {
 
@@ -62,7 +63,8 @@ public class MatchEventDao {
      */
     public List<MatchEvent> getMatchesComing() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m WHERE m.matchEventDateTime > '" + sdf.format(new Date()) + "'");
+        Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m WHERE m.matchEventDateTime > :matchEventDateTime");
+        query.setParameter("matchEventDateTime", new Date());
         List<MatchEvent> matchEventsComing = query.getResultList();
         return matchEventsComing;
     }
@@ -77,5 +79,14 @@ public class MatchEventDao {
                                                 "WHERE (m.scoreTeamHome IS NOT NULL) AND (m.scoreTeamAway IS NOT NULL)");
         List<MatchEvent> matchEventsFinished = query.getResultList();
         return matchEventsFinished;
+    }
+
+    /**
+     * Gets a single matchEvent by id
+     * @return A single matchEvent
+     * @since 27.12.2015
+     */
+    public MatchEvent findMatchEventById(Long matchEventId) {
+        return entityManager.find(MatchEvent.class, matchEventId);
     }
 }

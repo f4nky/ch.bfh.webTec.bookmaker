@@ -124,6 +124,10 @@ label {
     text-align: center;
 }
 
+.landing-page .parallax .description h5 {
+    color: #ffffff;
+}
+
 .landing-page .section-header-xs .parallax .description {
     margin-top: 65px;
     text-align: center;

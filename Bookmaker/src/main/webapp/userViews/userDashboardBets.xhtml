@@ -6,6 +6,11 @@
 
     <h:body>
         <ui:composition template="userLayout.xhtml">
+            <ui:define name="metadata">
+                <f:metadata>
+                    <f:event type="preRenderView" listener="#{userBetBean.getAllUserBets}"/>
+                </f:metadata>
+            </ui:define>
             <ui:param name="headline" value="Meine Wetten" />
             <ui:define name="content">
                 <div class="row">
@@ -15,7 +20,7 @@
                     <div class="col-sm-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
-                                <a href="#upcoming" data-toggle="pill">
+                                <a href="#pending" data-toggle="pill">
                                     <i class="fa fa-fw fa-clock-o"></i> Pendent
                                 </a>
                             </li>
@@ -29,8 +34,36 @@
                 </div>
                 <div class="row">
                     <div class="tab-content col-sm-12">
-                        <div class="tab-pane active" id="upcoming">
-                            <h6>Zur Zeit keine pendenten Wetten.</h6>
+                        <div class="tab-pane active" id="pending">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="col-md-1">Datum</th>
+                                    <th class="col-md-6">Begegnung<br />Kriterium</th>
+                                    <th class="col-md-1 text-right">Quote</th>
+                                    <th class="col-md-2 text-right">Gesetzter Betrag</th>
+                                    <th class="col-md-2 text-right">Gew./Verl. Betrag</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <ui:repeat value="#{userBetBean.allUserBets}" var="userBet">
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="#{userBet.entryDateTime}" >
+                                                    <f:convertDateTime pattern="dd.MM.yy" />
+                                                </h:outputText>
+                                            </td>
+                                            <td>
+                                                <p>Todo (Encounter)</p>
+                                                <p>Todo (Bet description</p>
+                                            </td>
+                                            <td class="text-right">Todo (Odds)</td>
+                                            <td class="text-right">#{userBet.amount}</td>
+                                            <td class="text-right">Todo (Won/lost amount)</td>
+                                        </tr>
+                                    </ui:repeat>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="tab-pane" id="finished">
                             <table class="table">

@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Bean to navigate from one site to another.
+ * TODO
  *
  * <b>History:</b>
  * <pre>

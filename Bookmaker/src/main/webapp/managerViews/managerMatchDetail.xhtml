@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+    <h:body>
+        <ui:composition template="managerLayout.xhtml">
+            <ui:define name="metadata">
+                <f:metadata>
+                    <f:viewParam name="matchEventId" value="#{matchBetBean.matchEventId}" />
+                    <f:event type="preRenderView" listener="#{matchBetBean.getMatchBets}"/>
+                </f:metadata>
+            </ui:define>
+            <ui:param name="headline" value="#{messages.managerMatchesDetail_title}" />
+            <ui:define name="content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <a href="managerMatches.xhtml">&lt; #{messages.managerMatchesDetail_back}</a>
+                    </div>
+                </div>
+                <div class="row top-buffer">
+                    <div class="well well-sm col-md-12">
+                        <div class="col-md-3">
+                            <strong>#{messages.managerMatchesDetails_encounter}</strong>
+                            <p>ToDo</p>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <strong>#{messages.managerMatchesDetail_total_amount_placed_bets}</strong>
+                            <p>ToDo</p>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <strong>#{messages.managerMatchesDetail_total_amount_payout_on_occurrence}</strong>
+                            <p class="text-success">ToDo</p>
+                        </div>
+                        <div class="col-md-3 text-right">
+                            <strong>#{messages.maangerMatchesDetail_actual_profit_loss}</strong>
+                            <p class="text-success">ToDo</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row top-buffer">
+                    <div class="col-sm-12">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#newBets" data-toggle="pill">#{messages.managerMatchesDetail_available_bets}</a>
+                            </li>
+                            <li>
+                                <a href="#savedBets" data-toggle="pill">#{messages.managerMatchesDetail_placed_bets}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row top-buffer">
+                    <div class="tab-content col-sm-12">
+                        <div class="tab-pane active" id="newBets">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn btn-default" data-toggle="modal" data-target="#newMatchBetModal">#{messages.managerMatchesDetail_new_bet}</button>
+                                </div>
+                            </div>
+                            <div class="row top-buffer">
+                                <div class="col-md-12">
+                                    <c:choose>
+                                        <c:when test="${not empty matchBetBean.matchBets}">
+                                            <table class="table table-responsive table-striped top-buffer">
+                                                <thead>
+                                                <tr>
+                                                    <th class="col-md-1 text-right"></th>
+                                                    <th class="col-md-7">#{messages.managerMatchesDetail_desc}</th>
+                                                    <th class="col-md-1 text-center">#{messages.managerMatchesDetail_occurred}</th>
+                                                    <th class="col-md-1 text-right">#{messages.managerMatchesDetail_odds}</th>
+                                                    <th class="col-md-1 text-right">#{messages.managerMatchesDetail_amount_placed_bets}</th>
+                                                    <th class="col-md-1 text-right">#{messages.managerMatchesDetail_amount_payout_on_occurrence}</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <ui:repeat value="#{matchBetBean.matchBets}" var="matchBet">
+                                                    <tr>
+                                                        <td class="text-right">
+                                                            <a href="#"><i class="fa fa-pencil-square-o"></i></a>
+                                                        </td>
+                                                        <td>#{matchBet.descriptionEn}</td>
+                                                        <td class="text-center">
+                                                            <input type="checkbox" value="#{matchBet.isActive}" />
+                                                        </td>
+                                                        <td class="text-right">#{matchBet.odds}</td>
+                                                        <td class="text-right">Todo</td>
+                                                        <td class="text-right">Todo</td>
+                                                    </tr>
+                                                </ui:repeat>
+                                                </tbody>
+                                            </table>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <p>#{messages.managerMatchesDetail_no_bets}</p>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="savedBets">
+                            <table class="table top-buffer">
+                                <thead>
+                                <tr>
+                                    <th class="col-md-1">#{messages.managerMatchesDetail_date}</th>
+                                    <th class="col-md-6">#{messages.managerMatchesDetail_desc}</th>
+                                    <th class="col-md-1 text-right">#{messages.managerMatchesDetail_odds}</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatchesDetail_amount_placed}</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatchesDetail_amount_won_lost}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>01.12.15</td>
+                                    <td>Schweiz führt zur Halbzeit</td>
+                                    <td class="text-right">3.0</td>
+                                    <td class="text-right">CHF 30.00</td>
+                                    <td class="text-right text-success">CHF +90.00</td>
+                                </tr>
+                                <tr>
+                                    <td>02.12.15</td>
+                                    <td>Spanien führt zur Halbzeit</td>
+                                    <td class="text-right">1.3</td>
+                                    <td class="text-right">CHF 20.00</td>
+                                    <td class="text-right text-danger">CHF -20.00</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="newMatchBetModal" class="modal fade" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4>Neue Wette erfassen</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h:form class="form-horizontal" id="newMatchBetForm">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">#{messages.managerMatchesDetail_desc} EN</label>
+                                        <div class="col-md-9">
+                                            <h:inputText class="form-control" id="descEn" value="#{matchBetBean.descriptionEn}" p:placeholder="#{messages.formNewBet_descEn}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">#{messages.managerMatchesDetail_desc} DE</label>
+                                        <div class="col-md-9">
+                                            <h:inputText class="form-control" id="descDe" value="#{matchBetBean.descriptionDe}" p:placeholder="#{messages.formNewBet_descDe}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">#{messages.managerMatchesDetail_desc} FR</label>
+                                        <div class="col-md-9">
+                                            <h:inputText class="form-control" id="descFr" value="#{matchBetBean.descriptionFr}" p:placeholder="#{messages.formNewBet_descFr}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">#{messages.managerMatchesDetail_desc} IT</label>
+                                        <div class="col-md-9">
+                                            <h:inputText class="form-control" id="descIt" value="#{matchBetBean.descriptionIt}" p:placeholder="#{messages.formNewBet_descIt}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">#{messages.managerMatchesDetail_odds}</label>
+                                        <div class="col-md-3">
+                                            <h:inputText class="form-control" id="odds" value="#{matchBetBean.odds}" p:placeholder="#{messages.formNewBet_odds}"/>
+                                        </div>
+                                    </div>
+                                    <h:commandLink class="btn btn-info btn-fill btn-block" id="saveBtn" value="#{messages.btn_save}" action="#{matchBetBean.createMatchBet}">
+                                        <f:param name="matchEventId" value="#{matchBetBean.matchEventId}" />
+                                    </h:commandLink>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
