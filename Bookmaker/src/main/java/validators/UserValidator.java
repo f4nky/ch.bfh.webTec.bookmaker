@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Joel Holzer
  * @version 1.0
- * @since 28.12.2015
+ * @since 23.12.2015
  */
 public class UserValidator {
 

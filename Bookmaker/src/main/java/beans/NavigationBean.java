@@ -2,6 +2,7 @@ package beans;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
 
@@ -10,11 +11,12 @@ import java.io.IOException;
  *
  * <b>History:</b>
  * <pre>
- * 1.0	17.12.2015	Joel Holzer  Class created.
+ * 1.0	17.12.2015	Joel Holzer     Class created.
+ * 1.1  28.12.2015  Joel Holzer     Added method {@link #redirectToManagerMatchDetail(long)}
  * </pre>
  *
  * @author Joel Holzer
- * @version 1.0
+ * @version 1.1
  * @since 17.12.2015
  */
 @ManagedBean
@@ -24,6 +26,7 @@ public class NavigationBean {
     public static final String START_PAGE_WITHOUT_INDEX = "/bookmaker/";
     public static final String USER_HOME_PAGE = "/userViews/userHome.xhtml";
     public static final String MANAGER_HOME_PAGE = "/managerViews/managerHome.xhtml";
+    public static final String MANAGER_MATCH_DETAIL = "/managerViews/managerMatchDetail.xhtml";
 
     private static final String START_PAGE_WITH_INDEX = "/welcome.xhtml";
     private static final String REDIRECT_POSTFIX = "?faces-redirect=true";
@@ -56,6 +59,17 @@ public class NavigationBean {
      */
     public void redirectToManagerHome() throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect(requestContextPath + MANAGER_HOME_PAGE + REDIRECT_POSTFIX);
+        FacesContext.getCurrentInstance().responseComplete();
+    }
+
+    /**
+     * Redirects to the match detail page of the match event with the given id.
+     *
+     * @param matchEventId ID of the match event which details should shown.
+     * @since 28.12.2015
+     */
+    public void redirectToManagerMatchDetail(long matchEventId) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect(requestContextPath + MANAGER_MATCH_DETAIL + "?matchEventId=" + matchEventId);
         FacesContext.getCurrentInstance().responseComplete();
     }
 }

@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,7 +36,7 @@ public class MatchBetTest {
      * @since 26.12.2015
      */
     @Test
-    public void testCreate() throws ParseException {
+    public void testCreate() throws ParseException, IOException {
         Date tmpDate = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse("10.06.2016 21:00");
 
         EntityManager em = Persistence.createEntityManagerFactory("BMUnit").createEntityManager();
@@ -50,7 +51,7 @@ public class MatchBetTest {
         MatchBetBean matchBet = new MatchBetBean();
         matchBet.setMatchEventId(1L);
         matchBet.setDescriptionEn("Switzerland leads after 90'");
-        matchBet.setOdds(3.0);
+        matchBet.setOdds("3.0");
 
         matchBet.createMatchBet();
 
@@ -63,7 +64,7 @@ public class MatchBetTest {
      * @since 26.12.2015
      */
     @Test
-    public void testRead() throws ParseException {
+    public void testRead() throws ParseException, IOException {
         testCreate();
         EntityManager em = Persistence.createEntityManagerFactory("BMUnit").createEntityManager();
 
@@ -77,7 +78,7 @@ public class MatchBetTest {
      * @since 26.12.2015
      */
     @Test
-    public void testUpdate() throws ParseException {
+    public void testUpdate() throws ParseException, IOException  {
         testCreate();
         EntityManager em = Persistence.createEntityManagerFactory("BMUnit").createEntityManager();
 
