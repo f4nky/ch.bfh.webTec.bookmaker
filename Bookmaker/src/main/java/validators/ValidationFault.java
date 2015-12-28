@@ -1,17 +1,30 @@
 package validators;
 
+import model.User;
+
 /**
- * Created by holzer on 23.12.2015.
+ * Model class for a validation fault.
+ * Every validation fault has a form field, where the validation fault occurred and a fault code (which error occurred).
+ * <br/><br/>
+ *
+ * <b>History:</b>
+ * <pre>
+ * 1.0  23.12.2015  Joel Holzer         Class created.
+ * </pre>
+ *
+ * @author Joel Holzer
+ * @version 1.0
+ * @since 23.12.2015
  */
 public class ValidationFault {
 
     private String field;
     /**
-     * 0 = empty
-     * 1 = to short
-     * 2 = to long
-     * 3 = incorrect characters
-     * 4 = already exist
+     * 0 = field is empty
+     * 1 = value is to short
+     * 2 = value is to long
+     * 3 = value has incorrect characters
+     * 4 = value already exist in database
      */
     private byte faultCode;
 

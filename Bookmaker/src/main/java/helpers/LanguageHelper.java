@@ -15,6 +15,8 @@ import java.util.ResourceBundle;
  * Contains helper methods for the language handling:
  * - set the language from the selected link in the view
  * - read strings from the translation file of the current language.
+ * - read the validation fault messages from the translation file of the current language.
+ * - creates the output for the validation error message for a list of {@link ValidationFault}-objects.
  * <br/><br/>
  *
  * <b>History:</b>
@@ -72,7 +74,30 @@ public class LanguageHelper implements ActionListener {
         return translatedText;
     }
 
-    public static String getErrorTranslation(String formName, String field, byte errorCode) {
+    /**
+     * Returns the validation fault message for the given form, field and error code from the translation file of the
+     * current language.
+     * The translation keys of the validation faults has the following structure:
+     * form_[formName]_[formField]_[errorCode].
+     *
+     * e.g:
+     * form_register_email_0
+     *
+     * The following fault codes exists:
+     * 0 = field is empty
+     * 1 = value is to short
+     * 2 = value is to long
+     * 3 = value has incorrect characters
+     * 4 = value already exist in database
+     *
+     * @param formName Name of the form. Ist the part [formName] of the translation key. E.g. register or login.
+     * @param field Field where the validation fault occurred. E.g. email, password
+     * @param errorCode Fault code.
+     * @return The translated fault message. The format is [Field]: [Message], for example
+     * Password: Must not be empty
+     * @since 23.12.2015
+     */
+    private static String getValidationFaultTranslation(String formName, String field, byte errorCode) {
         FacesContext context = FacesContext.getCurrentInstance();
         String translatedText = "";
         String translationKeyField = "form_" + formName + "_" + field;
@@ -90,10 +115,20 @@ public class LanguageHelper implements ActionListener {
         return translatedText;
     }
 
-    public static String createErrorOutput(String formName, List<ValidationFault> validationFaults) {
+    /**
+     * Returns a string with all the translated validation faults for the given list of {@link ValidationFault}-objects.
+     * Every validation fault in the string is displayed on a new line and the fault message of a specific fault is
+     * generated with the method {@link LanguageHelper#getValidationFaultTranslation(String, String, byte)}.
+     *
+     * @param formName Name of the form where the validation faults occured. E.g. register or login.
+     * @param validationFaults List with the validation faults.
+     * @return String with the translated validation faults. If no validation faults, returns an empty string.
+     * @since 23.12.2015
+     */
+    public static String createValidationFaultOutput(String formName, List<ValidationFault> validationFaults) {
         String errorMessage = "";
         for(ValidationFault validationFault : validationFaults) {
-            errorMessage += LanguageHelper.getErrorTranslation(formName, validationFault.getField(), validationFault.getFaultCode()) + "<br/>";
+            errorMessage += LanguageHelper.getValidationFaultTranslation(formName, validationFault.getField(), validationFault.getFaultCode()) + "<br/>";
         }
         return errorMessage;
     }

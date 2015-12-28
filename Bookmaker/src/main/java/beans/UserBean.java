@@ -41,8 +41,10 @@ public class UserBean implements Serializable {
     private String lastName;
     private String password;
     private String passwordRepetition;
+
     @ManagedProperty(value="#{navigationBean}")
     private NavigationBean navigationBean;
+
     private String loginValidationMessage = null;
     private String registerErrorMessage = null;
     private String registerSuccessMessage = null;
@@ -122,15 +124,21 @@ public class UserBean implements Serializable {
     }
 
     /**
+     * Registers a new user (gambler)
+     * Firstly, the given user data are validated. If a validation error occurred, the user is not saved in the database
+     * and the validation errors are displayed. For validation, see {@link UserValidator}.
+     * If the user data are correct, the method encrypts the given password with sha-256, saves the user in the database
+     * and displays a successful-message.
      *
-     * @return
+     * This method is called with ajax, because the register dialog is a modal form dialog and the page should not load
+     * new when a validation error occurred.
+     *
      * @since 23.12.2015
      */
     public void register() {
-        //Validate data
+        //Validate input data
         user = new User(email, firstName, lastName, password, false);
         UserValidator userValidator = new UserValidator();
-
         List<ValidationFault> validationFaults = userValidator.validateRegister(user, passwordRepetition);
 
         if (validationFaults.size() == 0) {
@@ -143,21 +151,25 @@ public class UserBean implements Serializable {
             } catch (UnsupportedEncodingException e) {
                 //TODO exception handling
             }
+            //Save user in database and display success message
             UserDao.getInstance().createUser(user);
             registerErrorMessage = null;
             registerSuccessMessage = LanguageHelper.getTranslation("form_register_correct");
         } else {
-            //Validation faults
-            registerErrorMessage = LanguageHelper.createErrorOutput(REGISTER_FORM_NAME, validationFaults);
+            //Validation faults -> display validation faults
+            registerErrorMessage = LanguageHelper.createValidationFaultOutput(REGISTER_FORM_NAME, validationFaults);
         }
     }
 
     /**
-     * Logs in the user or the manager and redirect to the home page of the manager or user depends on the role of the
+     * Logs in the user (gambler) or the manager and redirect to the home page of the manager or user depends on the role of the
      * logged in user.
      * Before the login is done, the user with the given email and password is got from the database.
      * If the user does not exist in the database, the user data are incorrect and the user is not logged in and a
      * validation error is displayed.
+     *
+     * This method is called with ajax, because the login dialog is a modal form dialog and the page should not load new
+     * when a validation error occurred.
      *
      * @since 12.11.2015, Updated: 23.12.2015
      */
@@ -173,6 +185,7 @@ public class UserBean implements Serializable {
         user = UserDao.getInstance().getUserByEmailPassword(email, password);
 
         if (user != null) {
+            //User exists in database
             HttpSession session = SessionBean.getSession();
             session.setAttribute(SessionBean.USER_KEY, user);
 
@@ -182,6 +195,7 @@ public class UserBean implements Serializable {
                 navigationBean.redirectToUserHome();
             }
         }
+        //No user exists in database -> display login incorrect message
         loginValidationMessage = LanguageHelper.getTranslation("form_login_incorrect");
     }
 
