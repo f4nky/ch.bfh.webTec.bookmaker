@@ -12,21 +12,24 @@ import javax.persistence.*;
  * 1.0	29.10.2015	Michael Fankhauser  Class created.
  * 1.1  12.11.2015  Joel Holzer         Format code, Added comments.
  * 1.2  23.12.2015  Joel Holzer         Added new constructors.
+ * 1.3  28.12.2015  Joel Holzer         Added new constructors.
  * </pre>
  *
  * @author Michael Fankhauser, Joel Holzer
- * @version 1.2
- * @since 23.12.2015
+ * @version 1.3
+ * @since 28.12.2015
  */
 @Entity
 public class User {
 
     public static final String TABLE_NAME = "User";
+    public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME_EMAIL = "email";
     public static final String COLUMN_NAME_PASSWORD = "password";
 
     @GeneratedValue
     @Id
+    @Column(name = COLUMN_ID)
     private Long id;
     @Basic
     @Column(name = COLUMN_NAME_EMAIL)
@@ -48,6 +51,15 @@ public class User {
      */
     public User() {
 
+    }
+
+    /**
+     * Constructor to create a user with an id and initialize the member variables.
+     * @since 28.12.2015
+     */
+    public User(long id, String email, String firstName, String lastName, String password, Boolean isManager) {
+        this(email, firstName, lastName, password, isManager);
+        this.id = id;
     }
 
     /**

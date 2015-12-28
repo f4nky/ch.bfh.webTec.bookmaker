@@ -11,11 +11,12 @@ import javax.servlet.http.HttpSession;
  * <b>History:</b>
  * <pre>
  * 1.0	12.11.2015	Joel Holzer  Class created.
+ * 1.1  28.12.2015  Joel Holzer  Added method {@link #setUser(User)}.
  * </pre>
  *
  * @author Joel Holzer
- * @version 1.0
- * @since 12.11.2015
+ * @version 1.1
+ * @since 28.12.2015
  */
 public class SessionBean {
 
@@ -41,5 +42,16 @@ public class SessionBean {
             return (User) session.getAttribute(USER_KEY);
         }
         return null;
+    }
+
+    /**
+     * Saves the given user in the session.
+     *
+     * @param user User to save in the session.
+     * @since 28.12.2015
+     */
+    public static void setUser(User user) {
+        HttpSession session = SessionBean.getSession();
+        session.setAttribute(SessionBean.USER_KEY, user);
     }
 }

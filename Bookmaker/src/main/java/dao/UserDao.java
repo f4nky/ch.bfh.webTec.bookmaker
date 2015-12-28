@@ -17,13 +17,14 @@ import java.util.List;
  * <b>History:</b>
  * <pre>
  * 1.0	12.11.2015	Joel Holzer         Class created.
- * 1.1  23.12.2015  Joel Holzer         Added method to create a user in the database. Added method to check if an user
+ * 1.1  23.12.2015  Joel Holzer         Added method to create an user in the database. Added method to check if an user
  *                                      already exists.
+ * 1.2  28.12.2015  Joel Holzer         Added method to update an user in the database.
  * </pre>
  *
  * @author Joel Holzer
- * @version 1.1
- * @since 23.12.2015
+ * @version 1.2
+ * @since 28.12.2015
  */
 public class UserDao {
 
@@ -80,6 +81,17 @@ public class UserDao {
         return false;
     }
 
+    public boolean checkIfOtherUserWithEmailExists(long id, String email) {
+        Query query = entityManager.createQuery("SELECT u FROM " + User.TABLE_NAME + " u WHERE u." + User.COLUMN_ID + " != :id AND u." + User.COLUMN_NAME_EMAIL + " = :email");
+        query.setParameter("id", id);
+        query.setParameter("email", email);
+        List<User> users = query.getResultList();
+        if (users.size() > 0) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Creates a new record in the database for the given user.
      *
@@ -89,6 +101,23 @@ public class UserDao {
     public void createUser(User userToCreate) {
         entityManager.getTransaction().begin();
         entityManager.persist(userToCreate);
+        entityManager.getTransaction().commit();
+    }
+
+    /**
+     * Updates the user with the new data of the given user. The user to update is identified with the id of the given
+     * user. The given user contains the new data of the user.
+     *
+     * @param userToUpdate User with the new data. Id must be the same as by the old user.
+     * @since 28.12.2015
+     */
+    public void updateUser(User userToUpdate) {
+        User user = (User)entityManager.find(User.class, userToUpdate.getId());
+        entityManager.getTransaction().begin();
+        user.setEmail(userToUpdate.getEmail());
+        user.setFirstName(userToUpdate.getFirstName());
+        user.setLastName(userToUpdate.getLastName());
+        user.setPassword(userToUpdate.getPassword());
         entityManager.getTransaction().commit();
     }
 }

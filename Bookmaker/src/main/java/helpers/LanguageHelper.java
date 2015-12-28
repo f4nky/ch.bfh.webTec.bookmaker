@@ -13,7 +13,6 @@ import java.util.ResourceBundle;
 
 /**
  * Contains helper methods for the language handling:
- * - set the language from the selected link in the view
  * - read strings from the translation file of the current language.
  * - read the validation fault messages from the translation file of the current language.
  * - creates the output for the validation error message for a list of {@link ValidationFault}-objects.
@@ -28,27 +27,12 @@ import java.util.ResourceBundle;
  * @version 1.0
  * @since 23.12.2015
  */
-public class LanguageHelper implements ActionListener {
+public class LanguageHelper {
 
     /**
      * Base name of the language resource bundle (see faces-config.xml)
      */
     private static final String RESOURCE_BUNDLE_BASE_NAME = "language.messages";
-
-    /**
-     * Is executed if a user changes the language in the view.
-     * Sets the current language of the web application to the language the user selected/clicked.
-     *
-     * @param event Executed action event. Tells the method the clicked language-link.
-     * @throws AbortProcessingException
-     * @since 23.12.2015
-     */
-    public void processAction(ActionEvent event) throws AbortProcessingException {
-        String langShortcut = event.getComponent().getId();
-        FacesContext context = FacesContext.getCurrentInstance();
-        Locale newLanguageLocale = new Locale(langShortcut);
-        context.getViewRoot().setLocale(newLanguageLocale);
-    }
 
     /**
      * Returns the string with the given translation key from the language file of the current language.

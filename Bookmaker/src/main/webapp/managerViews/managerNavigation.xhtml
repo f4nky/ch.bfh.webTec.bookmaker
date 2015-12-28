@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
@@ -9,63 +8,31 @@
             <nav class="navbar navbar-transparent navbar-fixed-top" role="navigation">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button id="menu-toggle" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar bar1"></span>
-                            <span class="icon-bar bar2"></span>
-                            <span class="icon-bar bar3"></span>
-                        </button>
-                        <a href="http://localhost:8080/bookmaker">
-                            <div class="logo-container">
-                                <div class="logo">
-                                    <h:graphicImage library="img" name="logo.png" />
-                                </div>
-                                <div class="brand">
-                                    Bookmaker
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                    <ui:include src="../template/navigationPartials/navbarHeader.xhtml"/>
                     <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="example" >
-                        <h:form>
+                    <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-cogs"></i> Admin<span class="caret"></span>
+                                    <i class="fa fa-cogs"></i> #{messages.managerNavigation_admin}<span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="managerMatches.xhtml">Matches/Wetten</a>
+                                        <a href="managerMatches.xhtml">#{messages.managerNavigation_matchesbets}</a>
                                     </li>
                                     <li>
-                                        <a href="managerUsers.xhtml">Teilnehmer</a>
+                                        <a href="managerUsers.xhtml">#{messages.managerNavigation_gamblers}</a>
                                     </li>
                                 </ul>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-tachometer"></i> Übersicht<span class="caret"></span>
+                                    <i class="fa fa-tachometer"></i> #{messages.managerNavigation_overview}<span class="caret"></span>
                                 </a>
                             </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-user"></i> User<span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="">Profil</a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <h:commandLink action="#{userBean.logout}" value="#{messages.view_home_logout}"/>
-                                    </li>
-                                </ul>
-                            </li>
-                            <ui:include src="../template/languageSelection.xhtml"/>
+                            <ui:include src="../template/navigationPartials/userSection.xhtml"/>
+                            <ui:include src="../template/navigationPartials/languageSelection.xhtml"/>
                         </ul>
-                        </h:form>
                     </div>
                     <!-- /.navbar-collapse -->
                 </div>

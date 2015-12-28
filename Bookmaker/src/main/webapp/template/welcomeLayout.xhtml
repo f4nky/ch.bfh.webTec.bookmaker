@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets">
+<f:view locale="#{localeBean.locale}">
     <h:head>
         <meta charset="utf-8" />
         <!--<link rel="icon" type="image/png" href="assets/img/favicon.ico" />-->
@@ -62,4 +64,5 @@
     <h:outputScript library="js" name="template.js"/>
     <!-- custom scripts -->
     <h:outputScript library="js" name="custom.js"/>
+</f:view>
 </html>

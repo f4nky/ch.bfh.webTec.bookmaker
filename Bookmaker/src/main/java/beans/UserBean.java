@@ -4,11 +4,13 @@ import dao.UserDao;
 import helpers.LanguageHelper;
 import helpers.PasswordHasher;
 import model.User;
+import org.eclipse.persistence.sessions.Session;
 import validators.UserValidator;
 import validators.ValidationFault;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -25,17 +27,17 @@ import java.util.List;
  * <pre>
  * 1.0	12.11.2015	Joel Holzer  Class created.
  * 1.1  23.12.2015  Joel Holzer  Added register fields (member variables) and methods. Added validation and translation for login.
+ * 1.2  28.12.2015  Joel Holzer  Added fields (member variables) and methods for profile.
  * </pre>
  *
  * @author Joel Holzer
- * @version 1.1
- * @since 23.12.2015
+ * @version 1.2
+ * @since 28.12.2015
  */
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class UserBean implements Serializable {
 
-    private User user;
     private String email;
     private String firstName;
     private String lastName;
@@ -48,8 +50,11 @@ public class UserBean implements Serializable {
     private String loginValidationMessage = null;
     private String registerErrorMessage = null;
     private String registerSuccessMessage = null;
+    private String profileErrorMessage = null;
+    private String profileSuccessMessage = null;
 
     private static final String REGISTER_FORM_NAME = "register";
+    private static final String PROFILE_FORM_NAME = "profile";
 
     public String getEmail() {
         return email;
@@ -123,6 +128,33 @@ public class UserBean implements Serializable {
         this.registerSuccessMessage = registerSuccessMessage;
     }
 
+    public String getProfileErrorMessage() {
+        return profileErrorMessage;
+    }
+
+    public void setProfileErrorMessage(String profileErrorMessage) {
+        this.profileErrorMessage = profileErrorMessage;
+    }
+
+    public String getProfileSuccessMessage() {
+        return profileSuccessMessage;
+    }
+
+    public void setProfileSuccessMessage(String profileSuccessMessage) {
+        this.profileSuccessMessage = profileSuccessMessage;
+    }
+
+    public UserBean() {
+        User loggedInUser = SessionBean.getUser();
+        if (loggedInUser != null) {
+            email = loggedInUser.getEmail();
+            firstName = loggedInUser.getFirstName();
+            lastName = loggedInUser.getLastName();
+            password = loggedInUser.getPassword();
+            passwordRepetition = loggedInUser.getPassword();
+        }
+    }
+
     /**
      * Registers a new user (gambler)
      * Firstly, the given user data are validated. If a validation error occurred, the user is not saved in the database
@@ -137,7 +169,7 @@ public class UserBean implements Serializable {
      */
     public void register() {
         //Validate input data
-        user = new User(email, firstName, lastName, password, false);
+        User user = new User(email, firstName, lastName, password, false);
         UserValidator userValidator = new UserValidator();
         List<ValidationFault> validationFaults = userValidator.validateRegister(user, passwordRepetition);
 
@@ -145,7 +177,7 @@ public class UserBean implements Serializable {
             //No validation faults
             //Encrypt password
             try {
-                user.setPassword(PasswordHasher.generatePasswordHash(user.getPassword()));
+                user.setPassword(PasswordHasher.generatePasswordHash(password));
             } catch (NoSuchAlgorithmException e) {
                 //TODO exception handling
             } catch (UnsupportedEncodingException e) {
@@ -182,12 +214,11 @@ public class UserBean implements Serializable {
         } catch (UnsupportedEncodingException e) {
             //TODO exception handling
         }
-        user = UserDao.getInstance().getUserByEmailPassword(email, password);
+        User user = UserDao.getInstance().getUserByEmailPassword(email, password);
 
+        //User exists in database
         if (user != null) {
-            //User exists in database
-            HttpSession session = SessionBean.getSession();
-            session.setAttribute(SessionBean.USER_KEY, user);
+            SessionBean.setUser(user);
 
             if (user.getIsManager()) {
                 navigationBean.redirectToManagerHome();
@@ -197,6 +228,45 @@ public class UserBean implements Serializable {
         }
         //No user exists in database -> display login incorrect message
         loginValidationMessage = LanguageHelper.getTranslation("form_login_incorrect");
+    }
+
+    /**
+     * Saves the profile of the user with the input data of the profile form.
+     *
+     * @since 28.12.2015
+     */
+    public void saveProfile() {
+        //Validate input data
+        User oldUserData = SessionBean.getUser();
+        User newUserData = new User(oldUserData.getId(), email, firstName, lastName, password, oldUserData.getIsManager());
+
+        UserValidator userValidator = new UserValidator();
+        List<ValidationFault> validationFaults = userValidator.validateProfile(newUserData, passwordRepetition);
+
+        if (validationFaults.size() == 0) {
+            //No validation faults
+            //Encrypt password if changed
+            if (password != null && !password.isEmpty()) {
+                try {
+                    newUserData.setPassword(PasswordHasher.generatePasswordHash(password));
+                } catch (NoSuchAlgorithmException e) {
+                    //TODO exception handling
+                } catch (UnsupportedEncodingException e) {
+                    //TODO exception handling
+                }
+            } else {
+                newUserData.setPassword(oldUserData.getPassword());
+            }
+
+            SessionBean.setUser(newUserData);
+            //Save user in database and display success message
+            UserDao.getInstance().updateUser(newUserData);
+            profileErrorMessage = null;
+            profileSuccessMessage = LanguageHelper.getTranslation("form_profile_correct");
+        } else {
+            //Validation faults -> display validation faults
+            profileErrorMessage = LanguageHelper.createValidationFaultOutput(PROFILE_FORM_NAME, validationFaults);
+        }
     }
 
     /**
