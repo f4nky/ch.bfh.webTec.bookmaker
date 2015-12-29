@@ -27,6 +27,7 @@ public class NavigationBean {
     public static final String USER_HOME_PAGE = "/userViews/userHome.xhtml";
     public static final String MANAGER_HOME_PAGE = "/managerViews/managerHome.xhtml";
     public static final String MANAGER_MATCH_DETAIL = "/managerViews/managerMatchDetail.xhtml";
+    public static final String USER_MATCH_DETAIL = "/userViews/userMatchDetailComing.xhtml";
 
     private static final String START_PAGE_WITH_INDEX = "/welcome.xhtml";
     private static final String REDIRECT_POSTFIX = "?faces-redirect=true";
@@ -70,6 +71,11 @@ public class NavigationBean {
      */
     public void redirectToManagerMatchDetail(long matchEventId) throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect(requestContextPath + MANAGER_MATCH_DETAIL + "?matchEventId=" + matchEventId);
+        FacesContext.getCurrentInstance().responseComplete();
+    }
+
+    public void redirectToUserMatchDetail(long matchEventId) throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect(requestContextPath + USER_MATCH_DETAIL + "?matchEventId=" + matchEventId);
         FacesContext.getCurrentInstance().responseComplete();
     }
 }

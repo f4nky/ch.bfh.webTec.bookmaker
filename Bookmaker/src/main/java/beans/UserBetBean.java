@@ -1,12 +1,19 @@
 package beans;
 
 import dao.MatchBetDao;
+import dao.MatchEventDao;
 import dao.UserBetDao;
+import helpers.LanguageHelper;
 import model.MatchBet;
+import model.MatchEvent;
 import model.UserBet;
+import validators.UserBetValidator;
+import validators.ValidationFault;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -27,10 +34,18 @@ import java.util.List;
 @ViewScoped
 public class UserBetBean implements Serializable {
     private Long matchEventId;
+    private MatchEvent matchEvent;
     private Long matchBetId;
-    private Double amount;
+    private String amount;
+    private Double totalSetAmount;
     private List<MatchBet> matchBets;
     private List<UserBet> allUserBets;
+    private List<UserBet> userBetsByMatch;
+    private String addUserBetErrorMessage = null;
+    @ManagedProperty(value="#{navigationBean}")
+    private NavigationBean navigationBean;
+
+    private static final String ADD_USER_BET_FORM_NAME = "addUserBet";
 
     public Long getMatchEventId() {
         return matchEventId;
@@ -48,31 +63,99 @@ public class UserBetBean implements Serializable {
         this.matchBetId = matchBetId;
     }
 
-    public Double getAmount() {
+    public String getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(String amount) {
         this.amount = amount;
     }
 
     public List<MatchBet> getMatchBets() {
-        return MatchBetDao.getInstance().getMatchBets(matchEventId);
+        if (matchBets == null) {
+            matchBets = MatchBetDao.getInstance().getMatchBets(matchEventId);
+        }
+        return matchBets;
     }
 
     public List<UserBet> getAllUserBets() {
-        return UserBetDao.getInstance().getAllUserBets();
+        if (allUserBets == null) {
+            allUserBets = UserBetDao.getInstance().getAllUserBets(SessionBean.getUser());
+        }
+        return allUserBets;
     }
 
-    public void addUserBet() {
+    public String getAddUserBetErrorMessage() {
+        return addUserBetErrorMessage;
+    }
+
+    public void setAddUserBetErrorMessage(String addUserBetErrorMessage) {
+        this.addUserBetErrorMessage = addUserBetErrorMessage;
+    }
+
+    public NavigationBean getNavigationBean() {
+        return navigationBean;
+    }
+
+    public void setNavigationBean(NavigationBean navigationBean) {
+        this.navigationBean = navigationBean;
+    }
+
+    public void addUserBet() throws IOException {
         MatchBet matchBet = MatchBetDao.getInstance().findMatchBetById(matchBetId);
 
-        UserBet userBet = new UserBet();
-        userBet.setAmount(amount);
-        userBet.setEntryDateTime(new Date());
-        userBet.setMatchBetId(matchBet);
-        userBet.setUserId(SessionBean.getUser());
+        //Validate input data
+        UserBetValidator userBetValidator = new UserBetValidator();
+        List<ValidationFault> validationFaults = userBetValidator.validateAddUserBet(amount);
 
-        UserBetDao.getInstance().addUserBet(userBet);
+        if (validationFaults.size() == 0) {
+            //No validation faults
+            //Save user bet in database
+            UserBet userBet = new UserBet();
+            userBet.setAmount(Double.parseDouble(amount));
+            userBet.setEntryDateTime(new Date());
+            userBet.setMatchBetId(matchBet);
+            userBet.setUserId(SessionBean.getUser());
+            UserBetDao.getInstance().addUserBet(userBet);
+            //setAmount(null);
+            addUserBetErrorMessage = null;
+            navigationBean.redirectToUserMatchDetail(matchEventId);
+        } else {
+            //Validation faults -> display validation faults
+            addUserBetErrorMessage = LanguageHelper.createValidationFaultOutput(ADD_USER_BET_FORM_NAME, validationFaults);
+        }
+    }
+
+    /**
+     * Returns the match event which this user bet belongs to.
+     *
+     * @return Match event which this user bet belongs to.
+     * @since 29.12.2015
+     */
+    public MatchEvent getMatchEvent() {
+        if (matchEvent == null) {
+            matchEvent = MatchEventDao.getInstance().findMatchEventById(matchEventId);
+        }
+        return matchEvent;
+    }
+
+    public Double getTotalSetAmount() {
+        List<UserBet> userBets = getUserBetsByMatch();
+        Double totalAmount = 0.0;
+        for (UserBet userBet : userBets) {
+            totalAmount += userBet.getAmount();
+        }
+        return totalAmount;
+    }
+
+    public List<UserBet> getUserBetsByMatch() {
+        if (userBetsByMatch == null) {
+            userBetsByMatch = UserBetDao.getInstance().getUserBetsByMatchEvent(SessionBean.getUser(), getMatchEvent());
+        }
+        return userBetsByMatch;
+    }
+
+    public double calculateMatchBetWinAmount(double matchBetOdd, double setUserAmount) {
+        return matchBetOdd * setUserAmount;
     }
 }

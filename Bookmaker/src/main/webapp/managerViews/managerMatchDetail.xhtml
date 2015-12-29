@@ -26,14 +26,7 @@
                     <div class="col-md-3">
                         <strong>#{messages.managerMatchesDetails_encounter}</strong>
                         <p>
-                            #{matchBetBean.matchEvent.teamHome.nameEn}
-                            <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchBetBean.matchEvent.teamHome.countryCode}.png" width="24px" rendered="#{not empty matchBetBean.matchEvent.teamHome.nameEn}" />
-
-                            <h:outputText value="#{not empty matchBetBean.matchEvent.scoreTeamHome ? matchBetBean.matchEvent.scoreTeamHome : '-'}" /> :
-                            <h:outputText value="#{not empty matchBetBean.matchEvent.scoreTeamAway ? matchBetBean.matchEvent.scoreTeamAway : '-'}" />
-
-                            <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchBetBean.matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchBetBean.matchEvent.teamAway.nameEn}" />
-                            #{matchBetBean.matchEvent.teamAway.nameEn}
+                            #{matchBetBean.matchEvent.teamHome.nameEn} - #{matchBetBean.matchEvent.teamAway.nameEn}
                         </p>
                     </div>
                     <div class="col-md-3 text-right">

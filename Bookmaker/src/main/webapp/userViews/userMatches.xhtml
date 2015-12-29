@@ -7,7 +7,7 @@
 
     <h:body>
         <ui:composition template="userLayout.xhtml">
-            <ui:param name="headline" value="Matches" />
+            <ui:param name="headline" value="#{messages.matches_title}" />
             <ui:define name="content">
                 <div class="row">
                     <div class="col-sm-12">
@@ -37,16 +37,16 @@
                                     <th class="col-md-2 text-right">#{messages.matches_home}</th>
                                     <th class="col-md-1"></th>
                                     <th class="col-md-2">#{messages.matches_away}</th>
-                                    <th class="col-md-2 text-right">Gesetzter Betrag</th>
+                                    <th class="col-md-2 text-right">#{messages.userMatches_amount_placed}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <ui:repeat value="#{championship.matchEventsComing}" var="matchEvent">
-                                    <tr data-href="userMatchDetail.xhtml?matchEventId=#{matchEvent.id}">
+                                    <tr data-href="userMatchDetailComing.xhtml?matchEventId=#{matchEvent.id}">
                                         <td>#{matchEvent.matchEventNr}</td>
                                         <td>
                                             <h:outputText value="#{matchEvent.matchEventDateTime}" >
-                                                <f:convertDateTime pattern="E, dd.MM. HH:mm" locale="de_DE" />
+                                                <f:convertDateTime pattern="E, dd.MM. HH:mm" locale="de_DE" timeZone="Europe/Berlin" />
                                             </h:outputText>
                                         </td>
                                         <td>
@@ -64,7 +64,7 @@
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
                                             #{matchEvent.teamAway.nameEn}
                                         </td>
-                                        <td class="text-right">CHF 50.00</td>
+                                        <td class="text-right">CHF #{matchBetBean.getTotalSetUserAmount(matchEvent)}</td>
                                     </tr>
                                 </ui:repeat>
                                 </tbody>
@@ -80,16 +80,17 @@
                                     <th class="col-md-2 text-right">#{messages.matches_home}</th>
                                     <th class="col-md-1"></th>
                                     <th class="col-md-2">#{messages.matches_away}</th>
-                                    <th class="col-md-2 text-right">Gesetzter Betrag</th>
+                                    <th class="col-md-2 text-right">#{messages.userMatches_amount_placed}</th>
+                                    <th class="col-md-2 text-right">#{messages.userMatches_amount_won_lost}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <ui:repeat value="#{championship.matchEventsFinished}" var="matchEvent">
-                                    <tr>
+                                <ui:repeat value="#{championship.matchEventsPast}" var="matchEvent">
+                                    <tr data-href="userMatchDetailFinished.xhtml?matchEventId=#{matchEvent.id}">
                                         <td>#{matchEvent.matchEventNr}</td>
                                         <td>
                                             <h:outputText value="#{matchEvent.matchEventDateTime}" >
-                                                <f:convertDateTime pattern="E, dd.MM. HH:mm" locale="de_DE" />
+                                                <f:convertDateTime pattern="E, dd.MM. HH:mm" locale="de_DE" timeZone="Europe/Berlin" />
                                             </h:outputText>
                                         </td>
                                         <td>
@@ -107,7 +108,13 @@
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
                                             #{matchEvent.teamAway.nameEn}
                                         </td>
-                                        <td class="text-right">CHF 50.00</td>
+                                        <td class="text-right">CHF #{matchBetBean.getTotalSetUserAmount(matchEvent)}</td>
+                                        <h:panelGroup rendered="#{matchBetBean.calculateMatchEventWinLostAmount(matchEvent) ge 0}">
+                                            <td class="text-right text-success">CHF +#{matchBetBean.calculateMatchEventWinLostAmount(matchEvent)}</td>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{matchBetBean.calculateMatchEventWinLostAmount(matchEvent) lt 0}">
+                                            <td class="text-right text-danger">CHF #{matchBetBean.calculateMatchEventWinLostAmount(matchEvent)}</td>
+                                        </h:panelGroup>
                                     </tr>
                                 </ui:repeat>
                                 </tbody>

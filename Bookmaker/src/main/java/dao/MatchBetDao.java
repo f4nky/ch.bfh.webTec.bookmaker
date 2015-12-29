@@ -57,6 +57,14 @@ public class MatchBetDao {
         return matchBets;
     }
 
+    public List<MatchBet> getMatchBets(MatchEvent matchEvent, boolean isActiveMatchBet) {
+        Query query = entityManager.createQuery("SELECT mb FROM " + MatchBet.TABLE_NAME + " mb WHERE mb.matchEventId = :matchEvent AND mb.isActive = :isActiveMatchBet");
+        query.setParameter("matchEvent", matchEvent);
+        query.setParameter("isActiveMatchBet", isActiveMatchBet);
+        List<MatchBet> matchBets = query.getResultList();
+        return matchBets;
+    }
+
     /**
      * Gets a single matchBet by id
      * @return A single matchBet

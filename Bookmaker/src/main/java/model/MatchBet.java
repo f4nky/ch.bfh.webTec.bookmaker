@@ -20,6 +20,7 @@ import javax.persistence.*;
 public class MatchBet {
 
     public static final String TABLE_NAME = "MatchBet";
+    public static final String COLUMN_NAME_ID = "id";
     public static final String COLUMN_NAME_MATCH_EVENT_ID = "matchEventId";
     public static final String COLUMN_NAME_DESC_EN = "descriptionEn";
     public static final String COLUMN_NAME_DESC_DE = "descriptionDe";
@@ -30,6 +31,7 @@ public class MatchBet {
 
     @GeneratedValue
     @Id
+    @Column(name = COLUMN_NAME_ID)
     private Long id;
     @ManyToOne
     @JoinColumn(name = COLUMN_NAME_MATCH_EVENT_ID)
@@ -51,8 +53,10 @@ public class MatchBet {
     private Double odds;
     @Basic
     @Column(name = COLUMN_NAME_IS_ACTIVE)
-    private Boolean isActive;
+    private Boolean isActive = false;
 
+    @Transient
+    private double setUserAmount;
 
     public Long getId() {
         return id;
@@ -116,5 +120,13 @@ public class MatchBet {
 
     public void setDescriptionIt(String descriptionIt) {
         this.descriptionIt = descriptionIt;
+    }
+
+    public double getSetUserAmount() {
+        return setUserAmount;
+    }
+
+    public void setSetUserAmount(double setUserAmount) {
+        this.setUserAmount = setUserAmount;
     }
 }

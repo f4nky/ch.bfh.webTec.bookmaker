@@ -62,7 +62,6 @@ public class MatchEventDao {
      * @since 25.12.2015
      */
     public List<MatchEvent> getMatchesComing() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m WHERE m.matchEventDateTime > :matchEventDateTime");
         query.setParameter("matchEventDateTime", new Date());
         List<MatchEvent> matchEventsComing = query.getResultList();
@@ -70,13 +69,13 @@ public class MatchEventDao {
     }
 
     /**
-     * Gets only the finished matches from the database and returns them.
+     * Gets only the matches which start date is in past from the database and returns them.
      * @return A List of Matches
      * @since 25.12.2015
      */
-    public List<MatchEvent> getMatchesFinished() {
-        Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m " +
-                                                "WHERE (m.scoreTeamHome IS NOT NULL) AND (m.scoreTeamAway IS NOT NULL)");
+    public List<MatchEvent> getMatchesPast() {
+        Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m WHERE m.matchEventDateTime <= :dateNow");
+        query.setParameter("dateNow", new Date());
         List<MatchEvent> matchEventsFinished = query.getResultList();
         return matchEventsFinished;
     }

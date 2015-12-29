@@ -18,23 +18,19 @@
         <ui:define name="content">
             <div class="row">
                 <div class="col-sm-12">
-                    <a href="userMatches.xhtml">&lt; Zurück zur Übersicht</a>
+                    <a href="userMatches.xhtml">&lt; #{messages.userMatchesDetails_back}</a>
                 </div>
             </div>
             <div class="row top-buffer">
                 <div class="well well-sm col-md-12">
-                <div class="col-md-4">
-                    <strong>Begegnung</strong>
-                    <p>Schweiz - Spanien</p>
-                </div>
-                <div class="col-md-4">
-                    <strong>Gesetzter Betrag</strong>
-                    <p>CHF 50.00</p>
-                </div>
-                <div class="col-md-4">
-                    <strong>Gewonnener/Verlorener Betrag</strong>
-                    <p class="text-success">CHF +70.00</p>
-                </div>
+                    <div class="col-md-4">
+                        <strong>#{messages.userMatchesDetails_encounter}</strong>
+                        <p>#{userBetBean.matchEvent.teamHome.nameEn} - #{userBetBean.matchEvent.teamAway.nameEn}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>#{messages.userMatchesDetails_amount_placed}</strong>
+                        <p>CHF #{userBetBean.totalSetAmount}</p>
+                    </div>
                 </div>
             </div>
             <div class="row top-buffer">
@@ -42,12 +38,12 @@
                     <ul class="nav nav-tabs">
                         <li class="active">
                             <a href="#newBets" data-toggle="pill">
-                                <i class="fa fa-fw fa-clock-o"></i> Neue Wetten
+                                <i class="fa fa-fw fa-clock-o"></i> #{messages.userMatchesDetails_new_bets}
                             </a>
                         </li>
                         <li>
                             <a href="#savedBets" data-toggle="pill">
-                                <i class="fa fa-fw fa-check-square-o"></i> Bereits platzierte Wetten
+                                <i class="fa fa-fw fa-check-square-o"></i> #{messages.userMatchesDetails_placed_bets}
                             </a>
                         </li>
                     </ul>
@@ -61,8 +57,8 @@
                                 <table class="table table-responsive table-striped top-buffer">
                                     <thead>
                                     <tr>
-                                        <th class="col-md-9">#{messages.managerMatchesDetail_desc}</th>
-                                        <th class="col-md-2 text-right">#{messages.managerMatchesDetail_odds}</th>
+                                        <th class="col-md-9">#{messages.userMatchesDetails_criterion}</th>
+                                        <th class="col-md-2 text-right">#{messages.userMatchesDetails_odds}</th>
                                         <th class="col-md-1"></th>
                                     </tr>
                                     </thead>
@@ -72,19 +68,12 @@
                                             <td>#{matchBet.descriptionEn}</td>
                                             <td class="text-right">#{matchBet.odds}</td>
                                             <td class="text-right">
-                                                <!--
-                                                TODO: pass id from matchBet to modal-dialog
-
                                                 <h:form>
-                                                    <h:commandLink styleClass="btn btn-default btn-xs" value="#{messages.userBets_place_amount}" action="">
-                                                        <f:setPropertyActionListener value="#{matchBet.id}" target="#{userBetBean.matchBetId}" />
+                                                    <h:commandLink class="btn btn-default btn-xs" value="#{messages.userBets_place_amount}" action="#{userBetBean.setMatchBetId(matchBet.id)}"
+                                                                   onclick="$('#betModal').modal('show');" immediate="true">
+                                                        <f:ajax execute="@this" render="amount"/>
                                                     </h:commandLink>
                                                 </h:form>
-                                                <h:outputLink styleClass="btn btn-default btn-xs" p:data-toggle="modal" p:data-target="#betModal">
-                                                    <f:setPropertyActionListener value="#{matchBet.id}" target="#{userBetBean.matchBetId}" />
-                                                    <f:param name="matchBetId" value="#{matchBet.id}" />
-                                                    <h:outputText value="#{messages.userBets_place_amount}" />
-                                                </h:outputLink>-->
                                             </td>
                                         </tr>
                                     </ui:repeat>
@@ -92,38 +81,44 @@
                                 </table>
                             </c:when>
                             <c:otherwise>
-                                <p>#{messages.managerMatchesDetail_no_bets}</p>
+                                <p>#{messages.userMatchesDetails_no_bets}</p>
                             </c:otherwise>
                         </c:choose>
                     </div>
                     <div class="tab-pane" id="savedBets">
-                        <table class="table top-buffer">
-                            <thead>
-                            <tr>
-                                <th class="col-md-1">Datum</th>
-                                <th class="col-md-6">Kriterium</th>
-                                <th class="col-md-1 text-right">Quote</th>
-                                <th class="col-md-2 text-right">Gesetzter Betrag</th>
-                                <th class="col-md-2 text-right">Gew./Verl. Betrag</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>01.12.15</td>
-                                <td>Schweiz führt zur Halbzeit</td>
-                                <td class="text-right">3.0</td>
-                                <td class="text-right">CHF 30.00</td>
-                                <td class="text-right text-success">CHF +90.00</td>
-                            </tr>
-                            <tr>
-                                <td>02.12.15</td>
-                                <td>Spanien führt zur Halbzeit</td>
-                                <td class="text-right">1.3</td>
-                                <td class="text-right">CHF 20.00</td>
-                                <td class="text-right text-danger">CHF -20.00</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <c:choose>
+                            <c:when test="${not empty userBetBean.userBetsByMatch}">
+                                <table class="table top-buffer">
+                                    <thead>
+                                    <tr>
+                                        <th class="col-md-1">#{messages.userMatchesDetails_date}</th>
+                                        <th class="col-md-6">#{messages.userMatchesDetails_criterion}</th>
+                                        <th class="col-md-1 text-right">#{messages.userMatchesDetails_odds}</th>
+                                        <th class="col-md-2 text-right">#{messages.userMatchesDetails_amount_placed}</th>
+                                        <th class="col-md-2 text-right">#{messages.userMatchesDetails_amount_won_occurrence}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <ui:repeat value="#{userBetBean.userBetsByMatch}" var="userBet">
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="#{userBet.entryDateTime}" >
+                                                    <f:convertDateTime pattern="dd.MM.yy" />
+                                                </h:outputText>
+                                            </td>
+                                            <td>#{userBet.matchBetId.descriptionEn}</td>
+                                            <td class="text-right">#{userBet.matchBetId.odds}</td>
+                                            <td class="text-right">#{userBet.amount}</td>
+                                            <td class="text-right text-success">CHF +#{userBetBean.calculateMatchBetWinAmount(userBet.matchBetId.odds, userBet.amount)}</td>
+                                        </tr>
+                                    </ui:repeat>
+                                    </tbody>
+                                </table>
+                            </c:when>
+                            <c:otherwise>
+                                <p>#{messages.userMatchesDetails_no_placed_bets}</p>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
             </div>
@@ -136,11 +131,14 @@
                             <h4>#{messages.userBets_place_amount}</h4>
                         </div>
                         <div class="modal-body">
+                            <h:panelGroup layout="block" id="addUserBetErrorMessage" class="form-group">
+                                <h:outputText escape="false" class="errorbox" rendered="#{userBetBean.addUserBetErrorMessage !=null}" value="#{userBetBean.addUserBetErrorMessage}"/>
+                            </h:panelGroup>
                             <h:form class="form-horizontal" id="newUserBetForm">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="amount" class="col-sm-8 control-label">#{messages.userBets_amount}</label>
+                                            <label for="amount" class="col-sm-8 control-label">#{messages.form_addUserBet_amount}</label>
                                             <div class="col-sm-4">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">CHF</span>
@@ -149,7 +147,7 @@
                                             </div>
                                         </div>
                                         <h:commandLink class="btn btn-info btn-fill btn-block" id="saveBtn" value="#{messages.btn_save}" action="#{userBetBean.addUserBet}">
-                                            <f:param name="matchEventId" value="#{userBetBean.matchEventId}" />
+                                            <f:ajax execute="amount" render="addUserBetErrorMessage" />
                                         </h:commandLink>
                                     </div>
                                 </div>

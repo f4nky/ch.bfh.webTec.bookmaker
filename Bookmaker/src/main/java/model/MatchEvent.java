@@ -18,6 +18,7 @@ public class MatchEvent {
     public static final String COLUMN_NAME_TEAM_AWAY_ID = "teamAwayId";
     public static final String COLUMN_NAME_SCORE_TEAM_HOME = "scoreTeamHome";
     public static final String COLUMN_NAME_SCORE_TEAM_AWAY = "scoreTeamAway";
+    public static final String COLUMN_NAME_IS_FINISHED = "isFinished";
 
     @GeneratedValue
     @Id
@@ -47,7 +48,6 @@ public class MatchEvent {
     @Basic
     @Column(name = COLUMN_NAME_SCORE_TEAM_AWAY)
     private Integer scoreTeamAway;
-
 
     public Long getId() {
         return id;

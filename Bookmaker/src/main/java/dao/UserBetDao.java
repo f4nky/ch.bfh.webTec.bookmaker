@@ -1,9 +1,14 @@
 package dao;
 
 import beans.SessionBean;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
+import model.MatchBet;
+import model.MatchEvent;
+import model.User;
 import model.UserBet;
 
 import javax.persistence.EntityManager;
+import javax.persistence.OrderBy;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.util.List;
@@ -44,29 +49,32 @@ public class UserBetDao {
     }
 
     /**
-     * Gets all bets placed by the currently logged in user.
+     * Gets all bets placed by the given user.
      *
+     * @param user User to get all placed bets.
      * @return A list of UserBets
      * @since 27.12.2015
      */
-    public List<UserBet> getAllUserBets() {
-        Query query = entityManager.createQuery("SELECT ub FROM " + model.UserBet.TABLE_NAME + " ub " +
-                "WHERE ub." + model.UserBet.COLUMN_NAME_USER_ID + " = :userId");
-        query.setParameter("userId", SessionBean.getUser());
+    public List<UserBet> getAllUserBets(User user) {
+        Query query = entityManager.createQuery("SELECT ub FROM " + UserBet.TABLE_NAME + " ub " +
+                "WHERE ub." + UserBet.COLUMN_NAME_USER_ID + " = :userId" + " ORDER BY ub." + UserBet.COLUMN_NAME_MATCH_BET_ID + " ASC");
+        query.setParameter("userId", user);
+
         List<UserBet> userBets = query.getResultList();
         return userBets;
     }
 
     /**
-     * Gets all pending bets placed by the currently logged in user. A bet is pending as long as no match result has been entered.
+     * Gets all pending bets placed by the given user. A bet is pending as long as no match result has been entered.
      *
+     * @param user User to get all pending bets.
      * @return A list of pending UserBets
      * @since 27.12.2015
      */
-    public List<UserBet> getUserBetsPending() {
-        Query query = entityManager.createQuery("SELECT ub FROM " + model.UserBet.TABLE_NAME + " ub " +
-                "WHERE ub." + model.UserBet.COLUMN_NAME_USER_ID + " = :userId");
-        query.setParameter("userId", SessionBean.getUser());
+    public List<UserBet> getUserBetsPending(User user) {
+        Query query = entityManager.createQuery("SELECT ub FROM " + UserBet.TABLE_NAME + " ub " +
+                "WHERE ub." + UserBet.COLUMN_NAME_USER_ID + " = :userId");
+        query.setParameter("userId", user);
         List<UserBet> userBets = query.getResultList();
         return userBets;
     }
@@ -75,5 +83,15 @@ public class UserBetDao {
         entityManager.getTransaction().begin();
         entityManager.persist(userBet);
         entityManager.getTransaction().commit();
+    }
+
+    public List<UserBet> getUserBetsByMatchEvent(User user, MatchEvent matchEvent) {
+        Query query = entityManager.createQuery("SELECT ub FROM " + UserBet.TABLE_NAME + " ub " + "LEFT JOIN ub." + UserBet.COLUMN_NAME_MATCH_BET_ID +
+                " mb WHERE ub." + UserBet.COLUMN_NAME_USER_ID + " = :userId" + " AND mb." + MatchBet.COLUMN_NAME_MATCH_EVENT_ID + " = :matchEventId" + " ORDER BY ub." + UserBet.COLUMN_NAME_MATCH_BET_ID + " ASC");
+        query.setParameter("userId", user);
+        query.setParameter("matchEventId", matchEvent);
+
+        List<UserBet> userBets = query.getResultList();
+        return userBets;
     }
 }

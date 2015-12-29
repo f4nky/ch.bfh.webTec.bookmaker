@@ -26,7 +26,7 @@ import java.util.List;
 @RequestScoped
 public class ChampionshipBean implements Serializable {
     private List<MatchEvent> matchEventsComing;
-    private List<MatchEvent> matchEventsFinished;
+    private List<MatchEvent> matchEventsPast;
 
     @PostConstruct
     public List<MatchEvent> getMatchEventsComing() {
@@ -34,7 +34,7 @@ public class ChampionshipBean implements Serializable {
     }
 
     @PostConstruct
-    public List<MatchEvent> getMatchEventsFinished() {
-        return MatchEventDao.getInstance().getMatchesFinished();
+    public List<MatchEvent> getMatchEventsPast() {
+        return MatchEventDao.getInstance().getMatchesPast();
     }
 }
