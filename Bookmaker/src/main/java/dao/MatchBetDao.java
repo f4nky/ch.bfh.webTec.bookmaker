@@ -16,12 +16,13 @@ import java.util.List;
  *
  * <b>History:</b>
  * <pre>
- * 1.0	26.12.2015	Michael Fankhauser         Class created.
+ * 1.0	26.12.2015	Michael Fankhauser          Class created.
+ * 1.1  29.12.2015  Joel Holzer                 Added method {@link #getMatchBets(MatchEvent, boolean)}
  * </pre>
  *
- * @author Michael Fankhauser
- * @version 1.0
- * @since 26.12.2015
+ * @author Michael Fankhauser, Joel Holzer
+ * @version 1.1
+ * @since 29.12.2015
  */
 public class MatchBetDao {
 
@@ -57,6 +58,13 @@ public class MatchBetDao {
         return matchBets;
     }
 
+    /**
+     *
+     * @param matchEvent
+     * @param isActiveMatchBet
+     * @return
+     * @since 29.12.2015
+     */
     public List<MatchBet> getMatchBets(MatchEvent matchEvent, boolean isActiveMatchBet) {
         Query query = entityManager.createQuery("SELECT mb FROM " + MatchBet.TABLE_NAME + " mb WHERE mb.matchEventId = :matchEvent AND mb.isActive = :isActiveMatchBet");
         query.setParameter("matchEvent", matchEvent);

@@ -2,8 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <h:body>
         <ui:composition template="userLayout.xhtml">
@@ -15,6 +14,11 @@
                             <li class="active">
                                 <a href="#coming" data-toggle="pill">
                                     <i class="fa fa-fw fa-clock-o"></i> #{messages.matches_coming}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#inProgress" data-toggle="pill">
+                                    <i class="fa fa-fw fa-spinner"></i> #{messages.matches_inProgress}
                                 </a>
                             </li>
                             <li>
@@ -43,6 +47,48 @@
                                 <tbody>
                                 <ui:repeat value="#{championship.matchEventsComing}" var="matchEvent">
                                     <tr data-href="userMatchDetailComing.xhtml?matchEventId=#{matchEvent.id}">
+                                        <td>#{matchEvent.matchEventNr}</td>
+                                        <td>
+                                            <h:outputText value="#{matchEvent.matchEventDateTime}" >
+                                                <f:convertDateTime pattern="E, dd.MM. HH:mm" locale="de_DE" timeZone="Europe/Berlin" />
+                                            </h:outputText>
+                                        </td>
+                                        <td>
+                                            <p>#{matchEvent.stage.nameEn}</p>
+                                            <h:outputText value="#{messages.matches_group} #{matchEvent.matchEventGroup}" rendered="#{not empty matchEvent.matchEventGroup}" />
+                                        </td>
+                                        <td class="text-right">#{matchEvent.teamHome.nameEn}
+                                            <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamHome.nameEn}" />
+                                        </td>
+                                        <td class="text-center">
+                                            -
+                                        </td>
+                                        <td>
+                                            <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
+                                            #{matchEvent.teamAway.nameEn}
+                                        </td>
+                                        <td class="text-right">CHF #{matchBetBean.getTotalSetUserAmount(matchEvent)}</td>
+                                    </tr>
+                                </ui:repeat>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="inProgress">
+                            <table class="table table-responsive table-striped" id="matchesInProgress">
+                                <thead>
+                                <tr>
+                                    <th class="col-md-1">#</th>
+                                    <th class="col-md-2">#{messages.matches_datetime}</th>
+                                    <th class="col-md-2">#{messages.matches_stage}<br />#{messages.matches_group}</th>
+                                    <th class="col-md-2 text-right">#{messages.matches_home}</th>
+                                    <th class="col-md-1"></th>
+                                    <th class="col-md-2">#{messages.matches_away}</th>
+                                    <th class="col-md-2 text-right">#{messages.userMatches_amount_placed}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <ui:repeat value="#{championship.matchEventsInProgress}" var="matchEvent">
+                                    <tr data-href="userMatchDetailInProgress.xhtml?matchEventId=#{matchEvent.id}">
                                         <td>#{matchEvent.matchEventNr}</td>
                                         <td>
                                             <h:outputText value="#{matchEvent.matchEventDateTime}" >

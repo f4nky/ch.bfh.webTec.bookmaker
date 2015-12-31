@@ -24,11 +24,15 @@ import java.util.List;
  * <b>History:</b>
  * <pre>
  * 1.0	27.12.2015	Michael Fankhauser  Class created.
+ * 1.1  29.12.2015  Joel Holzer         Added the following methods: {@link #calculateMatchBetWinAmount},
+ *                                      {@link #getUserBetsByMatch}, {@link #getTotalSetAmount}, {@link #getMatchEvent},
+ *                                      {@link #getMatchBets}
+
  * </pre>
  *
- * @author Michael Fankhauser
- * @version 1.0
- * @since 27.12.2015
+ * @author Michael Fankhauser, Joel Holzer
+ * @version 1.1
+ * @since 29.12.2015
  */
 @ManagedBean(name = "userBetBean")
 @ViewScoped
@@ -39,7 +43,8 @@ public class UserBetBean implements Serializable {
     private String amount;
     private Double totalSetAmount;
     private List<MatchBet> matchBets;
-    private List<UserBet> allUserBets;
+    private List<UserBet> outstandingUserBets;
+    private List<UserBet> finishedUserBets;
     private List<UserBet> userBetsByMatch;
     private String addUserBetErrorMessage = null;
     @ManagedProperty(value="#{navigationBean}")
@@ -71,20 +76,6 @@ public class UserBetBean implements Serializable {
         this.amount = amount;
     }
 
-    public List<MatchBet> getMatchBets() {
-        if (matchBets == null) {
-            matchBets = MatchBetDao.getInstance().getMatchBets(matchEventId);
-        }
-        return matchBets;
-    }
-
-    public List<UserBet> getAllUserBets() {
-        if (allUserBets == null) {
-            allUserBets = UserBetDao.getInstance().getAllUserBets(SessionBean.getUser());
-        }
-        return allUserBets;
-    }
-
     public String getAddUserBetErrorMessage() {
         return addUserBetErrorMessage;
     }
@@ -101,6 +92,47 @@ public class UserBetBean implements Serializable {
         this.navigationBean = navigationBean;
     }
 
+    /**
+     *
+     * @return
+     * @since 29.12.2015
+     */
+    public List<MatchBet> getMatchBets() {
+        if (matchBets == null) {
+            matchBets = MatchBetDao.getInstance().getMatchBets(matchEventId);
+        }
+        return matchBets;
+    }
+
+    /**
+     *
+     * @return
+     * @since 31.12.2015
+     */
+    public List<UserBet> getOutstandingUserBets() {
+        if (outstandingUserBets == null) {
+            outstandingUserBets = UserBetDao.getInstance().getOutstandingUserBets(SessionBean.getUser());
+        }
+        return outstandingUserBets;
+    }
+
+    /**
+     *
+     * @return
+     * @since 31.12.2015
+     */
+    public List<UserBet> getFinishedUserBets() {
+        if (finishedUserBets == null) {
+            finishedUserBets = UserBetDao.getInstance().getFinishedUserBets(SessionBean.getUser());
+        }
+        return finishedUserBets;
+    }
+
+    /**
+     *
+     * @throws IOException
+     * @since 27.12.2015
+     */
     public void addUserBet() throws IOException {
         MatchBet matchBet = MatchBetDao.getInstance().findMatchBetById(matchBetId);
 
@@ -139,6 +171,11 @@ public class UserBetBean implements Serializable {
         return matchEvent;
     }
 
+    /**
+     *
+     * @return
+     * @since 29.12.2015
+     */
     public Double getTotalSetAmount() {
         List<UserBet> userBets = getUserBetsByMatch();
         Double totalAmount = 0.0;
@@ -148,6 +185,11 @@ public class UserBetBean implements Serializable {
         return totalAmount;
     }
 
+    /**
+     *
+     * @return
+     * @since 29.12.2015
+     */
     public List<UserBet> getUserBetsByMatch() {
         if (userBetsByMatch == null) {
             userBetsByMatch = UserBetDao.getInstance().getUserBetsByMatchEvent(SessionBean.getUser(), getMatchEvent());
@@ -155,6 +197,13 @@ public class UserBetBean implements Serializable {
         return userBetsByMatch;
     }
 
+    /**
+     *
+     * @param matchBetOdd
+     * @param setUserAmount
+     * @return
+     * @since 29.12.2015
+     */
     public double calculateMatchBetWinAmount(double matchBetOdd, double setUserAmount) {
         return matchBetOdd * setUserAmount;
     }

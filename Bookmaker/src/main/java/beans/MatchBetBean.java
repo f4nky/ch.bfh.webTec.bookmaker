@@ -1,6 +1,5 @@
 package beans;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import dao.MatchBetDao;
 import dao.MatchEventDao;
 import dao.UserBetDao;
@@ -26,11 +25,14 @@ import java.util.List;
  * 1.0	26.12.2015	Michael Fankhauser  Class created.
  * 1.1  28.12.2015  Joel Holzer         Updated method {@link #createMatchBet()} with validation routine. Added method
  *                                      {@link #getMatchEvent()}.
+ * 1.2  29.12.2015  Joel Holzer         Added the following methods: {@link #getMatchBets}, {@link #getTotalSetUserAmount},
+ *                                      {@link #getMatchBetsWithUserAmount}, {@link #getAllUserBetsForMatchEvent},
+ *                                      {@link #calculateMatchBetWinAmount}, {@link #calculateMatchEventWinLostAmount}
  * </pre>
  *
  * @author Joel Holzer
- * @version 1.1
- * @since 28.12.2015
+ * @version 1.2
+ * @since 29.12.2015
  */
 @ManagedBean(name = "matchBetBean")
 @ViewScoped
@@ -100,13 +102,6 @@ public class MatchBetBean implements Serializable {
         this.odds = odds;
     }
 
-    public List<MatchBet> getMatchBets() {
-        if (matchBets == null) {
-            matchBets = MatchBetDao.getInstance().getMatchBets(matchEventId);
-        }
-        return matchBets;
-    }
-
     public String getCreateBetErrorMessage() {
         return createBetErrorMessage;
     }
@@ -171,6 +166,24 @@ public class MatchBetBean implements Serializable {
         return matchEvent;
     }
 
+    /**
+     *
+     * @return
+     * @since 29.12.2015
+     */
+    public List<MatchBet> getMatchBets() {
+        if (matchBets == null) {
+            matchBets = MatchBetDao.getInstance().getMatchBets(matchEventId);
+        }
+        return matchBets;
+    }
+
+    /**
+     *
+     * @param matchEvent
+     * @return
+     * @since 29.12.2015
+     */
     public Double getTotalSetUserAmount(MatchEvent matchEvent) {
         List<UserBet> userBets = UserBetDao.getInstance().getUserBetsByMatchEvent(SessionBean.getUser(), matchEvent);
         Double totalAmount = 0.0;
@@ -180,44 +193,37 @@ public class MatchBetBean implements Serializable {
         return totalAmount;
     }
 
-    public List<MatchBet> getActiveMatchBetsWithUserAmount(MatchEvent matchEvent) {
-        List<MatchBet> activeMatchBetsWithUserAmount = MatchBetDao.getInstance().getMatchBets(matchEvent, true);
+    /**
+     *
+     * @param matchEvent
+     * @return
+     * @since 29.12.2015
+     */
+    public List<MatchBet> getMatchBetsWithUserAmount(MatchEvent matchEvent, boolean isActiveMatchBet) {
+        List<MatchBet> matchBetsWithUserAmount = MatchBetDao.getInstance().getMatchBets(matchEvent, isActiveMatchBet);
 
-        for (MatchBet activeMatchBet : activeMatchBetsWithUserAmount) {
-            activeMatchBet.setSetUserAmount(0);
+        for (MatchBet matchBet : matchBetsWithUserAmount) {
+            matchBet.setSetUserAmount(0);
             List<UserBet> userBets = getAllUserBetsForMatchEvent(matchEvent);
             if (userBets != null) {
                 for (UserBet userBet : userBets) {
-                    if (userBet.getMatchBetId().getId().equals(activeMatchBet.getId())) {
-                        double userAmount = activeMatchBet.getSetUserAmount();
+                    if (userBet.getMatchBetId().getId().equals(matchBet.getId())) {
+                        double userAmount = matchBet.getSetUserAmount();
                         userAmount += userBet.getAmount();
-                        activeMatchBet.setSetUserAmount(userAmount);
+                        matchBet.setSetUserAmount(userAmount);
                     }
                 }
             }
         }
-        return activeMatchBetsWithUserAmount;
+        return matchBetsWithUserAmount;
     }
 
-    public List<MatchBet> getNotActiveMatchBetsWithUserAmount(MatchEvent matchEvent) {
-        List<MatchBet> notActiveMatchBetsWithUserAmount = MatchBetDao.getInstance().getMatchBets(matchEvent, false);
-
-        for (MatchBet notActiveMatchBet : notActiveMatchBetsWithUserAmount) {
-            notActiveMatchBet.setSetUserAmount(0);
-            List<UserBet> userBets = getAllUserBetsForMatchEvent(matchEvent);
-            if (userBets != null) {
-                for (UserBet userBet : userBets) {
-                    if (userBet.getMatchBetId().getId().equals(notActiveMatchBet.getId())) {
-                        double userAmount = notActiveMatchBet.getSetUserAmount();
-                        userAmount += userBet.getAmount();
-                        notActiveMatchBet.setSetUserAmount(userAmount);
-                    }
-                }
-            }
-        }
-        return notActiveMatchBetsWithUserAmount;
-    }
-
+    /**
+     *
+     * @param matchEvent
+     * @return
+     * @since 29.12.2015
+     */
     public List<UserBet> getAllUserBetsForMatchEvent(MatchEvent matchEvent) {
         if (allUserBetsForThisMatchEvent == null || (allUserBetsForThisMatchEvent.size() > 0 &&
                 !allUserBetsForThisMatchEvent.get(0).getMatchBetId().getMatchEventId().getId().equals(matchEvent.getId()))) {
@@ -226,17 +232,30 @@ public class MatchBetBean implements Serializable {
         return allUserBetsForThisMatchEvent;
     }
 
+    /**
+     *
+     * @param matchBetOdd
+     * @param setUserAmount
+     * @return
+     * @since 29.12.2015
+     */
     public double calculateMatchBetWinAmount(double matchBetOdd, double setUserAmount) {
         return matchBetOdd * setUserAmount;
     }
 
+    /**
+     *
+     * @param matchEvent
+     * @return
+     * @since 29.12.2015
+     */
     public double calculateMatchEventWinLostAmount(MatchEvent matchEvent) {
         double lostAmount = 0.0;
         double winAmount = 0.0;
-        for (MatchBet notActiveMatchBet : getNotActiveMatchBetsWithUserAmount(matchEvent)) {
+        for (MatchBet notActiveMatchBet : getMatchBetsWithUserAmount(matchEvent, false)) {
             lostAmount += notActiveMatchBet.getSetUserAmount();
         }
-        for (MatchBet activeMatchBet : getActiveMatchBetsWithUserAmount(matchEvent)) {
+        for (MatchBet activeMatchBet : getMatchBetsWithUserAmount(matchEvent, true)) {
             winAmount += activeMatchBet.getOdds() * activeMatchBet.getSetUserAmount();
         }
         return winAmount - lostAmount;

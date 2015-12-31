@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.OrderBy;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,12 +22,13 @@ import java.util.List;
  * <p>
  * <b>History:</b>
  * <pre>
- * 1.0	27.12.2015	Michael Fankhauser         Class created.
+ * 1.0	27.12.2015	Michael Fankhauser          Class created.
+ * 1.1  29.12.2015  Joel Holzer                 Added the following methods: {@link #addUserBet}, {@link #getUserBetsByMatchEvent}
  * </pre>
  *
- * @author Michael Fankhauser
- * @version 1.0
- * @since 27.12.2015
+ * @author Michael Fankhauser, Joel Holzer
+ * @version 1.1
+ * @since 29.12.2015
  */
 public class UserBetDao {
 
@@ -65,26 +67,51 @@ public class UserBetDao {
     }
 
     /**
-     * Gets all pending bets placed by the given user. A bet is pending as long as no match result has been entered.
+     * Gets all outstanding bets placed by the given user. A bet is outstanding as long as no match result has been entered.
      *
      * @param user User to get all pending bets.
      * @return A list of pending UserBets
      * @since 27.12.2015
      */
-    public List<UserBet> getUserBetsPending(User user) {
+    public List<UserBet> getOutstandingUserBets(User user) {
         Query query = entityManager.createQuery("SELECT ub FROM " + UserBet.TABLE_NAME + " ub " +
-                "WHERE ub." + UserBet.COLUMN_NAME_USER_ID + " = :userId");
+                "WHERE ub.userId = :userId AND ub.matchBetId.matchEventId.scoreTeamHome IS NULL AND ub.matchBetId.matchEventId.scoreTeamAway IS NULL");
         query.setParameter("userId", user);
-        List<UserBet> userBets = query.getResultList();
-        return userBets;
+        return query.getResultList();
     }
 
+    /**
+     * Gets all finished bets placed by the given user. A bet is finished when the match result has been entered and the start date of the match is in the past.
+     * @param user User to get all finished bets.
+     * @return A list of finished UserBets
+     * @since 31.12.2015
+     */
+    public List<UserBet> getFinishedUserBets(User user) {
+        Query query = entityManager.createQuery("SELECT ub FROM " + UserBet.TABLE_NAME + " ub " +
+                "WHERE ub.userId = :userId AND ub.matchBetId.matchEventId.matchEventDateTime <= :dateNow AND ub.matchBetId.matchEventId.scoreTeamHome IS NOT NULL AND ub.matchBetId.matchEventId.scoreTeamAway IS NOT NULL");
+        query.setParameter("userId", user);
+        query.setParameter("dateNow", new Date());
+        return query.getResultList();
+    }
+
+    /**
+     *
+     * @param userBet
+     * @since 29.12.2015
+     */
     public void addUserBet(UserBet userBet) {
         entityManager.getTransaction().begin();
         entityManager.persist(userBet);
         entityManager.getTransaction().commit();
     }
 
+    /**
+     *
+     * @param user
+     * @param matchEvent
+     * @return
+     * @since 29.12.2015
+     */
     public List<UserBet> getUserBetsByMatchEvent(User user, MatchEvent matchEvent) {
         Query query = entityManager.createQuery("SELECT ub FROM " + UserBet.TABLE_NAME + " ub " + "LEFT JOIN ub." + UserBet.COLUMN_NAME_MATCH_BET_ID +
                 " mb WHERE ub." + UserBet.COLUMN_NAME_USER_ID + " = :userId" + " AND mb." + MatchBet.COLUMN_NAME_MATCH_EVENT_ID + " = :matchEventId" + " ORDER BY ub." + UserBet.COLUMN_NAME_MATCH_BET_ID + " ASC");

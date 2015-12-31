@@ -21,6 +21,12 @@ import java.util.List;
  */
 public class UserBetValidator {
 
+    /**
+     *
+     * @param amountOfUserBet
+     * @return
+     * @since 29.12.2015
+     */
     public List<ValidationFault> validateAddUserBet(String amountOfUserBet) {
 
         List<ValidationFault> validationFaults = new ArrayList<ValidationFault>();

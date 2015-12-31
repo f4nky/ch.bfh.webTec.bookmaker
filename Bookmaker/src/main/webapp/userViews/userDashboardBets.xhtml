@@ -2,31 +2,32 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <h:body>
         <ui:composition template="userLayout.xhtml">
             <ui:define name="metadata">
                 <f:metadata>
-                    <f:event type="preRenderView" listener="#{userBetBean.getAllUserBets}"/>
+                    <f:event type="preRenderView" listener="#{userBetBean.getOutstandingUserBets}"/>
+                    <f:event type="preRenderView" listener="#{userBetBean.getFinishedUserBets}"/>
                 </f:metadata>
             </ui:define>
-            <ui:param name="headline" value="Meine Wetten" />
+            <ui:param name="headline" value="#{messages.userDashboardBets_title}" />
             <ui:define name="content">
                 <div class="row">
-                    <!--<div class="col-md"-->
                 </div>
                 <div class="row top-buffer">
                     <div class="col-sm-12">
                         <ul class="nav nav-tabs">
                             <li class="active">
                                 <a href="#pending" data-toggle="pill">
-                                    <i class="fa fa-fw fa-clock-o"></i> Pendent
+                                    <i class="fa fa-fw fa-clock-o"></i> #{messages.userDashboardBets_outstanding_bets}
                                 </a>
                             </li>
                             <li>
                                 <a href="#finished" data-toggle="pill">
-                                    <i class="fa fa-fw fa-check-square-o"></i> Abgeschlossen
+                                    <i class="fa fa-fw fa-check-square-o"></i> #{messages.userDashboardBets_finished_bets}
                                 </a>
                             </li>
                         </ul>
@@ -38,15 +39,17 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th class="col-md-1">Datum</th>
-                                    <th class="col-md-6">Begegnung<br />Kriterium</th>
-                                    <th class="col-md-1 text-right">Quote</th>
-                                    <th class="col-md-2 text-right">Gesetzter Betrag</th>
-                                    <th class="col-md-2 text-right">Gew./Verl. Betrag</th>
+                                    <th class="col-md-1">#{messages.userDashboardBets_date}</th>
+                                    <th class="col-md-6">
+                                        #{messages.userDashboardBets_encounter}<br />
+                                        #{messages.userDashboardBets_criterion}
+                                    </th>
+                                    <th class="col-md-1 text-right">#{messages.userDashboardBets_odds}</th>
+                                    <th class="col-md-2 text-right">#{messages.userDashboardBets_amount_placed}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <ui:repeat value="#{userBetBean.allUserBets}" var="userBet">
+                                    <ui:repeat value="#{userBetBean.outstandingUserBets}" var="userBet">
                                         <tr>
                                             <td>
                                                 <h:outputText value="#{userBet.entryDateTime}" >
@@ -54,12 +57,18 @@
                                                 </h:outputText>
                                             </td>
                                             <td>
-                                                <p>Todo (Encounter)</p>
-                                                <p>Todo (Bet description</p>
+                                                <p>
+                                                    <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{userBet.matchBetId.matchEventId.teamHome.countryCode}.png" width="24px" rendered="#{not empty userBet.matchBetId.matchEventId.teamHome.nameEn}" />
+                                                    #{userBet.matchBetId.matchEventId.teamHome.nameEn} -
+                                                    #{userBet.matchBetId.matchEventId.teamAway.nameEn}
+                                                    <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{userBet.matchBetId.matchEventId.teamAway.countryCode}.png" width="24px" rendered="#{not empty userBet.matchBetId.matchEventId.teamAway.nameEn}" />
+                                                </p>
+                                                <p>
+                                                    #{userBet.matchBetId.descriptionEn}
+                                                </p>
                                             </td>
-                                            <td class="text-right">Todo (Odds)</td>
+                                            <td class="text-right">#{userBet.matchBetId.odds}</td>
                                             <td class="text-right">#{userBet.amount}</td>
-                                            <td class="text-right">Todo (Won/lost amount)</td>
                                         </tr>
                                     </ui:repeat>
                                 </tbody>
@@ -69,44 +78,49 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th class="col-md-1">Datum</th>
-                                        <th class="col-md-6">Begegnung<br />Kriterium</th>
-                                        <th class="col-md-1 text-right">Quote</th>
-                                        <th class="col-md-2 text-right">Gesetzter Betrag</th>
-                                        <th class="col-md-2 text-right">Gew./Verl. Betrag</th>
+                                        <th class="col-md-1">#{messages.userDashboardBets_date}</th>
+                                        <th class="col-md-6">
+                                            #{messages.userDashboardBets_encounter}<br />
+                                            #{messages.userDashboardBets_criterion}
+                                        </th>
+                                        <th class="col-md-1 text-right">#{messages.userDashboardBets_odds}</th>
+                                        <th class="col-md-2 text-right">#{messages.userDashboardBets_amount_placed}</th>
+                                        <th class="col-md-2 text-right">#{messages.userDashboardBets_amount_won_lost}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>15.11.15</td>
-                                        <td>
-                                            <a href="userMatchDetailComing.xhtml">Frankreich - Niederlande</a>
-                                            <p>Frankreich gewinnt</p>
-                                        </td>
-                                        <td class="text-right">1.2</td>
-                                        <td class="text-right">CHF 10.00</td>
-                                        <td class="text-right text-success">CHF +12.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01.12.15</td>
-                                        <td>
-                                            <a href="userMatchDetailComing.xhtml">Schweiz - Spanien</a>
-                                            <p>Schweiz führt zur Halbzeit</p>
-                                        </td>
-                                        <td class="text-right">3.0</td>
-                                        <td class="text-right">CHF 30.00</td>
-                                        <td class="text-right text-success">CHF +90.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>02.12.15</td>
-                                        <td>
-                                            <a href="#">Schweiz - Spanien</a>
-                                            <p>Spanien führt zur Halbzeit</p>
-                                        </td>
-                                        <td class="text-right">1.3</td>
-                                        <td class="text-right">CHF 20.00</td>
-                                        <td class="text-right text-danger">CHF -20.00</td>
-                                    </tr>
+                                    <ui:repeat value="#{userBetBean.finishedUserBets}" var="userBet">
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="#{userBet.entryDateTime}" >
+                                                    <f:convertDateTime pattern="dd.MM.yy" />
+                                                </h:outputText>
+                                            </td>
+                                            <td>
+                                                <p>
+                                                    <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{userBet.matchBetId.matchEventId.teamHome.countryCode}.png" width="24px" rendered="#{not empty userBet.matchBetId.matchEventId.teamHome.nameEn}" />
+                                                    #{userBet.matchBetId.matchEventId.teamHome.nameEn} -
+                                                    #{userBet.matchBetId.matchEventId.teamAway.nameEn}
+                                                    <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{userBet.matchBetId.matchEventId.teamAway.countryCode}.png" width="24px" rendered="#{not empty userBet.matchBetId.matchEventId.teamAway.nameEn}" />
+                                                </p>
+                                                <p>
+                                                    #{userBet.matchBetId.descriptionEn}
+                                                </p>
+                                            </td>
+                                            <td class="text-right">#{userBet.matchBetId.odds}</td>
+                                            <td class="text-right">#{userBet.amount}</td>
+                                            <h:panelGroup rendered="#{userBet.matchBetId.isActive eq true}">
+                                                <td class="text-right text-success">
+                                                    CHF +#{userBetBean.calculateMatchBetWinAmount(userBet.matchBetId.odds, userBet.amount)}
+                                                </td>
+                                            </h:panelGroup>
+                                            <h:panelGroup rendered="#{userBet.matchBetId.isActive eq false}">
+                                                <td class="text-right text-danger">
+                                                    CHF -#{userBet.amount}
+                                                </td>
+                                            </h:panelGroup>
+                                        </tr>
+                                    </ui:repeat>
                                 </tbody>
                             </table>
                         </div>

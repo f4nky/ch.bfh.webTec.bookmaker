@@ -13,11 +13,12 @@ import java.io.IOException;
  * <pre>
  * 1.0	17.12.2015	Joel Holzer     Class created.
  * 1.1  28.12.2015  Joel Holzer     Added method {@link #redirectToManagerMatchDetail(long)}
+ * 1.2  29.12.2015  Joel Holzer     Added method {@link #redirectToUserMatchDetail(long)}
  * </pre>
  *
  * @author Joel Holzer
- * @version 1.1
- * @since 17.12.2015
+ * @version 1.2
+ * @since 29.12.2015
  */
 @ManagedBean
 @SessionScoped
@@ -74,6 +75,12 @@ public class NavigationBean {
         FacesContext.getCurrentInstance().responseComplete();
     }
 
+    /**
+     *
+     * @param matchEventId
+     * @throws IOException
+     * @since 29.12.2015
+     */
     public void redirectToUserMatchDetail(long matchEventId) throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect(requestContextPath + USER_MATCH_DETAIL + "?matchEventId=" + matchEventId);
         FacesContext.getCurrentInstance().responseComplete();

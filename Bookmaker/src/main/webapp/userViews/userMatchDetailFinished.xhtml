@@ -71,7 +71,7 @@
                 <div class="tab-content col-sm-12">
                     <div class="tab-pane active" id="occurredCriteria">
                         <c:choose>
-                            <c:when test="${not empty matchBetBean.getActiveMatchBetsWithUserAmount(matchBetBean.matchEvent)}">
+                            <c:when test="${not empty matchBetBean.getMatchBetsWithUserAmount(matchBetBean.matchEvent, true)}">
                                 <table class="table table-responsive table-striped top-buffer">
                                     <thead>
                                     <tr>
@@ -82,7 +82,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <ui:repeat value="#{matchBetBean.getActiveMatchBetsWithUserAmount(matchBetBean.matchEvent)}" var="activeMatchBet">
+                                    <ui:repeat value="#{matchBetBean.getMatchBetsWithUserAmount(matchBetBean.matchEvent, true)}" var="activeMatchBet">
                                         <tr>
                                             <td>#{activeMatchBet.descriptionEn}</td>
                                             <td class="text-right">#{activeMatchBet.odds}</td>
@@ -100,7 +100,7 @@
                     </div>
                     <div class="tab-pane" id="notOccurredCriteria">
                         <c:choose>
-                            <c:when test="${not empty matchBetBean.getNotActiveMatchBetsWithUserAmount(matchBetBean.matchEvent)}">
+                            <c:when test="${not empty matchBetBean.getMatchBetsWithUserAmount(matchBetBean.matchEvent, false)}">
                                 <table class="table table-responsive table-striped top-buffer">
                                     <thead>
                                     <tr>
@@ -111,7 +111,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <ui:repeat value="#{matchBetBean.getNotActiveMatchBetsWithUserAmount(matchBetBean.matchEvent)}" var="notActiveMatchBet">
+                                    <ui:repeat value="#{matchBetBean.getMatchBetsWithUserAmount(matchBetBean.matchEvent, false)}" var="notActiveMatchBet">
                                         <tr>
                                             <td>#{notActiveMatchBet.descriptionEn}</td>
                                             <td class="text-right">#{notActiveMatchBet.odds}</td>

@@ -19,11 +19,12 @@ import java.util.List;
  * <pre>
  * 1.0	22.12.2015	Michael Fankhauser         Class created.
  * 1.1  27.12.2015  Michael Fankhauser         Method for finding a single matchEvent by id implemented.
+ * 1.2  31.12.2015  Joel Holzer                Method {@link #getMatchesInProgress} added.
  * </pre>
  *
- * @author Michael Fankhauser
- * @version 1.1
- * @since 27.12.2015
+ * @author Michael Fankhauser, Joel Holzer
+ * @version 1.2
+ * @since 31.12.2015
  */
 public class MatchEventDao {
 
@@ -46,38 +47,36 @@ public class MatchEventDao {
     }
 
     /**
-     * Gets all matches from the database and returns them.
-     * @return A List of Matches
-     * @since 22.12.2015
-     */
-    public List<MatchEvent> getMatches() {
-        Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m");
-        List<MatchEvent> matchEvents = query.getResultList();
-        return matchEvents;
-    }
-
-    /**
      * Gets only the coming matches from the database and returns them.
-     * @return A List of Matches
+     * @return A List of the coming matches
      * @since 25.12.2015
      */
     public List<MatchEvent> getMatchesComing() {
         Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m WHERE m.matchEventDateTime > :matchEventDateTime");
         query.setParameter("matchEventDateTime", new Date());
-        List<MatchEvent> matchEventsComing = query.getResultList();
-        return matchEventsComing;
+        return query.getResultList();
     }
 
     /**
-     * Gets only the matches which start date is in past from the database and returns them.
-     * @return A List of Matches
+     * Gets only the matches which start date is in past and their result is set from the database and returns them.
+     * @return A List of the past matches
      * @since 25.12.2015
      */
     public List<MatchEvent> getMatchesPast() {
-        Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m WHERE m.matchEventDateTime <= :dateNow");
+        Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m WHERE m.matchEventDateTime <= :dateNow AND m.scoreTeamAway IS NOT NULL AND m.scoreTeamHome IS NOT NULL");
         query.setParameter("dateNow", new Date());
-        List<MatchEvent> matchEventsFinished = query.getResultList();
-        return matchEventsFinished;
+        return query.getResultList();
+    }
+
+    /**
+     * Gets only the matches which start date is in past and their result is not set from the database and returns them.
+     * @return A List of the matches in progress
+     * @since 31.12.2015
+     */
+    public List<MatchEvent> getMatchesInProgress() {
+        Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m WHERE m.matchEventDateTime <= :dateNow AND m.scoreTeamAway IS NULL AND m.scoreTeamHome IS NULL");
+        query.setParameter("dateNow", new Date());
+        return query.getResultList();
     }
 
     /**

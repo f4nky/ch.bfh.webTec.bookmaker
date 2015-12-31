@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+<h:body>
+    <ui:composition template="userLayout.xhtml">
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:viewParam name="matchEventId" value="#{userBetBean.matchEventId}" />
+                <f:event type="preRenderView" listener="#{userBetBean.getMatchBets}"/>
+            </f:metadata>
+        </ui:define>
+        <ui:param name="headline" value="Details"/>
+        <ui:define name="content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <a href="userMatches.xhtml">&lt; #{messages.userMatchesDetails_back}</a>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="well well-sm col-md-12">
+                    <div class="col-md-4">
+                        <strong>#{messages.userMatchesDetails_encounter}</strong>
+                        <p>#{userBetBean.matchEvent.teamHome.nameEn} - #{userBetBean.matchEvent.teamAway.nameEn}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>#{messages.userMatchesDetails_amount_placed}</strong>
+                        <p>CHF #{userBetBean.totalSetAmount}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#newBets" data-toggle="pill">
+                                <i class="fa fa-fw fa-clock-o"></i> #{messages.userMatchesDetails_bets}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#savedBets" data-toggle="pill">
+                                <i class="fa fa-fw fa-check-square-o"></i> #{messages.userMatchesDetails_placed_bets_progress}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="tab-content col-sm-12">
+                    <div class="tab-pane active" id="newBets">
+                        <c:choose>
+                            <c:when test="${not empty userBetBean.matchBets}">
+                                <table class="table table-responsive table-striped top-buffer">
+                                    <thead>
+                                    <tr>
+                                        <th class="col-md-9">#{messages.userMatchesDetails_criterion}</th>
+                                        <th class="col-md-2 text-right">#{messages.userMatchesDetails_odds}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <ui:repeat value="#{userBetBean.matchBets}" var="matchBet">
+                                        <tr>
+                                            <td>#{matchBet.descriptionEn}</td>
+                                            <td class="text-right">#{matchBet.odds}</td>
+                                        </tr>
+                                    </ui:repeat>
+                                    </tbody>
+                                </table>
+                            </c:when>
+                            <c:otherwise>
+                                <p>#{messages.userMatchesDetails_no_bets}</p>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                    <div class="tab-pane" id="savedBets">
+                        <c:choose>
+                            <c:when test="${not empty userBetBean.userBetsByMatch}">
+                                <table class="table top-buffer">
+                                    <thead>
+                                    <tr>
+                                        <th class="col-md-1">#{messages.userMatchesDetails_date}</th>
+                                        <th class="col-md-6">#{messages.userMatchesDetails_criterion}</th>
+                                        <th class="col-md-1 text-right">#{messages.userMatchesDetails_odds}</th>
+                                        <th class="col-md-2 text-right">#{messages.userMatchesDetails_amount_placed}</th>
+                                        <th class="col-md-2 text-right">#{messages.userMatchesDetails_amount_won_occurrence}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <ui:repeat value="#{userBetBean.userBetsByMatch}" var="userBet">
+                                        <tr>
+                                            <td>
+                                                <h:outputText value="#{userBet.entryDateTime}" >
+                                                    <f:convertDateTime pattern="dd.MM.yy" />
+                                                </h:outputText>
+                                            </td>
+                                            <td>#{userBet.matchBetId.descriptionEn}</td>
+                                            <td class="text-right">#{userBet.matchBetId.odds}</td>
+                                            <td class="text-right">#{userBet.amount}</td>
+                                            <td class="text-right text-success">CHF +#{userBetBean.calculateMatchBetWinAmount(userBet.matchBetId.odds, userBet.amount)}</td>
+                                        </tr>
+                                    </ui:repeat>
+                                    </tbody>
+                                </table>
+                            </c:when>
+                            <c:otherwise>
+                                <p>#{messages.userMatchesDetails_no_placed_bets}</p>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>
