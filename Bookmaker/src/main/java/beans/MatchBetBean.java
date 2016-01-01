@@ -28,6 +28,7 @@ import java.util.List;
  * 1.2  29.12.2015  Joel Holzer         Added the following methods: {@link #getMatchBets}, {@link #getTotalSetUserAmount},
  *                                      {@link #getMatchBetsWithUserAmount}, {@link #getAllUserBetsForMatchEvent},
  *                                      {@link #calculateMatchBetWinAmount}, {@link #calculateMatchEventWinLostAmount}
+ * 1.3  01.01.2016  Joel Holzer         Added the following methods: {@link #getActiveMatchBets()}, {@link #getNotActiveMatchBets()}
  * </pre>
  *
  * @author Joel Holzer
@@ -45,6 +46,8 @@ public class MatchBetBean implements Serializable {
     private String descriptionIt;
     private String odds;
     private List<MatchBet> matchBets;
+    private List<MatchBet> activeMatchBets;
+    private List<MatchBet> notActiveMatchBets;
     private List<UserBet> allUserBetsForThisMatchEvent;
 
     private String createBetErrorMessage = null;
@@ -173,9 +176,33 @@ public class MatchBetBean implements Serializable {
      */
     public List<MatchBet> getMatchBets() {
         if (matchBets == null) {
-            matchBets = MatchBetDao.getInstance().getMatchBets(matchEventId);
+            matchBets = MatchBetDao.getInstance().getMatchBets(getMatchEvent());
         }
         return matchBets;
+    }
+
+    /**
+     *
+     * @return
+     * @since 01.01.2016
+     */
+    public List<MatchBet> getActiveMatchBets() {
+        if (activeMatchBets == null) {
+            activeMatchBets = MatchBetDao.getInstance().getMatchBets(getMatchEvent(), true);
+        }
+        return activeMatchBets;
+    }
+
+    /**
+     *
+     * @return
+     * @since 01.01.2016
+     */
+    public List<MatchBet> getNotActiveMatchBets() {
+        if (notActiveMatchBets == null) {
+            notActiveMatchBets = MatchBetDao.getInstance().getMatchBets(getMatchEvent(), false);
+        }
+        return notActiveMatchBets;
     }
 
     /**

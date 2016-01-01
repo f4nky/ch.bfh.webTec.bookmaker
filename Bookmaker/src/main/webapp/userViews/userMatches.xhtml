@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+>
 
     <h:body>
         <ui:composition template="userLayout.xhtml">
@@ -18,7 +19,7 @@
                             </li>
                             <li>
                                 <a href="#inProgress" data-toggle="pill">
-                                    <i class="fa fa-fw fa-spinner"></i> #{messages.matches_inProgress}
+                                    <i class="fa fa-fw fa-check-square-o"></i> #{messages.matches_inProgress}
                                 </a>
                             </li>
                             <li>
@@ -88,7 +89,7 @@
                                 </thead>
                                 <tbody>
                                 <ui:repeat value="#{championship.matchEventsInProgress}" var="matchEvent">
-                                    <tr data-href="userMatchDetailInProgress.xhtml?matchEventId=#{matchEvent.id}">
+                                    <tr data-href="userMatchDetailFinished.xhtml?matchEventId=#{matchEvent.id}">
                                         <td>#{matchEvent.matchEventNr}</td>
                                         <td>
                                             <h:outputText value="#{matchEvent.matchEventDateTime}" >
@@ -111,6 +112,12 @@
                                             #{matchEvent.teamAway.nameEn}
                                         </td>
                                         <td class="text-right">CHF #{matchBetBean.getTotalSetUserAmount(matchEvent)}</td>
+                                        <h:panelGroup rendered="#{matchBetBean.calculateMatchEventWinLostAmount(matchEvent) ge 0}">
+                                            <td class="text-right text-success">CHF +#{matchBetBean.calculateMatchEventWinLostAmount(matchEvent)}</td>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{matchBetBean.calculateMatchEventWinLostAmount(matchEvent) lt 0}">
+                                            <td class="text-right text-danger">CHF #{matchBetBean.calculateMatchEventWinLostAmount(matchEvent)}</td>
+                                        </h:panelGroup>
                                     </tr>
                                 </ui:repeat>
                                 </tbody>

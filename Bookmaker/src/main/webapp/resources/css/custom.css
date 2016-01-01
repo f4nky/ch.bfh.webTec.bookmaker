@@ -164,3 +164,8 @@ label {
 .form-horizontal .control-label {
     text-align: left !important;
 }
+
+.resultbox {
+    padding-left: 16px;
+    padding-right: 16px;
+}

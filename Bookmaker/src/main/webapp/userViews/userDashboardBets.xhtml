@@ -46,6 +46,7 @@
                                     </th>
                                     <th class="col-md-1 text-right">#{messages.userDashboardBets_odds}</th>
                                     <th class="col-md-2 text-right">#{messages.userDashboardBets_amount_placed}</th>
+                                    <th class="col-md-2 text-right">#{messages.userDashboardBets_amount_won_occurrence}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -58,10 +59,13 @@
                                             </td>
                                             <td>
                                                 <p>
+                                                    #{userBet.matchBetId.matchEventId.teamHome.nameEn}
                                                     <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{userBet.matchBetId.matchEventId.teamHome.countryCode}.png" width="24px" rendered="#{not empty userBet.matchBetId.matchEventId.teamHome.nameEn}" />
-                                                    #{userBet.matchBetId.matchEventId.teamHome.nameEn} -
-                                                    #{userBet.matchBetId.matchEventId.teamAway.nameEn}
+                                                    <span class="text-center resultbox">
+                                                         -
+                                                    </span>
                                                     <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{userBet.matchBetId.matchEventId.teamAway.countryCode}.png" width="24px" rendered="#{not empty userBet.matchBetId.matchEventId.teamAway.nameEn}" />
+                                                    #{userBet.matchBetId.matchEventId.teamAway.nameEn}
                                                 </p>
                                                 <p>
                                                     #{userBet.matchBetId.descriptionEn}
@@ -69,6 +73,9 @@
                                             </td>
                                             <td class="text-right">#{userBet.matchBetId.odds}</td>
                                             <td class="text-right">#{userBet.amount}</td>
+                                            <td class="text-right text-success">
+                                                CHF +#{userBetBean.calculateMatchBetWinAmount(userBet.matchBetId.odds, userBet.amount)}
+                                            </td>
                                         </tr>
                                     </ui:repeat>
                                 </tbody>
@@ -98,11 +105,19 @@
                                             </td>
                                             <td>
                                                 <p>
-                                                    <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{userBet.matchBetId.matchEventId.teamHome.countryCode}.png" width="24px" rendered="#{not empty userBet.matchBetId.matchEventId.teamHome.nameEn}" />
-                                                    #{userBet.matchBetId.matchEventId.teamHome.nameEn} -
-                                                    #{userBet.matchBetId.matchEventId.teamAway.nameEn}
-                                                    <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{userBet.matchBetId.matchEventId.teamAway.countryCode}.png" width="24px" rendered="#{not empty userBet.matchBetId.matchEventId.teamAway.nameEn}" />
-                                                </p>
+                                                    <span>
+                                                        #{userBet.matchBetId.matchEventId.teamHome.nameEn}
+                                                        <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{userBet.matchBetId.matchEventId.teamHome.countryCode}.png" width="24px" rendered="#{not empty userBet.matchBetId.matchEventId.teamHome.nameEn}" />
+                                                    </span>
+                                                    <span class="text-center resultbox">
+                                                        <h:outputText value="#{not empty userBet.matchBetId.matchEventId.scoreTeamHome ? userBet.matchBetId.matchEventId.scoreTeamHome : '-'}" /> :
+                                                        <h:outputText value="#{not empty userBet.matchBetId.matchEventId.scoreTeamAway ? userBet.matchBetId.matchEventId.scoreTeamAway : '-'}" />
+                                                    </span>
+                                                    <span>
+                                                        <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{userBet.matchBetId.matchEventId.teamAway.countryCode}.png" width="24px" rendered="#{not empty userBet.matchBetId.matchEventId.teamAway.nameEn}" />
+                                                        #{userBet.matchBetId.matchEventId.teamAway.nameEn}
+                                                    </span>
+                                                     </p>
                                                 <p>
                                                     #{userBet.matchBetId.descriptionEn}
                                                 </p>

@@ -99,7 +99,7 @@ public class UserBetBean implements Serializable {
      */
     public List<MatchBet> getMatchBets() {
         if (matchBets == null) {
-            matchBets = MatchBetDao.getInstance().getMatchBets(matchEventId);
+            matchBets = MatchBetDao.getInstance().getMatchBets(getMatchEvent());
         }
         return matchBets;
     }

@@ -6,48 +6,33 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <h:body>
-    <ui:composition template="userLayout.xhtml">
+    <ui:composition template="/template/defaultLayout.xhtml">
         <ui:define name="metadata">
             <f:metadata>
                 <f:viewParam name="matchEventId" value="#{matchBetBean.matchEventId}" />
-                <f:viewParam name="matchEventId" value="#{userBetBean.matchEventId}" />
+                <f:event type="preRenderView" listener="#{matchBetBean.getActiveMatchBets()}"/>
+                <f:event type="preRenderView" listener="#{matchBetBean.getNotActiveMatchBets()}"/>
             </f:metadata>
         </ui:define>
         <ui:param name="headline" value="Details"/>
         <ui:define name="content">
             <div class="row">
                 <div class="col-sm-12">
-                    <a href="userMatches.xhtml">&lt; #{messages.userMatchesDetails_back}</a>
+                    <a href="matches.xhtml">&lt; #{messages.matchesDetail_back}</a>
                 </div>
             </div>
             <div class="row top-buffer">
                 <div class="well well-sm col-md-12">
                 <div class="col-md-4">
-                    <strong>#{messages.userMatchesDetails_encounter}</strong>
+                    <strong>#{messages.matchesDetail_encounter}</strong>
                     <p>#{matchBetBean.matchEvent.teamHome.nameEn} - #{matchBetBean.matchEvent.teamAway.nameEn}</p>
                 </div>
                     <div class="col-md-4">
-                        <strong>#{messages.userMatchesDetails_result}</strong>
+                        <strong>#{messages.matchesDetail_result}</strong>
                         <p>
                             #{matchBetBean.matchEvent.scoreTeamHome} : #{matchBetBean.matchEvent.scoreTeamAway}
                         </p>
                     </div>
-                <div class="col-md-4">
-                    <strong>#{messages.userMatchesDetails_amount_placed}</strong>
-                    <p>CHF #{userBetBean.totalSetAmount}</p>
-                </div>
-                <div class="col-md-4">
-                    <strong>#{messages.userMatchesDetails_amount_won_lost}</strong>
-                    <c:set var="winLostAmount" value="#{matchBetBean.calculateMatchEventWinLostAmount(matchBetBean.matchEvent)}" />
-                    <c:choose>
-                        <c:when test="${winLostAmount >= 0}">
-                            <p class="text-success">CHF +${winLostAmount}</p>
-                        </c:when>
-                        <c:otherwise>
-                            <p class="text-danger">CHF ${winLostAmount}</p>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
                 </div>
             </div>
             <div class="row top-buffer">
@@ -55,12 +40,12 @@
                     <ul class="nav nav-tabs">
                         <li class="active">
                             <a href="#occurredCriteria" data-toggle="pill">
-                                <i class="fa fa-fw fa-thumbs-up"></i> #{messages.userMatchesDetails_occurred_criteria}
+                                <i class="fa fa-fw fa-thumbs-up"></i> #{messages.matchesDetail_occurred_criteria}
                             </a>
                         </li>
                         <li>
                             <a href="#notOccurredCriteria" data-toggle="pill">
-                                <i class="fa fa-fw fa-thumbs-down"></i> #{messages.userMatchesDetails_not_occurred_criteria}
+                                <i class="fa fa-fw fa-thumbs-down"></i> #{messages.matchesDetail_not_occurred_criteria}
                             </a>
                         </li>
                     </ul>
@@ -70,59 +55,51 @@
                 <div class="tab-content col-sm-12">
                     <div class="tab-pane active" id="occurredCriteria">
                         <c:choose>
-                            <c:when test="${not empty matchBetBean.getMatchBetsWithUserAmount(matchBetBean.matchEvent, true)}">
+                            <c:when test="${not empty matchBetBean.activeMatchBets}">
                                 <table class="table table-responsive table-striped top-buffer">
                                     <thead>
                                     <tr>
-                                        <th class="col-md-6">#{messages.userMatchesDetails_criterion}</th>
-                                        <th class="col-md-1 text-right">#{messages.userMatchesDetails_odds}</th>
-                                        <th class="col-md-2 text-right">#{messages.userMatchesDetails_amount_placed}</th>
-                                        <th class="col-md-2 text-right">#{messages.userMatchesDetails_amount_won_lost}</th>
+                                        <th class="col-md-6">#{messages.matchesDetail_criterion}</th>
+                                        <th class="col-md-1 text-right">#{messages.matchesDetail_odds}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <ui:repeat value="#{matchBetBean.getMatchBetsWithUserAmount(matchBetBean.matchEvent, true)}" var="activeMatchBet">
+                                    <ui:repeat value="#{matchBetBean.activeMatchBets}" var="activeMatchBet">
                                         <tr>
                                             <td>#{activeMatchBet.descriptionEn}</td>
                                             <td class="text-right">#{activeMatchBet.odds}</td>
-                                            <td class="text-right">CHF #{activeMatchBet.setUserAmount}</td>
-                                            <td class="text-right text-success">CHF +#{matchBetBean.calculateMatchBetWinAmount(activeMatchBet.odds, activeMatchBet.setUserAmount)}</td>
                                         </tr>
                                     </ui:repeat>
                                     </tbody>
                                 </table>
                             </c:when>
                             <c:otherwise>
-                                <p>#{messages.userMatchesDetails_no_occurred_criteria}</p>
+                                <p>#{messages.matchesDetail_no_occurred_criteria}</p>
                             </c:otherwise>
                         </c:choose>
                     </div>
                     <div class="tab-pane" id="notOccurredCriteria">
                         <c:choose>
-                            <c:when test="${not empty matchBetBean.getMatchBetsWithUserAmount(matchBetBean.matchEvent, false)}">
+                            <c:when test="${not empty matchBetBean.notActiveMatchBets}">
                                 <table class="table table-responsive table-striped top-buffer">
                                     <thead>
                                     <tr>
-                                        <th class="col-md-6">#{messages.userMatchesDetails_criterion}</th>
-                                        <th class="col-md-1 text-right">#{messages.userMatchesDetails_odds}</th>
-                                        <th class="col-md-2 text-right">#{messages.userMatchesDetails_amount_placed}</th>
-                                        <th class="col-md-2 text-right">#{messages.userMatchesDetails_amount_won_lost}</th>
+                                        <th class="col-md-6">#{messages.matchesDetail_criterion}</th>
+                                        <th class="col-md-1 text-right">#{messages.matchesDetail_odds}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <ui:repeat value="#{matchBetBean.getMatchBetsWithUserAmount(matchBetBean.matchEvent, false)}" var="notActiveMatchBet">
+                                    <ui:repeat value="#{matchBetBean.notActiveMatchBets}" var="notActiveMatchBet">
                                         <tr>
                                             <td>#{notActiveMatchBet.descriptionEn}</td>
                                             <td class="text-right">#{notActiveMatchBet.odds}</td>
-                                            <td class="text-right">CHF #{notActiveMatchBet.setUserAmount}</td>
-                                            <td class="text-right text-danger">CHF -#{notActiveMatchBet.setUserAmount}</td>
                                         </tr>
                                     </ui:repeat>
                                     </tbody>
                                 </table>
                             </c:when>
                             <c:otherwise>
-                                <p>#{messages.userMatchesDetails_no_not_occurred_criteria}</p>
+                                <p>#{messages.matchesDetail_no_not_occurred_criteria}</p>
                             </c:otherwise>
                         </c:choose>
                     </div>

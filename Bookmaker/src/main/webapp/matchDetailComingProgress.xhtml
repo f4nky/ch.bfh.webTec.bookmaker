@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:body>
+    <ui:composition template="/template/defaultLayout.xhtml">
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:viewParam name="matchEventId" value="#{matchBetBean.matchEventId}" />
+                <f:event type="preRenderView" listener="#{matchBetBean.getMatchBets()}"/>
+            </f:metadata>
+        </ui:define>
+        <ui:param name="headline" value="Details"/>
+        <ui:define name="content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <a href="matches.xhtml">&lt; #{messages.matchesDetail_back}</a>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="well well-sm col-md-12">
+                    <div class="col-md-4">
+                        <strong>#{messages.matchesDetail_encounter}</strong>
+                        <p>#{matchBetBean.matchEvent.teamHome.nameEn} - #{matchBetBean.matchEvent.teamAway.nameEn}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a data-toggle="pill" href="#allBets">
+                                <i class="fa fa-fw fa-clock-o"></i> #{messages.matchesDetail_bets}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="tab-content col-sm-12">
+                    <div class="tab-pane active" id="allBets">
+                        <c:choose>
+                            <c:when test="${not empty matchBetBean.matchBets}">
+                                <table class="table table-responsive table-striped top-buffer">
+                                    <thead>
+                                    <tr>
+                                        <th class="col-md-9">#{messages.userMatchesDetails_criterion}</th>
+                                        <th class="col-md-2 text-right">#{messages.userMatchesDetails_odds}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <ui:repeat value="#{matchBetBean.matchBets}" var="matchBet">
+                                        <tr>
+                                            <td>#{matchBet.descriptionEn}</td>
+                                            <td class="text-right">#{matchBet.odds}</td>
+                                        </tr>
+                                    </ui:repeat>
+                                    </tbody>
+                                </table>
+                            </c:when>
+                            <c:otherwise>
+                                <p>#{messages.matchesDetail_no_bets}</p>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

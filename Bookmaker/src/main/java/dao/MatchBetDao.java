@@ -46,14 +46,13 @@ public class MatchBetDao {
 
     /**
      * Gets all matchBets for a specific matchEvent from the database and returns them.
+     * @param matchEvent Match event to get the matchBets.
      * @return A List of matchBets
      * @since 26.12.2015
      */
-    public List<MatchBet> getMatchBets(Long matchEventId) {
-        MatchEvent matchEvent = entityManager.find(MatchEvent.class, matchEventId);
-
-        Query query = entityManager.createQuery("SELECT mb FROM " + MatchBet.TABLE_NAME + " mb WHERE mb.matchEventId = :matchEventId");
-        query.setParameter("matchEventId", matchEvent);
+    public List<MatchBet> getMatchBets(MatchEvent matchEvent) {
+        Query query = entityManager.createQuery("SELECT mb FROM " + MatchBet.TABLE_NAME + " mb WHERE mb.matchEventId = :matchEvent");
+        query.setParameter("matchEvent", matchEvent);
         List<MatchBet> matchBets = query.getResultList();
         return matchBets;
     }
