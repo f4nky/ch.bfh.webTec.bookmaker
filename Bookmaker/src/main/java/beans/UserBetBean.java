@@ -3,9 +3,11 @@ package beans;
 import dao.MatchBetDao;
 import dao.MatchEventDao;
 import dao.UserBetDao;
+import dao.UserDao;
 import helpers.LanguageHelper;
 import model.MatchBet;
 import model.MatchEvent;
+import model.User;
 import model.UserBet;
 import validators.UserBetValidator;
 import validators.ValidationFault;
@@ -147,9 +149,14 @@ public class UserBetBean implements Serializable {
             userBet.setAmount(Double.parseDouble(amount));
             userBet.setEntryDateTime(new Date());
             userBet.setMatchBetId(matchBet);
-            userBet.setUserId(SessionBean.getUser());
+            User loggedInUser = SessionBean.getUser();
+            userBet.setUserId(loggedInUser);
             UserBetDao.getInstance().addUserBet(userBet);
-            //setAmount(null);
+
+            //Update saldo of user
+            loggedInUser.setSaldo(loggedInUser.getSaldo() - Double.parseDouble(amount));
+            UserDao.getInstance().updateSaldo(loggedInUser);
+
             addUserBetErrorMessage = null;
             navigationBean.redirectToUserMatchDetail(matchEventId);
         } else {

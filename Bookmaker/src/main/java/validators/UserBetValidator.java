@@ -1,5 +1,6 @@
 package validators;
 
+import beans.SessionBean;
 import model.MatchBet;
 import model.UserBet;
 
@@ -37,6 +38,8 @@ public class UserBetValidator {
             validationFaults.add(new ValidationFault(amountName, ValidationFault.EMTPY_CODE));
         } else if (!isNumeric(amountOfUserBet)) {
             validationFaults.add(new ValidationFault(amountName, ValidationFault.INCORRECT_CHAR_CODE));
+        } else if (Double.parseDouble(amountOfUserBet) > SessionBean.getUser().getSaldo()) {
+            validationFaults.add(new ValidationFault(amountName, ValidationFault.TO_SHORT_CODE));
         }
         return validationFaults;
     }
