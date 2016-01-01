@@ -28,11 +28,12 @@ import java.util.List;
  * 1.0	12.11.2015	Joel Holzer  Class created.
  * 1.1  23.12.2015  Joel Holzer  Added register fields (member variables) and methods. Added validation and translation for login.
  * 1.2  28.12.2015  Joel Holzer  Added fields (member variables) and methods for profile.
+ * 1.3  01.01.2016  Joel Holzer  Added field for the saldo of the user account.
  * </pre>
  *
  * @author Joel Holzer
- * @version 1.2
- * @since 28.12.2015
+ * @version 1.3
+ * @since 01.01.2016
  */
 @ManagedBean
 @RequestScoped
@@ -43,6 +44,7 @@ public class UserBean implements Serializable {
     private String lastName;
     private String password;
     private String passwordRepetition;
+    private double saldo;
 
     @ManagedProperty(value="#{navigationBean}")
     private NavigationBean navigationBean;
@@ -94,6 +96,10 @@ public class UserBean implements Serializable {
 
     public void setPasswordRepetition(String passwordRepetition) {
         this.passwordRepetition = passwordRepetition;
+    }
+
+    public double getSaldo() {
+        return saldo;
     }
 
     public NavigationBean getNavigationBean() {
@@ -152,6 +158,7 @@ public class UserBean implements Serializable {
             lastName = loggedInUser.getLastName();
             password = loggedInUser.getPassword();
             passwordRepetition = loggedInUser.getPassword();
+            saldo = loggedInUser.getSaldo();
         }
     }
 

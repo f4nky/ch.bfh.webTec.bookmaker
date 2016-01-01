@@ -20,11 +20,12 @@ import java.util.List;
  * 1.1  23.12.2015  Joel Holzer         Added method to create an user in the database. Added method to check if an user
  *                                      already exists.
  * 1.2  28.12.2015  Joel Holzer         Added method to update an user in the database.
+ * 1.3  01.01.2016  Joel Holzer         Added method to update the saldo of an user.
  * </pre>
  *
  * @author Joel Holzer
- * @version 1.2
- * @since 28.12.2015
+ * @version 1.3
+ * @since 01.01.2016
  */
 public class UserDao {
 
@@ -112,12 +113,25 @@ public class UserDao {
      * @since 28.12.2015
      */
     public void updateUser(User userToUpdate) {
-        User user = (User)entityManager.find(User.class, userToUpdate.getId());
+        User user = entityManager.find(User.class, userToUpdate.getId());
         entityManager.getTransaction().begin();
         user.setEmail(userToUpdate.getEmail());
         user.setFirstName(userToUpdate.getFirstName());
         user.setLastName(userToUpdate.getLastName());
         user.setPassword(userToUpdate.getPassword());
+        entityManager.getTransaction().commit();
+    }
+
+    /**
+     * Updates the saldo of the given user in the database. The given user contains the new saldo.
+     *
+     * @param userToUpdateSaldo User with the new saldo. Id must be the same as by the user to update.
+     * @since 01.01.2016
+     */
+    public void updateSaldo(User userToUpdateSaldo) {
+        User user = entityManager.find(User.class, userToUpdateSaldo.getId());
+        entityManager.getTransaction().begin();
+        user.setSaldo(userToUpdateSaldo.getSaldo());
         entityManager.getTransaction().commit();
     }
 }

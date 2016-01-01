@@ -14,11 +14,12 @@ import java.io.IOException;
  * 1.0	17.12.2015	Joel Holzer     Class created.
  * 1.1  28.12.2015  Joel Holzer     Added method {@link #redirectToManagerMatchDetail(long)}
  * 1.2  29.12.2015  Joel Holzer     Added method {@link #redirectToUserMatchDetail(long)}
+ * 1.3  01.01.2016  Joel Holzer     Added method {@link #redirectToUserAccount()}
  * </pre>
  *
  * @author Joel Holzer
- * @version 1.2
- * @since 29.12.2015
+ * @version 1.3
+ * @since 01.01.2016
  */
 @ManagedBean
 @SessionScoped
@@ -29,6 +30,7 @@ public class NavigationBean {
     public static final String MANAGER_HOME_PAGE = "/managerViews/managerHome.xhtml";
     public static final String MANAGER_MATCH_DETAIL = "/managerViews/managerMatchDetail.xhtml";
     public static final String USER_MATCH_DETAIL = "/userViews/userMatchDetailComing.xhtml";
+    public static final String USER_ACCOUNT = "/userViews/userDashboardAccount.xhtml";
 
     private static final String START_PAGE_WITH_INDEX = "/welcome.xhtml";
     private static final String REDIRECT_POSTFIX = "?faces-redirect=true";
@@ -65,7 +67,7 @@ public class NavigationBean {
     }
 
     /**
-     * Redirects to the match detail page of the match event with the given id.
+     * Redirects to the match detail page (manager-view) of the match event with the given id.
      *
      * @param matchEventId ID of the match event which details should shown.
      * @since 28.12.2015
@@ -76,13 +78,22 @@ public class NavigationBean {
     }
 
     /**
+     * Redirects to the match detail page (gambler-view) of the match event with the given id.
      *
-     * @param matchEventId
-     * @throws IOException
+     * @param matchEventId ID of the match event which details should shown.
      * @since 29.12.2015
      */
     public void redirectToUserMatchDetail(long matchEventId) throws IOException {
         FacesContext.getCurrentInstance().getExternalContext().redirect(requestContextPath + USER_MATCH_DETAIL + "?matchEventId=" + matchEventId);
+        FacesContext.getCurrentInstance().responseComplete();
+    }
+
+    /**
+     * Redirects to the account page of the user (gambler).
+     * @since 01.01.2016
+     */
+    public void redirectToUserAccount() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().redirect(requestContextPath + USER_ACCOUNT);
         FacesContext.getCurrentInstance().responseComplete();
     }
 }

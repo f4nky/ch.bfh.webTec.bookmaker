@@ -13,11 +13,12 @@ import javax.persistence.*;
  * 1.1  12.11.2015  Joel Holzer         Format code, Added comments.
  * 1.2  23.12.2015  Joel Holzer         Added new constructors.
  * 1.3  28.12.2015  Joel Holzer         Added new constructors.
+ * 1.4  01.01.2016  Joel Holzer         Added property for saldo.
  * </pre>
  *
  * @author Michael Fankhauser, Joel Holzer
- * @version 1.3
- * @since 28.12.2015
+ * @version 1.4
+ * @since 01.01.2016
  */
 @Entity
 public class User {
@@ -26,6 +27,7 @@ public class User {
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME_EMAIL = "email";
     public static final String COLUMN_NAME_PASSWORD = "password";
+    public static final String COLUMN_NAME_SALDO = "saldo";
 
     @GeneratedValue
     @Id
@@ -43,6 +45,9 @@ public class User {
     private String password;
     @Basic
     private Boolean isManager;
+    @Basic
+    @Column(name=COLUMN_NAME_SALDO, columnDefinition="DOUBLE default 0.00")
+    private Double  saldo = 0.00;
 
     /**
      * Empty constructor.
@@ -173,5 +178,23 @@ public class User {
      */
     public void setIsManager(Boolean isManager) {
         this.isManager = isManager;
+    }
+
+    /**
+     * Returns the saldo of the user.
+     * @return Saldo of the user.
+     * @since 01.01.2016
+     */
+    public Double getSaldo() {
+        return saldo;
+    }
+
+    /**
+     * Sets the saldo of the user.
+     * @param saldo Saldo to set.
+     * @since 01.01.2016
+     */
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
     }
 }

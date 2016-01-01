@@ -25,6 +25,7 @@ public class ValidationFault {
      * 2 = value is to long
      * 3 = value has incorrect characters
      * 4 = value already exist in database
+     * 5 = wrong number (just for credit card)
      */
     private byte faultCode;
 
@@ -33,6 +34,7 @@ public class ValidationFault {
     public static final byte TO_LONG_CODE = 2;
     public static final byte INCORRECT_CHAR_CODE = 3;
     public static final byte ALREADY_EXISTS_CODE = 4;
+    public static final byte WRONG_NUMBER = 5;
 
     public String getField() {
         return field;

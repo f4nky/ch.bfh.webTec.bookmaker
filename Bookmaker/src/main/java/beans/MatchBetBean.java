@@ -32,8 +32,8 @@ import java.util.List;
  * </pre>
  *
  * @author Joel Holzer
- * @version 1.2
- * @since 29.12.2015
+ * @version 1.3
+ * @since 01.01.2016
  */
 @ManagedBean(name = "matchBetBean")
 @ViewScoped
