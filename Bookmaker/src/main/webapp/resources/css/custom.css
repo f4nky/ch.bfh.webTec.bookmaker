@@ -42,6 +42,10 @@ label {
     margin-top: 20px;
 }
 
+.top-buffer-big {
+    margin-top: 40px;
+}
+
 .modal h4 {
     margin: 10px 0;
 }

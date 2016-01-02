@@ -17,6 +17,11 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="#inProgress" data-toggle="pill">
+                                    <i class="fa fa-fw fa-spinner"></i> #{messages.managerMatches_inProgress}
+                                </a>
+                            </li>
+                            <li>
                                 <a href="#finished" data-toggle="pill">
                                     <i class="fa fa-fw fa-check-square-o"></i> #{messages.managerMatches_finished}
                                 </a>
@@ -63,28 +68,28 @@
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
                                             #{matchEvent.teamAway.nameEn}
                                         </td>
-                                        <td class="text-right">CHF 50.00</td>
+                                        <td class="text-right">CHF #{championship.getTotalUserBetAmountByMatch(matchEvent)}</td>
                                     </tr>
                                 </ui:repeat>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="tab-pane" id="finished">
-                            <table class="table table-responsive table-striped" id="matchesFinished">
+                        <div class="tab-pane" id="inProgress">
+                            <table class="table table-responsive table-striped" id="matchesInProgress">
                                 <thead>
                                 <tr>
                                     <th class="col-md-1">#</th>
-                                    <th class="col-md-2">#{messages.matches_datetime}</th>
-                                    <th class="col-md-2">#{messages.matches_stage}<br />#{messages.matches_group}</th>
-                                    <th class="col-md-2 text-right">#{messages.matches_home}</th>
+                                    <th class="col-md-2">#{messages.managerMatches_datetime}</th>
+                                    <th class="col-md-2">#{messages.managerMatches_stage}<br />#{messages.managerMatches_group}</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatches_home}</th>
                                     <th class="col-md-1"></th>
-                                    <th class="col-md-2">#{messages.matches_away}</th>
-                                    <th class="col-md-2 text-right">#{messages.managerMatches_amount_won_lost}</th>
+                                    <th class="col-md-2">#{messages.managerMatches_away}</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatches_set_amount}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <ui:repeat value="#{championship.matchEventsPast}" var="matchEvent">
-                                    <tr>
+                                <ui:repeat value="#{championship.matchEventsInProgress}" var="matchEvent">
+                                    <tr data-href="managerMatchDetailInProgress.xhtml?matchEventId=#{matchEvent.id}">
                                         <td>#{matchEvent.matchEventNr}</td>
                                         <td>
                                             <h:outputText value="#{matchEvent.matchEventDateTime}" >
@@ -106,7 +111,55 @@
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
                                             #{matchEvent.teamAway.nameEn}
                                         </td>
-                                        <td class="text-right">CHF 50.00</td>
+                                        <td class="text-right">CHF #{championship.getTotalUserBetAmountByMatch(matchEvent)}</td>
+                                    </tr>
+                                </ui:repeat>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="finished">
+                            <table class="table table-responsive table-striped" id="matchesFinished">
+                                <thead>
+                                <tr>
+                                    <th class="col-md-1">#</th>
+                                    <th class="col-md-2">#{messages.matches_datetime}</th>
+                                    <th class="col-md-2">#{messages.matches_stage}<br />#{messages.matches_group}</th>
+                                    <th class="col-md-2 text-right">#{messages.matches_home}</th>
+                                    <th class="col-md-1"></th>
+                                    <th class="col-md-2">#{messages.matches_away}</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatches_amount_won_lost}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <ui:repeat value="#{championship.matchEventsPast}" var="matchEvent">
+                                    <tr data-href="managerMatchDetailFinished.xhtml?matchEventId=#{matchEvent.id}">
+                                        <td>#{matchEvent.matchEventNr}</td>
+                                        <td>
+                                            <h:outputText value="#{matchEvent.matchEventDateTime}" >
+                                                <f:convertDateTime pattern="E, dd.MM. HH:mm" locale="de_DE" />
+                                            </h:outputText>
+                                        </td>
+                                        <td>
+                                            <p>#{matchEvent.stage.nameEn}</p>
+                                            <h:outputText value="#{messages.matches_group} #{matchEvent.matchEventGroup}" rendered="#{not empty matchEvent.matchEventGroup}" />
+                                        </td>
+                                        <td class="text-right">#{matchEvent.teamHome.nameEn}
+                                            <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamHome.nameEn}" />
+                                        </td>
+                                        <td class="text-center">
+                                            <h:outputText value="#{not empty matchEvent.scoreTeamHome ? matchEvent.scoreTeamHome : '-'}" /> :
+                                            <h:outputText value="#{not empty matchEvent.scoreTeamAway ? matchEvent.scoreTeamAway : '-'}" />
+                                        </td>
+                                        <td>
+                                            <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
+                                            #{matchEvent.teamAway.nameEn}
+                                        </td>
+                                        <h:panelGroup rendered="#{championship.calculateManagerWinLostAmountByMatch(matchEvent) ge 0}">
+                                            <td class="text-right text-success">CHF +#{championship.calculateManagerWinLostAmountByMatch(matchEvent)}</td>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{championship.calculateManagerWinLostAmountByMatch(matchEvent) lt 0}">
+                                            <td class="text-right text-danger">CHF #{championship.calculateManagerWinLostAmountByMatch(matchEvent)}</td>
+                                        </h:panelGroup>
                                     </tr>
                                 </ui:repeat>
                                 </tbody>

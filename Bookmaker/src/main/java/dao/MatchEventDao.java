@@ -1,5 +1,6 @@
 package dao;
 
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import model.MatchEvent;
 
 import javax.persistence.EntityManager;
@@ -20,11 +21,12 @@ import java.util.List;
  * 1.0	22.12.2015	Michael Fankhauser         Class created.
  * 1.1  27.12.2015  Michael Fankhauser         Method for finding a single matchEvent by id implemented.
  * 1.2  31.12.2015  Joel Holzer                Method {@link #getMatchesInProgress} added.
+ * 1.3  02.01.2016  Joel Holzer                 Added method {@link #updateScores(MatchEvent)}
  * </pre>
  *
  * @author Michael Fankhauser, Joel Holzer
- * @version 1.2
- * @since 31.12.2015
+ * @version 1.3
+ * @since 02.01.2016
  */
 public class MatchEventDao {
 
@@ -86,5 +88,18 @@ public class MatchEventDao {
      */
     public MatchEvent findMatchEventById(Long matchEventId) {
         return entityManager.find(MatchEvent.class, matchEventId);
+    }
+
+    /**
+     *
+     * @param matchEventToUpdateScores
+     * @since 02.01.2016
+     */
+    public void updateScores(MatchEvent matchEventToUpdateScores) {
+        MatchEvent matchEvent = entityManager.find(MatchEvent.class, matchEventToUpdateScores.getId());
+        entityManager.getTransaction().begin();
+        matchEvent.setScoreTeamHome(matchEventToUpdateScores.getScoreTeamHome());
+        matchEvent.setScoreTeamAway(matchEventToUpdateScores.getScoreTeamAway());
+        entityManager.getTransaction().commit();
     }
 }

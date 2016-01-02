@@ -25,8 +25,8 @@ import java.util.List;
  * 1.0	26.12.2015	Michael Fankhauser  Class created.
  * 1.1  28.12.2015  Joel Holzer         Updated method {@link #createMatchBet()} with validation routine. Added method
  *                                      {@link #getMatchEvent()}.
- * 1.2  29.12.2015  Joel Holzer         Added the following methods: {@link #getMatchBets}, {@link #getTotalSetUserAmount},
- *                                      {@link #getMatchBetsWithUserAmount}, {@link #getAllUserBetsForMatchEvent},
+ * 1.2  29.12.2015  Joel Holzer         Added the following methods: {@link #getMatchBets}, {@link #getTotalSetUserAmountFromLoggedInUser},
+ *                                      {@link #getMatchBetsWithUserAmount}, {@link #getAllLoggedInUserBetsForMatchEvent},
  *                                      {@link #calculateMatchBetWinAmount}, {@link #calculateMatchEventWinLostAmount}
  * 1.3  01.01.2016  Joel Holzer         Added the following methods: {@link #getActiveMatchBets()}, {@link #getNotActiveMatchBets()}
  * </pre>
@@ -48,7 +48,9 @@ public class MatchBetBean implements Serializable {
     private List<MatchBet> matchBets;
     private List<MatchBet> activeMatchBets;
     private List<MatchBet> notActiveMatchBets;
-    private List<UserBet> allUserBetsForThisMatchEvent;
+    private List<MatchBet> activeMatchBetsWithUserAmount;
+    private List<MatchBet> notActiveMatchBetsWithUserAmount;
+    private List<UserBet> allLoggedInUserBetsForThisMatchEvent;
 
     private String createBetErrorMessage = null;
 
@@ -211,8 +213,22 @@ public class MatchBetBean implements Serializable {
      * @return
      * @since 29.12.2015
      */
-    public Double getTotalSetUserAmount(MatchEvent matchEvent) {
+    public Double getTotalSetUserAmountFromLoggedInUser(MatchEvent matchEvent) {
         List<UserBet> userBets = UserBetDao.getInstance().getUserBetsByMatchEvent(SessionBean.getUser(), matchEvent);
+        Double totalAmount = 0.0;
+        for (UserBet userBet : userBets) {
+            totalAmount += userBet.getAmount();
+        }
+        return totalAmount;
+    }
+
+    /**
+     *
+     * @return
+     * @since 01.01.2016
+     */
+    public Double getTotalSetAmountAllUsersByMatchBet(MatchBet matchBet) {
+        List<UserBet> userBets = UserBetDao.getInstance().getUserBetsByMatchBet(matchBet);
         Double totalAmount = 0.0;
         for (UserBet userBet : userBets) {
             totalAmount += userBet.getAmount();
@@ -226,23 +242,57 @@ public class MatchBetBean implements Serializable {
      * @return
      * @since 29.12.2015
      */
-    public List<MatchBet> getMatchBetsWithUserAmount(MatchEvent matchEvent, boolean isActiveMatchBet) {
-        List<MatchBet> matchBetsWithUserAmount = MatchBetDao.getInstance().getMatchBets(matchEvent, isActiveMatchBet);
+    public List<MatchBet> getActiveMatchBetsWithUserAmount(MatchEvent matchEvent) {
+        //Condition to minimize database requests
+        if (activeMatchBetsWithUserAmount == null || activeMatchBetsWithUserAmount.size() == 0 ||
+                (activeMatchBetsWithUserAmount.size() > 0 && activeMatchBetsWithUserAmount.get(0).getMatchEventId().getId() != matchEvent.getId())) {
+            activeMatchBetsWithUserAmount = MatchBetDao.getInstance().getMatchBets(matchEvent, true);
 
-        for (MatchBet matchBet : matchBetsWithUserAmount) {
-            matchBet.setSetUserAmount(0);
-            List<UserBet> userBets = getAllUserBetsForMatchEvent(matchEvent);
-            if (userBets != null) {
-                for (UserBet userBet : userBets) {
-                    if (userBet.getMatchBetId().getId().equals(matchBet.getId())) {
-                        double userAmount = matchBet.getSetUserAmount();
-                        userAmount += userBet.getAmount();
-                        matchBet.setSetUserAmount(userAmount);
+            for (MatchBet matchBet : activeMatchBetsWithUserAmount) {
+                matchBet.setSetUserAmount(0);
+                List<UserBet> userBets = getAllLoggedInUserBetsForMatchEvent(matchEvent);
+                if (userBets != null) {
+                    for (UserBet userBet : userBets) {
+                        if (userBet.getMatchBetId().getId().equals(matchBet.getId())) {
+                            double userAmount = matchBet.getSetUserAmount();
+                            userAmount += userBet.getAmount();
+                            matchBet.setSetUserAmount(userAmount);
+                        }
                     }
                 }
             }
         }
-        return matchBetsWithUserAmount;
+        return activeMatchBetsWithUserAmount;
+    }
+
+
+    /**
+     *
+     * @param matchEvent
+     * @return
+     * @since 29.12.2015
+     */
+    public List<MatchBet> getNotActiveMatchBetsWithUserAmount(MatchEvent matchEvent) {
+        //Condition to minimize database requests
+        if (notActiveMatchBetsWithUserAmount == null || notActiveMatchBetsWithUserAmount.size() == 0 ||
+                (notActiveMatchBetsWithUserAmount.size() > 0 && notActiveMatchBetsWithUserAmount.get(0).getMatchEventId().getId() != matchEvent.getId())) {
+            notActiveMatchBetsWithUserAmount = MatchBetDao.getInstance().getMatchBets(matchEvent, false);
+
+            for (MatchBet matchBet : notActiveMatchBetsWithUserAmount) {
+                matchBet.setSetUserAmount(0);
+                List<UserBet> userBets = getAllLoggedInUserBetsForMatchEvent(matchEvent);
+                if (userBets != null) {
+                    for (UserBet userBet : userBets) {
+                        if (userBet.getMatchBetId().getId().equals(matchBet.getId())) {
+                            double userAmount = matchBet.getSetUserAmount();
+                            userAmount += userBet.getAmount();
+                            matchBet.setSetUserAmount(userAmount);
+                        }
+                    }
+                }
+            }
+        }
+        return notActiveMatchBetsWithUserAmount;
     }
 
     /**
@@ -251,12 +301,12 @@ public class MatchBetBean implements Serializable {
      * @return
      * @since 29.12.2015
      */
-    public List<UserBet> getAllUserBetsForMatchEvent(MatchEvent matchEvent) {
-        if (allUserBetsForThisMatchEvent == null || (allUserBetsForThisMatchEvent.size() > 0 &&
-                !allUserBetsForThisMatchEvent.get(0).getMatchBetId().getMatchEventId().getId().equals(matchEvent.getId()))) {
-            allUserBetsForThisMatchEvent = UserBetDao.getInstance().getUserBetsByMatchEvent(SessionBean.getUser(), matchEvent);
+    public List<UserBet> getAllLoggedInUserBetsForMatchEvent(MatchEvent matchEvent) {
+        if (allLoggedInUserBetsForThisMatchEvent == null || allLoggedInUserBetsForThisMatchEvent.size() == 0 || (allLoggedInUserBetsForThisMatchEvent.size() > 0 &&
+                !allLoggedInUserBetsForThisMatchEvent.get(0).getMatchBetId().getMatchEventId().getId().equals(matchEvent.getId()))) {
+            allLoggedInUserBetsForThisMatchEvent = UserBetDao.getInstance().getUserBetsByMatchEvent(SessionBean.getUser(), matchEvent);
         }
-        return allUserBetsForThisMatchEvent;
+        return allLoggedInUserBetsForThisMatchEvent;
     }
 
     /**
@@ -279,10 +329,12 @@ public class MatchBetBean implements Serializable {
     public double calculateMatchEventWinLostAmount(MatchEvent matchEvent) {
         double lostAmount = 0.0;
         double winAmount = 0.0;
-        for (MatchBet notActiveMatchBet : getMatchBetsWithUserAmount(matchEvent, false)) {
+        for (MatchBet notActiveMatchBet : getNotActiveMatchBetsWithUserAmount(matchEvent)) {
             lostAmount += notActiveMatchBet.getSetUserAmount();
         }
-        for (MatchBet activeMatchBet : getMatchBetsWithUserAmount(matchEvent, true)) {
+
+        List<MatchBet> activeMatchBets = getActiveMatchBetsWithUserAmount(matchEvent);
+        for (MatchBet activeMatchBet : activeMatchBets) {
             winAmount += activeMatchBet.getOdds() * activeMatchBet.getSetUserAmount();
         }
         return winAmount - lostAmount;

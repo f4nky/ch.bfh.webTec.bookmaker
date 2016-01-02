@@ -37,7 +37,7 @@
             </div>
             <div class="row top-buffer">
                 <div class="col-md-12">
-                    <button class="btn btn-default" data-toggle="modal" data-target="#newMatchBetModal">#{messages.managerMatchesDetail_new_bet}</button>
+                    <button class="btn btn-default" data-toggle="modal" data-target="#finishMatchModal">#{messages.managerMatchesDetail_finish_match}</button>
                 </div>
             </div>
             <div class="row top-buffer">
@@ -58,19 +58,15 @@
                                         <table class="table table-responsive table-striped">
                                             <thead>
                                             <tr>
-                                                <th class="col-md-1 text-right"></th>
                                                 <th class="col-md-7">#{messages.managerMatchesDetail_desc}</th>
-                                                <th class="col-md-2 text-right">#{messages.managerMatchesDetail_odds}</th>
-                                                <th class="col-md-2 text-right">#{messages.managerMatchesDetail_amount_placed_bets}</th>
-                                                <th class="col-md-2 text-right">#{messages.managerMatchesDetail_amount_payout_on_occurrence}</th>
+                                                <th class="col-md-1 text-right">#{messages.managerMatchesDetail_odds}</th>
+                                                <th class="col-md-1 text-right">#{messages.managerMatchesDetail_amount_placed_bets}</th>
+                                                <th class="col-md-1 text-right">#{messages.managerMatchesDetail_amount_payout_on_occurrence}</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <ui:repeat value="#{matchBetBean.matchBets}" var="matchBet">
                                                 <tr>
-                                                    <td class="text-right">
-                                                        <a href="#"><i class="fa fa-pencil-square-o"></i></a>
-                                                    </td>
                                                     <td>#{matchBet.descriptionEn}</td>
                                                     <td class="text-right">#{matchBet.odds}</td>
                                                     <td class="text-right">#{matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet)}</td>
@@ -90,51 +86,67 @@
                     </div>
                 </div>
             </div>
-
-            <div id="newMatchBetModal" class="modal fade" tabindex="-1" aria-hidden="true">
+            <div id="finishMatchModal" class="modal fade" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4>#{messages.managerMatchesDetail_new_bet}</h4>
+                            <h4>#{messages.managerMatchesDetail_finish_match}</h4>
                         </div>
                         <div class="modal-body">
-                            <h:panelGroup layout="block" id="createBetErrorMessage" class="form-group">
-                                <h:outputText escape="false" class="errorbox" rendered="#{matchBetBean.createBetErrorMessage !=null}" value="#{matchBetBean.createBetErrorMessage}"/>
+                            <h:panelGroup layout="block" id="finishMatchErrorMessage" class="form-group">
+                                <h:outputText escape="false" class="errorbox" rendered="#{championship.finishMatchErrorMessage != null}" value="#{championship.finishMatchErrorMessage}"/>
                             </h:panelGroup>
-                            <h:form class="form-horizontal" id="newMatchBetForm">
+                            <h:form class="form-horizontal" id="finishMatchForm">
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">#{messages.form_newBet_descEn}</label>
-                                    <div class="col-md-9">
-                                        <h:inputText class="form-control" id="descEn" value="#{matchBetBean.descriptionEn}" p:placeholder="#{messages.form_newBet_descEn}"/>
+                                    <label class="col-md-8">
+                                        <strong>#{messages.form_finishMatch_result}</strong>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">#{messages.form_finishMatch_scoreHome} (#{matchBetBean.matchEvent.teamHome.nameEn})</label>
+                                    <div class="col-md-2">
+                                        <h:inputText class="form-control" id="scoreHome" value="#{championship.scoreTeamHome}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">#{messages.form_newBet_descDe}</label>
-                                    <div class="col-md-9">
-                                        <h:inputText class="form-control" id="descDe" value="#{matchBetBean.descriptionDe}" p:placeholder="#{messages.form_newBet_descDe}"/>
+                                    <label class="col-md-4 control-label">#{messages.form_finishMatch_scoreAway} (#{matchBetBean.matchEvent.teamAway.nameEn})</label>
+                                    <div class="col-md-2">
+                                        <h:inputText class="form-control" id="scoreAway" value="#{championship.scoreTeamAway}"/>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">#{messages.form_newBet_descFr}</label>
-                                    <div class="col-md-9">
-                                        <h:inputText class="form-control" id="descFr" value="#{matchBetBean.descriptionFr}" p:placeholder="#{messages.form_newBet_descFr}"/>
-                                    </div>
+                                <div class="form-group top-buffer-big">
+                                    <label class="col-md-8">
+                                        <strong>#{messages.form_finishMatch_betresults}</strong>
+                                    </label>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">#{messages.form_newBet_descIt}</label>
-                                    <div class="col-md-9">
-                                        <h:inputText class="form-control" id="descIt" value="#{matchBetBean.descriptionIt}" p:placeholder="#{messages.form_newBet_descIt}"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">#{messages.form_newBet_odds}</label>
-                                    <div class="col-md-3">
-                                        <h:inputText class="form-control" id="odds" value="#{matchBetBean.odds}" p:placeholder="#{messages.form_newBet_odds}"/>
-                                    </div>
-                                </div>
-                                <h:commandLink class="btn btn-info btn-fill btn-block" id="saveBtn" value="#{messages.btn_save}" action="#{matchBetBean.createMatchBet}">
-                                    <f:ajax execute="descEn descDe descFr descIt odds" render="createBetErrorMessage availableBets" />
+                                <c:choose>
+                                    <c:when test="${not empty matchBetBean.matchBets}">
+                                        <table class="table table-responsive table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th class="col-md-7">#{messages.managerMatchesDetail_desc}</th>
+                                                <th class="col-md-1 text-center">#{messages.managerMatchesDetail_occurred}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <ui:repeat value="#{matchBetBean.matchBets}" var="matchBet" id="matchBets">
+                                                <tr>
+                                                    <td>#{matchBet.descriptionEn}</td>
+                                                    <td class="text-center">
+                                                        <h:selectBooleanCheckbox value="#{matchBet.isActive}"/>
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+                                            </tbody>
+                                        </table>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p>#{messages.managerMatchesDetail_no_bets}</p>
+                                    </c:otherwise>
+                                </c:choose>
+                                <h:commandLink class="btn btn-info btn-fill btn-block" id="saveBtn" value="#{messages.form_finishMatch_finish}" action="#{championship.finishMatch(matchBetBean.matchEvent, matchBetBean.matchBets)}">
+                                    <f:ajax execute="scoreHome scoreAway matchBets" render="finishMatchErrorMessage" />
                                 </h:commandLink>
                             </h:form>
                         </div>

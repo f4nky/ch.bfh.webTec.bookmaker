@@ -17,15 +17,15 @@ import java.util.List;
  * <b>History:</b>
  * <pre>
  * 1.0	12.11.2015	Joel Holzer         Class created.
- * 1.1  23.12.2015  Joel Holzer         Added method to create an user in the database. Added method to check if an user
- *                                      already exists.
- * 1.2  28.12.2015  Joel Holzer         Added method to update an user in the database.
- * 1.3  01.01.2016  Joel Holzer         Added method to update the saldo of an user.
+ * 1.1  23.12.2015  Joel Holzer         Added method {@link #checkIfUserWithEmailExists}
+ * 1.2  28.12.2015  Joel Holzer         Added methods {@link #updateUser} and
+ * 1.3  01.01.2016  Joel Holzer         Added method {@link #updateSaldo}
+ * 1.4  02.01.2016  Joel Holzer         Added method {@link #addAmountToSaldo}
  * </pre>
  *
  * @author Joel Holzer
- * @version 1.3
- * @since 01.01.2016
+ * @version 1.4
+ * @since 02.01.2016
  */
 public class UserDao {
 
@@ -82,6 +82,14 @@ public class UserDao {
         return false;
     }
 
+    /**
+     * Checks if another user (another than the user with the given id) with the given email address exists.
+     *
+     * @param id All other users than the user with this id will check against the email address.
+     * @param email Email address to check with the other users.
+     * @return True if another user with the given email address exists, false if not.
+     * @since 28.12.2015
+     */
     public boolean checkIfOtherUserWithEmailExists(long id, String email) {
         Query query = entityManager.createQuery("SELECT u FROM " + User.TABLE_NAME + " u WHERE u." + User.COLUMN_ID + " != :id AND u." + User.COLUMN_NAME_EMAIL + " = :email");
         query.setParameter("id", id);
@@ -132,6 +140,19 @@ public class UserDao {
         User user = entityManager.find(User.class, userToUpdateSaldo.getId());
         entityManager.getTransaction().begin();
         user.setSaldo(userToUpdateSaldo.getSaldo());
+        entityManager.getTransaction().commit();
+    }
+
+    /**
+     * Add up the given amount to the saldo of the user with the given userId.
+     * @param userId Id of the user to add up his saldo.
+     * @param amountToAdd Amount to add to the saldo of the user.
+     * @since 02.01.2016
+     */
+    public void addAmountToSaldo(long userId, double amountToAdd) {
+        User user = entityManager.find(User.class, userId);
+        entityManager.getTransaction().begin();
+        user.setSaldo(user.getSaldo() + amountToAdd);
         entityManager.getTransaction().commit();
     }
 }

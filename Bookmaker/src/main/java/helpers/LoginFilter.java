@@ -62,7 +62,7 @@ public class LoginFilter implements Filter {
             if (((User) session.getAttribute(SessionBean.USER_KEY)).getIsManager()) {
                 //Start page request --> start manager home page
                 if (requestURI.equals(NavigationBean.START_PAGE_WITHOUT_INDEX)) {
-                    servletResponse.sendRedirect(servletRequest.getContextPath() + NavigationBean.MANAGER_HOME_PAGE);
+                    servletResponse.sendRedirect(servletRequest.getContextPath() + NavigationBean.MANAGER_MATCHES);
                 } else {
                     chain.doFilter(request, response);
                 }
@@ -71,7 +71,7 @@ public class LoginFilter implements Filter {
             else {
                 //Start page request --> start manager home page
                 if (requestURI.equals(NavigationBean.START_PAGE_WITHOUT_INDEX)) {
-                    servletResponse.sendRedirect(servletRequest.getContextPath() + NavigationBean.USER_HOME_PAGE);
+                    servletResponse.sendRedirect(servletRequest.getContextPath() + NavigationBean.USER_BETS);
                 } else {
                     chain.doFilter(request, response);
                 }

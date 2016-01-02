@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+<h:body>
+    <ui:composition template="managerLayout.xhtml">
+        <ui:define name="metadata">
+            <f:metadata>
+                <f:viewParam name="matchEventId" value="#{matchBetBean.matchEventId}" />
+                <f:event type="preRenderView" listener="#{matchBetBean.getMatchBets}"/>
+            </f:metadata>
+        </ui:define>
+        <ui:param name="headline" value="#{messages.managerMatchesDetail_title}" />
+        <ui:define name="content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <a href="managerMatches.xhtml">&lt; #{messages.managerMatchesDetail_back}</a>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="well well-sm col-md-12">
+                    <div class="col-md-4">
+                        <strong>#{messages.managerMatchesDetails_encounter}</strong>
+                        <p>
+                            #{matchBetBean.matchEvent.teamHome.nameEn} - #{matchBetBean.matchEvent.teamAway.nameEn}
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <strong>#{messages.managerMatchesDetail_total_amount_placed_bets}</strong>
+                        <p>CHF #{championship.getTotalUserBetAmountByMatch(matchBetBean.matchEvent)}</p>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <strong>#{messages.managerMatchesDetail_actual_profit_loss}</strong>
+                        <c:set var="winLostAmount" value="#{championship.calculateManagerWinLostAmountByMatch(matchBetBean.matchEvent)}" />
+                        <c:choose>
+                            <c:when test="${winLostAmount >= 0}">
+                                <p class="text-success">CHF +${winLostAmount}</p>
+                            </c:when>
+                            <c:otherwise>
+                                <p class="text-danger">CHF ${winLostAmount}</p>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="col-sm-12">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#allBets" data-toggle="pill">#{messages.managerMatchesDetail_bets}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row top-buffer">
+                <div class="tab-content col-sm-12">
+                    <div class="tab-pane active" id="newBets">
+                        <h:panelGroup layout="block" id="availableBets">
+                                <c:choose>
+                                    <c:when test="${not empty matchBetBean.matchBets}">
+                                        <table class="table table-responsive table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th class="col-md-7">#{messages.managerMatchesDetail_desc}</th>
+                                                <th class="col-md-1 text-center">#{messages.managerMatchesDetail_occurred}</th>
+                                                <th class="col-md-1 text-right">#{messages.managerMatchesDetail_odds}</th>
+                                                <th class="col-md-1 text-right">#{messages.managerMatchesDetail_amount_placed_bets}</th>
+                                                <th class="col-md-1 text-right">#{messages.managerMatchesDetail_amount_won_lost}</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <ui:repeat value="#{matchBetBean.matchBets}" var="matchBet">
+                                                <tr>
+                                                    <h:form>
+                                                        <td>#{matchBet.descriptionEn}</td>
+                                                        <td class="text-center">
+                                                            <h:selectBooleanCheckbox value="#{matchBet.isActive}" onclick="return false"/>
+                                                        </td>
+                                                        <td class="text-right">#{matchBet.odds}</td>
+                                                        <td class="text-right">#{matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet)}</td>
+                                                        <h:panelGroup rendered="#{matchBet.isActive eq true}">
+                                                            <td class="text-right text-danger">CHF -#{matchBetBean.calculateMatchBetWinAmount(matchBet.odds, matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet))}</td>
+                                                        </h:panelGroup>
+                                                        <h:panelGroup rendered="#{matchBet.isActive eq false}">
+                                                            <td class="text-right text-success">CHF +#{matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet)}</td>
+                                                        </h:panelGroup>
+                                                    </h:form>
+                                                </tr>
+                                            </ui:repeat>
+                                            </tbody>
+                                        </table>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p>#{messages.managerMatchesDetail_no_bets}</p>
+                                    </c:otherwise>
+                                </c:choose>
+                        </h:panelGroup>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

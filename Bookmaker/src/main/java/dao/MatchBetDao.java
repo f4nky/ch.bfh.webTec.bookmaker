@@ -17,12 +17,14 @@ import java.util.List;
  * <b>History:</b>
  * <pre>
  * 1.0	26.12.2015	Michael Fankhauser          Class created.
- * 1.1  29.12.2015  Joel Holzer                 Added method {@link #getMatchBets(MatchEvent, boolean)}
+ * 1.1  29.12.2015  Joel Holzer                 Added methods {@link #getMatchBets(MatchEvent, boolean)} and
+ *                                              {@link #createMatchBet(MatchBet)}
+ * 1.2  02.01.2016  Joel Holzer                 Added method {@link #updateIsActive(MatchBet)}
  * </pre>
  *
  * @author Michael Fankhauser, Joel Holzer
- * @version 1.1
- * @since 29.12.2015
+ * @version 1.2
+ * @since 02.01.2016
  */
 public class MatchBetDao {
 
@@ -81,9 +83,26 @@ public class MatchBetDao {
         return entityManager.find(MatchBet.class, matchBetId);
     }
 
+    /**
+     *
+     * @param newMatchBet
+     * @since 29.12.2015
+     */
     public void createMatchBet(MatchBet newMatchBet) {
         entityManager.getTransaction().begin();
         entityManager.persist(newMatchBet);
+        entityManager.getTransaction().commit();
+    }
+
+    /**
+     *
+     * @param matchBetToUpdate
+     * @since 02.01.2016
+     */
+    public void updateIsActive(MatchBet matchBetToUpdate) {
+        MatchBet matchBet = entityManager.find(MatchBet.class, matchBetToUpdate.getId());
+        entityManager.getTransaction().begin();
+        matchBet.setIsActive(matchBetToUpdate.getIsActive());
         entityManager.getTransaction().commit();
     }
 }

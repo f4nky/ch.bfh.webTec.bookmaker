@@ -19,7 +19,7 @@
                             </li>
                             <li>
                                 <a href="#inProgress" data-toggle="pill">
-                                    <i class="fa fa-fw fa-check-square-o"></i> #{messages.matches_inProgress}
+                                    <i class="fa fa-fw fa-spinner"></i> #{messages.matches_inProgress}
                                 </a>
                             </li>
                             <li>
@@ -68,7 +68,7 @@
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
                                             #{matchEvent.teamAway.nameEn}
                                         </td>
-                                        <td class="text-right">CHF #{matchBetBean.getTotalSetUserAmount(matchEvent)}</td>
+                                        <td class="text-right">CHF #{matchBetBean.getTotalSetUserAmountFromLoggedInUser(matchEvent)}</td>
                                     </tr>
                                 </ui:repeat>
                                 </tbody>
@@ -111,7 +111,7 @@
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
                                             #{matchEvent.teamAway.nameEn}
                                         </td>
-                                        <td class="text-right">CHF #{matchBetBean.getTotalSetUserAmount(matchEvent)}</td>
+                                        <td class="text-right">CHF #{matchBetBean.getTotalSetUserAmountFromLoggedInUser(matchEvent)}</td>
                                         <h:panelGroup rendered="#{matchBetBean.calculateMatchEventWinLostAmount(matchEvent) ge 0}">
                                             <td class="text-right text-success">CHF +#{matchBetBean.calculateMatchEventWinLostAmount(matchEvent)}</td>
                                         </h:panelGroup>
@@ -161,7 +161,7 @@
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
                                             #{matchEvent.teamAway.nameEn}
                                         </td>
-                                        <td class="text-right">CHF #{matchBetBean.getTotalSetUserAmount(matchEvent)}</td>
+                                        <td class="text-right">CHF #{matchBetBean.getTotalSetUserAmountFromLoggedInUser(matchEvent)}</td>
                                         <h:panelGroup rendered="#{matchBetBean.calculateMatchEventWinLostAmount(matchEvent) ge 0}">
                                             <td class="text-right text-success">CHF +#{matchBetBean.calculateMatchEventWinLostAmount(matchEvent)}</td>
                                         </h:panelGroup>

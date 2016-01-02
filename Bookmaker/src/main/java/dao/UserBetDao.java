@@ -24,11 +24,12 @@ import java.util.List;
  * <pre>
  * 1.0	27.12.2015	Michael Fankhauser          Class created.
  * 1.1  29.12.2015  Joel Holzer                 Added the following methods: {@link #addUserBet}, {@link #getUserBetsByMatchEvent}
+ * 1.2  02.01.2015  Joel Holzer                 Added the following methods: {@link #getUserBetsByMatchEvent}, {@link #getUserBetsByMatchBet}
  * </pre>
  *
  * @author Michael Fankhauser, Joel Holzer
- * @version 1.1
- * @since 29.12.2015
+ * @version 1.2
+ * @since 02.01.2015
  */
 public class UserBetDao {
 
@@ -117,8 +118,30 @@ public class UserBetDao {
                 " mb WHERE ub." + UserBet.COLUMN_NAME_USER_ID + " = :userId" + " AND mb." + MatchBet.COLUMN_NAME_MATCH_EVENT_ID + " = :matchEventId" + " ORDER BY ub." + UserBet.COLUMN_NAME_MATCH_BET_ID + " ASC");
         query.setParameter("userId", user);
         query.setParameter("matchEventId", matchEvent);
+        return query.getResultList();
+    }
 
-        List<UserBet> userBets = query.getResultList();
-        return userBets;
+    /**
+     *
+     * @param matchEvent
+     * @return
+     * @since 02.01.2016
+     */
+    public List<UserBet> getUserBetsByMatchEvent(MatchEvent matchEvent) {
+        Query query = entityManager.createQuery("SELECT ub FROM " + UserBet.TABLE_NAME + " ub WHERE ub.matchBetId.matchEventId = :matchEvent");
+        query.setParameter("matchEvent", matchEvent);
+        return query.getResultList();
+    }
+
+    /**
+     *
+     * @param matchBet
+     * @return
+     * @since 02.01.2016
+     */
+    public List<UserBet> getUserBetsByMatchBet(MatchBet matchBet) {
+        Query query = entityManager.createQuery("SELECT ub FROM " + UserBet.TABLE_NAME + " ub WHERE ub.matchBetId = :matchBet");
+        query.setParameter("matchBet", matchBet);
+        return query.getResultList();
     }
 }
