@@ -13,15 +13,18 @@ import java.util.List;
  * <b>History:</b>
  * <pre>
  * 1.0  23.12.2015  Joel Holzer         Class created.
- * 1.1  28.12.2015  Joel Holzer         Added validation method for profile site.
+ * 1.1  28.12.2015  Joel Holzer         Added method {@link #validateProfile}.
  * </pre>
  *
  * @author Joel Holzer
- * @version 1.0
- * @since 23.12.2015
+ * @version 1.1
+ * @since 28.12.2015
  */
 public class UserValidator {
 
+    /**
+     * The default length of a String-type column in the database (Varchar(255)).
+     */
     private static final int MAX_VARCHAR_LENGTH = 255;
 
     /**
@@ -47,7 +50,7 @@ public class UserValidator {
      *
      * @param userToValidate User to validate the fields.
      * @param passwordRepetition Password repetition to compare with the password.
-     * @return List of the occurred validation faults. Empty if no validation fault occurred.
+     * @return List of the occurred validation faults. Empty list if no validation fault occurred.
      * @since 23.12.2015
      */
     public List<ValidationFault> validateRegister(User userToValidate, String passwordRepetition) {
@@ -110,7 +113,7 @@ public class UserValidator {
     }
 
     /**
-     * Validates an {@link User}-object for the profil update.
+     * Validates an {@link User}-object for the profile site (update the user data as logged in user).
      * Validates the email, first name, last name, password and password repetition.
      *
      * The email is validated as follows:
@@ -182,7 +185,7 @@ public class UserValidator {
                 validationFaults.add(new ValidationFault(passwordName, ValidationFault.TO_LONG_CODE));
             }
 
-           if (!passwordRepetition.equals(password)) {
+            if (!passwordRepetition.equals(password)) {
                 validationFaults.add(new ValidationFault(passwordRepetitionName, ValidationFault.INCORRECT_CHAR_CODE));
             }
         }

@@ -3,7 +3,8 @@ package model;
 import javax.persistence.*;
 
 /**
- * Model for matchBet-objects.
+ * Model for matchBet-objects. A match bet is a bet which the admin created for a match event. The gamblers
+ * can set amount to the match bets. For example, a match bet for the match Switzerland - France is "France wins".
  * Is a jpa entity (jpa annotations) to get, store and update user in the database.
  * <br/><br/>
  *

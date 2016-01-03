@@ -1,8 +1,6 @@
 package validators;
 
 import beans.SessionBean;
-import model.MatchBet;
-import model.UserBet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +21,16 @@ import java.util.List;
 public class UserBetValidator {
 
     /**
+     * To add a user bet its just required to enter the amount which wants to set for a bet.
+     * This method validates the entered amount.
+     * The entered amount is validated as follows:
+     * - not empty
+     * - is a number
+     * - greater than 0
+     * - not greater than the saldo of the user.
      *
-     * @param amountOfUserBet
-     * @return
+     * @param amountOfUserBet The entered amount (amount which wants to set for the bet).
+     * @return List of the occurred validation faults. Empty list if no validation fault occurred.
      * @since 29.12.2015
      */
     public List<ValidationFault> validateAddUserBet(String amountOfUserBet) {
@@ -34,7 +39,7 @@ public class UserBetValidator {
 
         //Validate amount
         String amountName = "amount";
-        if (amountOfUserBet == null || amountOfUserBet.isEmpty()) {
+        if (amountOfUserBet == null || amountOfUserBet.isEmpty() || (isNumeric(amountOfUserBet) && Integer.parseInt(amountOfUserBet) <= 0)) {
             validationFaults.add(new ValidationFault(amountName, ValidationFault.EMTPY_CODE));
         } else if (!isNumeric(amountOfUserBet)) {
             validationFaults.add(new ValidationFault(amountName, ValidationFault.INCORRECT_CHAR_CODE));
@@ -45,11 +50,11 @@ public class UserBetValidator {
     }
 
     /**
-     * Checks if a string is a decimal number or not.
-     * True = decimal number, false = no decimal number.
+     * Checks if a string is a number or not.
+     * True = number, false = no number.
      *
      * @param stringToCheck String to check.
-     * @return True = decimal number, false = no decimal number.
+     * @return True = number, false = no number.
      * @since 29.12.2015
      */
     private static boolean isNumeric(String stringToCheck) {

@@ -50,6 +50,7 @@ public class UserDao {
     /**
      * Gets the user with the given email and password from the database and return the user.
      * If no user exists, returns null.
+     *
      * @return The user with the given email and password. If no user exists, returns null.
      * @since 12.11.2015
      */
@@ -75,8 +76,7 @@ public class UserDao {
     public boolean checkIfUserWithEmailExists(String email) {
         Query query = entityManager.createQuery("SELECT u FROM " + User.TABLE_NAME + " u WHERE u." + User.COLUMN_NAME_EMAIL + " = :email");
         query.setParameter("email", email);
-        List<User> users = query.getResultList();
-        if (users.size() > 0) {
+        if (query.getResultList().size() > 0) {
             return true;
         }
         return false;
@@ -94,8 +94,7 @@ public class UserDao {
         Query query = entityManager.createQuery("SELECT u FROM " + User.TABLE_NAME + " u WHERE u." + User.COLUMN_ID + " != :id AND u." + User.COLUMN_NAME_EMAIL + " = :email");
         query.setParameter("id", id);
         query.setParameter("email", email);
-        List<User> users = query.getResultList();
-        if (users.size() > 0) {
+        if (query.getResultList().size() > 0) {
             return true;
         }
         return false;
@@ -145,6 +144,7 @@ public class UserDao {
 
     /**
      * Add up the given amount to the saldo of the user with the given userId.
+     *
      * @param userId Id of the user to add up his saldo.
      * @param amountToAdd Amount to add to the saldo of the user.
      * @since 02.01.2016

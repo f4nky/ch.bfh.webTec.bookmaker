@@ -93,11 +93,11 @@ public class MatchBetValidator {
     }
 
     /**
-     * Checks if a string is a decimal number or not.
-     * True = decimal number, false = no decimal number.
+     * Checks if a string is a number or not.
+     * True = number, false = no number.
      *
      * @param stringToCheck String to check.
-     * @return True = decimal number, false = no decimal number.
+     * @return True = number, false = no number.
      * @since 28.12.2015
      */
     private static boolean isNumeric(String stringToCheck) {

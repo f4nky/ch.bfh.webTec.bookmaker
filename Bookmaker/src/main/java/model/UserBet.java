@@ -4,7 +4,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Model for userBet-objects.
+ * Model for user bets. A user bet is a bet which the gambler sets for a match. He choose a match bet from a match and
+ * set an amount to this bet. For example, a user bet is: gambler x sets 10 CHF to the bet that "France wins against Switzerland".
  * Is a jpa entity (jpa annotations) to get, store and update userBet in the database.
  * <br/><br/>
  *

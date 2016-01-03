@@ -13,7 +13,7 @@ import java.io.IOException;
  * This filter is used to protect manager sites from access from not allowed users (not logged in or gambler).
  * All the manager sites are located in the package managerViews.
  * <br/><br/>
- * <p>
+ *
  * <b>History:</b>
  * <pre>
  * 1.0  17.12.2015  Joel Holzer         Class created.

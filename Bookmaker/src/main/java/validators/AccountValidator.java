@@ -5,7 +5,9 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- *
+ * Every gambler has a account with money. This account has a saldo and the gambler can use this saldo for bets.
+ * A gambler can charge his saldo with a credit card transaction. This class includes a method to validate the
+ * form inputs from the gambler when he wants to charge his account.
  * <br/><br/>
  *
  * <b>History:</b>
@@ -19,17 +21,54 @@ import java.util.List;
  */
 public class AccountValidator {
 
+    /**
+     * The default length of a String-type column in the database (Varchar(255)).
+     */
     private static final int MAX_VARCHAR_LENGTH = 255;
 
     /**
+     * Validates the form inputs when the gambler wants to charge his account with a credit card transaction.
+     * It is just possible to charge the account with the following credit card:
+     * number: 1234-1234-1234-1234
+     * cvv: 234
      *
-     * @param amount
-     * @param cardHolderName
-     * @param cardNumber
-     * @param cvv
-     * @param expireMonth
-     * @param expireYear
-     * @return
+     * This method validates as follows:
+     * amount:
+     * - not empty
+     * - number greater than 0
+     *
+     * credit card holder name:
+     * - not empty
+     * - not longer than 255 chars
+     *
+     * credit card number:
+     * - not empty
+     * - only "1234-1234-1234-1234" allowed
+     *
+     * cvv:
+     * - not empty
+     * - integer number
+     * - 3 or 4 characters long
+     * - only "234" allowed
+     *
+     * expire month:
+     * - not empty / not 0
+     * - not in the past
+     * - integer number between 1 and 12
+     *
+     * expire year:
+     * - not empty / not 0
+     * - not in the past
+     * - not greater than 5 years in the future. Maximal period of validity for credit cards is 5 years.
+     * - combination of year and month should not be in the past and not greater than 5 years in the future.
+     *
+     * @param amount Amount he wants to charge.
+     * @param cardHolderName Entered name for the credit card holder.
+     * @param cardNumber Entered credit card number.
+     * @param cvv Entered security code.
+     * @param expireMonth Entered month when the credit card expired.
+     * @param expireYear Entered year when the credit card expired.
+     * @return List of the occurred validation faults. Empty if no validation fault occurred.
      * @since 01.01.2016
      */
     public List<ValidationFault> validateChargeAccount(String amount, String cardHolderName, String cardNumber, String cvv, byte expireMonth, int expireYear) {
@@ -105,11 +144,11 @@ public class AccountValidator {
     }
 
     /**
-     * Checks if a string is a decimal number or not.
-     * True = decimal number, false = no decimal number.
+     * Checks if a string is a number or not.
+     * True = number, false = no number.
      *
      * @param stringToCheck String to check.
-     * @return True = decimal number, false = no decimal number.
+     * @return True =  number, false = no number.
      * @since 01.01.2016
      */
     private static boolean isNumeric(String stringToCheck) {
@@ -118,7 +157,8 @@ public class AccountValidator {
 
     /**
      * Checks if a string is an integer number or not.
-     * True = integer number, false = not an integer number
+     * True = integer number, false = not an integer number.
+     *
      * @param stringToCheck String to check.
      * @return True = integer number, false = not an integer number
      * @since 01.01.2015

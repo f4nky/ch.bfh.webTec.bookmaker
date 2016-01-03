@@ -4,7 +4,19 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * Created by Fanky on 22.12.15.
+ * Model for match events. A match event is the event where two teams play against another,
+ * for example the match Switzerland against France.
+ * Is a jpa entity (jpa annotations) to get, store and update user in the database.
+ * <br/><br/>
+ *
+ * <b>History:</b>
+ * <pre>
+ * 1.0	22.12.2015	Michael Fankhauser  Class created.
+ * </pre>
+ *
+ * @author Michael Fankhauser
+ * @version 1.0
+ * @since 22.12.2015
  */
 @Entity
 public class MatchEvent {

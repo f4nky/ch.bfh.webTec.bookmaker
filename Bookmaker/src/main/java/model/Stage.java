@@ -3,7 +3,19 @@ package model;
 import javax.persistence.*;
 
 /**
- * Created by Fanky on 25.12.15.
+ * Model for stage-objects. The different stages in the euro for examples are the group stage, quarter finals, etc.
+ * Every match assigned to a stage.
+ * Is a jpa entity (jpa annotations) to get, store and update user in the database.
+ * <br/><br/>
+ *
+ * <b>History:</b>
+ * <pre>
+ * 1.0	25.12.2015	Michael Fankhauser  Class created.
+ * </pre>
+ *
+ * @author Michael Fankhauser
+ * @version 1.0
+ * @since 25.12.2015
  */
 @Entity
 public class Stage {

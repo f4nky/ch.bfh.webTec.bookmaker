@@ -41,6 +41,7 @@ public class NavigationBean {
 
     /**
      * Returns the url of the start page (with the prefix /bookmaker/).
+     *
      * @return Url of the start page (with the prefix /bookmaker/).
      * @since 17.12.2015
      */
@@ -49,7 +50,8 @@ public class NavigationBean {
     }
 
     /**
-     * Redirects to the home page of the logged in user (gambler)
+     * Redirects to the home page of the logged in user (gambler).
+     *
      * @throws IOException Thrown when something with the redirect was wrong.
      * @since 17.12.2015
      */
@@ -59,7 +61,8 @@ public class NavigationBean {
     }
 
     /**
-     * Redirects to the home page of the logged in manager
+     * Redirects to the home page of the logged in manager.
+     *
      * @throws IOException Thrown when something with the redirect was wrong.
      * @since 17.12.2015
      */
@@ -94,6 +97,7 @@ public class NavigationBean {
 
     /**
      * Redirects to the account page of the user (gambler).
+     *
      * @throws IOException Thrown when something with the redirect was wrong.
      * @since 01.01.2016
      */

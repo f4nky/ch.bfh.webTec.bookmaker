@@ -48,6 +48,7 @@ public class MatchBetDao {
 
     /**
      * Gets all matchBets for a specific matchEvent from the database and returns them.
+     *
      * @param matchEvent Match event to get the matchBets.
      * @return A List of matchBets
      * @since 26.12.2015
@@ -60,10 +61,12 @@ public class MatchBetDao {
     }
 
     /**
+     * Gets all active (occurred) or not active (not occurred) match bets from the given match event.
      *
-     * @param matchEvent
-     * @param isActiveMatchBet
-     * @return
+     * @param matchEvent Match event which active or not active match bets should select.
+     * @param isActiveMatchBet True, when only the active match bets (match bets which occurred) should select, false
+     *                         when only the not active match bets (match bets which not occurred) should select.
+     * @return All active (occurred) or not active (not occurred) match bets from the given match event.
      * @since 29.12.2015
      */
     public List<MatchBet> getMatchBets(MatchEvent matchEvent, boolean isActiveMatchBet) {
@@ -75,7 +78,8 @@ public class MatchBetDao {
     }
 
     /**
-     * Gets a single matchBet by id
+     * Gets a single matchBet by id.
+     *
      * @return A single matchBet
      * @since 27.12.2015
      */
@@ -84,8 +88,9 @@ public class MatchBetDao {
     }
 
     /**
+     * Adds the given match bet to the database (creates a new matchbet-record).
      *
-     * @param newMatchBet
+     * @param newMatchBet Match bet to add to the database.
      * @since 29.12.2015
      */
     public void createMatchBet(MatchBet newMatchBet) {
@@ -95,8 +100,10 @@ public class MatchBetDao {
     }
 
     /**
+     * Updates the is active value of the given match bet in the database.
+     * The is active value is set, when the manager marks a match bet as occurred.
      *
-     * @param matchBetToUpdate
+     * @param matchBetToUpdate Match bet to update the is active value. This match bet contains the new is active value.
      * @since 02.01.2016
      */
     public void updateIsActive(MatchBet matchBetToUpdate) {

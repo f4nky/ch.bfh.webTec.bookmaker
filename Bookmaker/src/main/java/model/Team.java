@@ -3,7 +3,7 @@ package model;
 import javax.persistence.*;
 
 /**
- * Model for user-objects.
+ * Model for team-objects. A team is playing matches on the euro 2016. Examples for teams are France, Switzerland, etc.
  * Is a jpa entity (jpa annotations) to get, store and update user in the database.
  * <br/><br/>
  *
@@ -48,8 +48,6 @@ public class Team {
     @Basic
     @Column(name=COLUMN_NAME_COUNTRY_CODE)
     private String countryCode;
-
-
 
     public Long getId() {
         return id;

@@ -1,14 +1,11 @@
 package dao;
 
-import beans.SessionBean;
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import model.MatchBet;
 import model.MatchEvent;
 import model.User;
 import model.UserBet;
 
 import javax.persistence.EntityManager;
-import javax.persistence.OrderBy;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.util.Date;
@@ -19,7 +16,7 @@ import java.util.List;
  * Contains methods to read and write userBet-objects to the database.
  * Singleton-class.
  * <br/><br/>
- * <p>
+ *
  * <b>History:</b>
  * <pre>
  * 1.0	27.12.2015	Michael Fankhauser          Class created.
@@ -52,22 +49,6 @@ public class UserBetDao {
     }
 
     /**
-     * Gets all bets placed by the given user.
-     *
-     * @param user User to get all placed bets.
-     * @return A list of UserBets
-     * @since 27.12.2015
-     */
-    public List<UserBet> getAllUserBets(User user) {
-        Query query = entityManager.createQuery("SELECT ub FROM " + UserBet.TABLE_NAME + " ub " +
-                "WHERE ub." + UserBet.COLUMN_NAME_USER_ID + " = :userId" + " ORDER BY ub." + UserBet.COLUMN_NAME_MATCH_BET_ID + " ASC");
-        query.setParameter("userId", user);
-
-        List<UserBet> userBets = query.getResultList();
-        return userBets;
-    }
-
-    /**
      * Gets all outstanding bets placed by the given user. A bet is outstanding as long as no match result has been entered.
      *
      * @param user User to get all pending bets.
@@ -83,6 +64,7 @@ public class UserBetDao {
 
     /**
      * Gets all finished bets placed by the given user. A bet is finished when the match result has been entered and the start date of the match is in the past.
+     *
      * @param user User to get all finished bets.
      * @return A list of finished UserBets
      * @since 31.12.2015
@@ -96,8 +78,9 @@ public class UserBetDao {
     }
 
     /**
+     * Adds the given user bet to the database (creates a userbet-record).
      *
-     * @param userBet
+     * @param userBet User bet to add to the database.
      * @since 29.12.2015
      */
     public void addUserBet(UserBet userBet) {
@@ -107,10 +90,12 @@ public class UserBetDao {
     }
 
     /**
+     * Gets all user bets for the given match event and the given user from the database. That means every
+     * bets a user sets money for a specific match.
      *
-     * @param user
-     * @param matchEvent
-     * @return
+     * @param user User which user bets for a specific match wants to select from the database.
+     * @param matchEvent Match event which user bets should select.
+     * @return The user bets which the given user made for the given match.
      * @since 29.12.2015
      */
     public List<UserBet> getUserBetsByMatchEvent(User user, MatchEvent matchEvent) {
@@ -122,9 +107,11 @@ public class UserBetDao {
     }
 
     /**
+     * Gets the user bets from every user for the given match event from the database.
+     * That means all user bets for a specific match.
      *
-     * @param matchEvent
-     * @return
+     * @param matchEvent Match event which user bets should select.
+     * @return The user bets for the given match.
      * @since 02.01.2016
      */
     public List<UserBet> getUserBetsByMatchEvent(MatchEvent matchEvent) {
@@ -134,9 +121,12 @@ public class UserBetDao {
     }
 
     /**
+     * Gets all user bets from the given match bet from the database. This means, this method returns all the amounts
+     * which gamblers set for a specific bet, e.g for the bet "France wins again Switzerland".
+     * Every match bet can have 0 or multiple user bets, dependent the number of users who set money for this match bet.
      *
-     * @param matchBet
-     * @return
+     * @param matchBet Match bet which user bets should select.
+     * @return The user bets for the given match bet.
      * @since 02.01.2016
      */
     public List<UserBet> getUserBetsByMatchBet(MatchBet matchBet) {

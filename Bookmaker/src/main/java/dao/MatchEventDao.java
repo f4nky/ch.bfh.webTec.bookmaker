@@ -1,12 +1,10 @@
 package dao;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import model.MatchEvent;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -18,9 +16,9 @@ import java.util.List;
  *
  * <b>History:</b>
  * <pre>
- * 1.0	22.12.2015	Michael Fankhauser         Class created.
- * 1.1  27.12.2015  Michael Fankhauser         Method for finding a single matchEvent by id implemented.
- * 1.2  31.12.2015  Joel Holzer                Method {@link #getMatchesInProgress} added.
+ * 1.0	22.12.2015	Michael Fankhauser          Class created.
+ * 1.1  27.12.2015  Michael Fankhauser          Method for finding a single matchEvent by id implemented.
+ * 1.2  31.12.2015  Joel Holzer                 Method {@link #getMatchesInProgress} added.
  * 1.3  02.01.2016  Joel Holzer                 Added method {@link #updateScores(MatchEvent)}
  * </pre>
  *
@@ -50,6 +48,7 @@ public class MatchEventDao {
 
     /**
      * Gets only the coming matches from the database and returns them.
+     *
      * @return A List of the coming matches
      * @since 25.12.2015
      */
@@ -61,6 +60,7 @@ public class MatchEventDao {
 
     /**
      * Gets only the matches which start date is in past and their result is set from the database and returns them.
+     *
      * @return A List of the past matches
      * @since 25.12.2015
      */
@@ -72,6 +72,7 @@ public class MatchEventDao {
 
     /**
      * Gets only the matches which start date is in past and their result is not set from the database and returns them.
+     *
      * @return A List of the matches in progress
      * @since 31.12.2015
      */
@@ -82,7 +83,8 @@ public class MatchEventDao {
     }
 
     /**
-     * Gets a single matchEvent by id
+     * Gets a single matchEvent by id.
+     *
      * @return A single matchEvent
      * @since 27.12.2015
      */
@@ -91,8 +93,11 @@ public class MatchEventDao {
     }
 
     /**
+     * Updates the scores of the teams of a match (score from the home team and away team).
+     * The new score (score to update the score in the database) is part of the given match event object.
      *
-     * @param matchEventToUpdateScores
+     * @param matchEventToUpdateScores Match event with the new scores of the teams. Id must be the same as by the
+     *                                 match event to update the scores.
      * @since 02.01.2016
      */
     public void updateScores(MatchEvent matchEventToUpdateScores) {
