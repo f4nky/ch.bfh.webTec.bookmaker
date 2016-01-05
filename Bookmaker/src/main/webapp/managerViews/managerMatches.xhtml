@@ -32,6 +32,11 @@
                 <div class="row top-buffer">
                     <div class="tab-content col-sm-12">
                         <div class="tab-pane active" id="coming">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a href="#" data-toggle="modal" data-target="#newMatchModal" class="btn btn-default btn-sm">Neuer Match</a>
+                                </div>
+                            </div>
                             <table class="table table-responsive table-striped" id="matchesComing">
                                 <thead>
                                 <tr>
@@ -68,7 +73,11 @@
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
                                             #{matchEvent.teamAway.nameEn}
                                         </td>
-                                        <td class="text-right">CHF #{championship.getTotalUserBetAmountByMatch(matchEvent)}</td>
+                                        <td class="text-right">
+                                            <h:outputText value="#{championship.getTotalUserBetAmountByMatch(matchEvent)}">
+                                                <f:convertNumber pattern="CHF #0.00" locale="de-CH" />
+                                            </h:outputText>
+                                        </td>
                                     </tr>
                                 </ui:repeat>
                                 </tbody>
@@ -111,7 +120,11 @@
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
                                             #{matchEvent.teamAway.nameEn}
                                         </td>
-                                        <td class="text-right">CHF #{championship.getTotalUserBetAmountByMatch(matchEvent)}</td>
+                                        <td class="text-right">
+                                            <h:outputText value="#{championship.getTotalUserBetAmountByMatch(matchEvent)}">
+                                                <f:convertNumber pattern="CHF #0.00" locale="de-CH" />
+                                            </h:outputText>
+                                        </td>
                                     </tr>
                                 </ui:repeat>
                                 </tbody>
@@ -155,10 +168,18 @@
                                             #{matchEvent.teamAway.nameEn}
                                         </td>
                                         <h:panelGroup rendered="#{championship.calculateManagerWinLostAmountByMatch(matchEvent) ge 0}">
-                                            <td class="text-right text-success">CHF +#{championship.calculateManagerWinLostAmountByMatch(matchEvent)}</td>
+                                            <td class="text-right text-success">
+                                                <h:outputText value="#{championship.calculateManagerWinLostAmountByMatch(matchEvent)}">
+                                                    <f:convertNumber pattern="CHF +#0.00" locale="de-CH" />
+                                                </h:outputText>
+                                            </td>
                                         </h:panelGroup>
                                         <h:panelGroup rendered="#{championship.calculateManagerWinLostAmountByMatch(matchEvent) lt 0}">
-                                            <td class="text-right text-danger">CHF #{championship.calculateManagerWinLostAmountByMatch(matchEvent)}</td>
+                                            <td class="text-right text-danger">
+                                                <h:outputText value="#{championship.calculateManagerWinLostAmountByMatch(matchEvent)}">
+                                                    <f:convertNumber pattern="CHF #0.00" locale="de-CH" />
+                                                </h:outputText>
+                                            </td>
                                         </h:panelGroup>
                                     </tr>
                                 </ui:repeat>
@@ -204,12 +225,10 @@
                                         <label class="col-md-3 control-label">Team Heim</label>
                                         <div class="col-md-9">
                                             <select class="form-control">
-                                                <option>Frankreich</option>
-                                                <option>A2</option>
-                                                <option>A3</option>
-                                                <option>A4</option>
-                                                <option>B1</option>
-                                                <option>...</option>
+                                                <option></option>
+                                                <ui:repeat value="#{teamBean.teams}" var="team">
+                                                    <option value="#{team.id}">#{team.nameEn}</option>
+                                                </ui:repeat>
                                             </select>
                                         </div>
                                     </div>
@@ -217,12 +236,10 @@
                                         <label class="col-md-3 control-label">Team Gast</label>
                                         <div class="col-md-9">
                                             <select class="form-control">
-                                                <option>Frankreich</option>
-                                                <option>A2</option>
-                                                <option>A3</option>
-                                                <option>A4</option>
-                                                <option>B1</option>
-                                                <option>...</option>
+                                                <option></option>
+                                                <ui:repeat value="#{teamBean.teams}" var="team">
+                                                    <option value="#{team.id}">#{team.nameEn}</option>
+                                                </ui:repeat>
                                             </select>
                                         </div>
                                     </div>

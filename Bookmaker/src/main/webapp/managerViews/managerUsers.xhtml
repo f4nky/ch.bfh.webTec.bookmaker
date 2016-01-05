@@ -15,26 +15,21 @@
                     <tr>
                         <th></th>
                         <th>#</th>
-                        <th>Vorname</th>
-                        <th>Nachname</th>
-                        <th>E-Mail</th>
+                        <th>#{messages.managerUsers_first_name}</th>
+                        <th>#{messages.managerUsers_last_name}</th>
+                        <th>#{messages.managerUsers_email}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td><input type="checkbox" class="form-input" /></td>
-                        <td>1</td>
-                        <td>Michael</td>
-                        <td>Fankhauser</td>
-                        <td>fankm9@bfh.ch</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" class="form-input" /></td>
-                        <td>2</td>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>john.doe@bfh.ch</td>
-                    </tr>
+                    <ui:repeat value="#{userBean.users}" var="user">
+                        <tr>
+                            <td><input type="checkbox" class="form-input" /></td>
+                            <td>#{user.id}</td>
+                            <td>#{user.firstName}</td>
+                            <td>#{user.lastName}</td>
+                            <td>#{user.email}</td>
+                        </tr>
+                    </ui:repeat>
                     </tbody>
                 </table>
             </div>

@@ -31,17 +31,29 @@
                     </div>
                     <div class="col-md-4 text-center">
                         <strong>#{messages.managerMatchesDetail_total_amount_placed_bets}</strong>
-                        <p>CHF #{championship.getTotalUserBetAmountByMatch(matchBetBean.matchEvent)}</p>
+                        <p>
+                            <h:outputText value="#{championship.getTotalUserBetAmountByMatch(matchBetBean.matchEvent)}">
+                                <f:convertNumber pattern="CHF #0.00" locale="de-CH" />
+                            </h:outputText>
+                        </p>
                     </div>
                     <div class="col-md-4 text-right">
                         <strong>#{messages.managerMatchesDetail_actual_profit_loss}</strong>
                         <c:set var="winLostAmount" value="#{championship.calculateManagerWinLostAmountByMatch(matchBetBean.matchEvent)}" />
                         <c:choose>
                             <c:when test="${winLostAmount >= 0}">
-                                <p class="text-success">CHF +${winLostAmount}</p>
+                                <p class="text-success">
+                                    <h:outputText value="#{winLostAmount}">
+                                        <f:convertNumber pattern="CHF +#0.00" locale="de-CH" />
+                                    </h:outputText>
+                                </p>
                             </c:when>
                             <c:otherwise>
-                                <p class="text-danger">CHF ${winLostAmount}</p>
+                                <p class="text-danger">
+                                    <h:outputText value="#{winLostAmount}">
+                                        <f:convertNumber pattern="CHF -#0.00" locale="de-CH" />
+                                    </h:outputText>
+                                </p>
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -65,11 +77,11 @@
                                         <table class="table table-responsive table-striped">
                                             <thead>
                                             <tr>
-                                                <th class="col-md-7">#{messages.managerMatchesDetail_desc}</th>
+                                                <th class="col-md-6">#{messages.managerMatchesDetail_desc}</th>
                                                 <th class="col-md-1 text-center">#{messages.managerMatchesDetail_occurred}</th>
                                                 <th class="col-md-1 text-right">#{messages.managerMatchesDetail_odds}</th>
-                                                <th class="col-md-1 text-right">#{messages.managerMatchesDetail_amount_placed_bets}</th>
-                                                <th class="col-md-1 text-right">#{messages.managerMatchesDetail_amount_won_lost}</th>
+                                                <th class="col-md-2 text-right">#{messages.managerMatchesDetail_amount_placed_bets}</th>
+                                                <th class="col-md-2 text-right">#{messages.managerMatchesDetail_amount_won_lost}</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -81,12 +93,24 @@
                                                             <h:selectBooleanCheckbox value="#{matchBet.isActive}" onclick="return false"/>
                                                         </td>
                                                         <td class="text-right">#{matchBet.odds}</td>
-                                                        <td class="text-right">#{matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet)}</td>
+                                                        <td class="text-right">
+                                                            <h:outputText value="#{matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet)}">
+                                                                <f:convertNumber pattern="CHF #0.00" locale="de-CH" />
+                                                            </h:outputText>
+                                                        </td>
                                                         <h:panelGroup rendered="#{matchBet.isActive eq true}">
-                                                            <td class="text-right text-danger">CHF -#{matchBetBean.calculateMatchBetWinAmount(matchBet.odds, matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet))}</td>
+                                                            <td class="text-right text-danger">
+                                                                <h:outputText value="#{matchBetBean.calculateMatchBetWinAmount(matchBet.odds, matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet))}">
+                                                                    <f:convertNumber pattern="CHF -#0.00" locale="de-CH" />
+                                                                </h:outputText>
+                                                            </td>
                                                         </h:panelGroup>
                                                         <h:panelGroup rendered="#{matchBet.isActive eq false}">
-                                                            <td class="text-right text-success">CHF +#{matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet)}</td>
+                                                            <td class="text-right text-success">
+                                                                <h:outputText value="#{matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet)}">
+                                                                    <f:convertNumber pattern="CHF +#0.00" locale="de-CH" />
+                                                                </h:outputText>
+                                                            </td>
                                                         </h:panelGroup>
                                                     </h:form>
                                                 </tr>

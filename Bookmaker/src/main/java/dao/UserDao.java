@@ -5,7 +5,6 @@ import model.User;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 /**
@@ -21,11 +20,12 @@ import java.util.List;
  * 1.2  28.12.2015  Joel Holzer         Added methods {@link #updateUser} and
  * 1.3  01.01.2016  Joel Holzer         Added method {@link #updateSaldo}
  * 1.4  02.01.2016  Joel Holzer         Added method {@link #addAmountToSaldo}
+ * 1.5  05.01.2015  Michael Fankhauser  Added method {@link #getUsers()}
  * </pre>
  *
  * @author Joel Holzer
- * @version 1.4
- * @since 02.01.2016
+ * @version 1.5
+ * @since 05.01.2016
  */
 public class UserDao {
 
@@ -45,6 +45,18 @@ public class UserDao {
             instance.entityManager = Persistence.createEntityManagerFactory("BMUnit").createEntityManager();
         }
         return instance;
+    }
+
+    /**
+     * Gets every user from the database and returns them.
+     *
+     * @return A List of users
+     * @since 05.01.2016
+     */
+    public List<User> getUsers() {
+        Query query = entityManager.createQuery("SELECT u FROM " + User.TABLE_NAME + " u");
+        List<User> users = query.getResultList();
+        return users;
     }
 
     /**

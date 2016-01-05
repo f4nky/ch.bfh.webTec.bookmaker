@@ -34,17 +34,29 @@
                     </div>
                 <div class="col-md-4">
                     <strong>#{messages.userMatchesDetails_amount_placed}</strong>
-                    <p>CHF #{userBetBean.totalSetAmount}</p>
+                    <p>
+                        <h:outputText value="#{userBetBean.totalSetAmount}">
+                            <f:convertNumber pattern="CHF #0.00" locale="de-CH" />
+                        </h:outputText>
+                    </p>
                 </div>
                 <div class="col-md-4">
                     <strong>#{messages.userMatchesDetails_amount_won_lost}</strong>
                     <c:set var="winLostAmount" value="#{matchBetBean.calculateMatchEventWinLostAmount(matchBetBean.matchEvent)}" />
                     <c:choose>
                         <c:when test="${winLostAmount >= 0}">
-                            <p class="text-success">CHF +${winLostAmount}</p>
+                            <p class="text-success">
+                                <h:outputText value="#{winLostAmount}">
+                                    <f:convertNumber pattern="CHF +#0.00" locale="de-CH" />
+                                </h:outputText>
+                            </p>
                         </c:when>
                         <c:otherwise>
-                            <p class="text-danger">CHF ${winLostAmount}</p>
+                            <p class="text-danger">
+                                <h:outputText value="#{winLostAmount}">
+                                    <f:convertNumber pattern="CHF -#0.00" locale="de-CH" />
+                                </h:outputText>
+                            </p>
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -86,7 +98,11 @@
                                             <td>#{activeMatchBet.descriptionEn}</td>
                                             <td class="text-right">#{activeMatchBet.odds}</td>
                                             <td class="text-right">CHF #{activeMatchBet.setUserAmount}</td>
-                                            <td class="text-right text-success">CHF +#{matchBetBean.calculateMatchBetWinAmount(activeMatchBet.odds, activeMatchBet.setUserAmount)}</td>
+                                            <td class="text-right text-success">
+                                                <h:outputText value="#{matchBetBean.calculateMatchBetWinAmount(activeMatchBet.odds, activeMatchBet.setUserAmount)}">
+                                                    <f:convertNumber pattern="CHF +#0.00" locale="de-CH" />
+                                                </h:outputText>
+                                            </td>
                                         </tr>
                                     </ui:repeat>
                                     </tbody>
@@ -114,8 +130,16 @@
                                         <tr>
                                             <td>#{notActiveMatchBet.descriptionEn}</td>
                                             <td class="text-right">#{notActiveMatchBet.odds}</td>
-                                            <td class="text-right">CHF #{notActiveMatchBet.setUserAmount}</td>
-                                            <td class="text-right text-danger">CHF -#{notActiveMatchBet.setUserAmount}</td>
+                                            <td class="text-right">
+                                                <h:outputText value="#{notActiveMatchBet.setUserAmount}">
+                                                    <f:convertNumber pattern="CHF #0.00" locale="de-CH" />
+                                                </h:outputText>
+                                            </td>
+                                            <td class="text-right text-danger">
+                                                <h:outputText value="#{notActiveMatchBet.setUserAmount}">
+                                                    <f:convertNumber pattern="CHF -#0.00" locale="de-CH" />
+                                                </h:outputText>
+                                            </td>
                                         </tr>
                                     </ui:repeat>
                                     </tbody>

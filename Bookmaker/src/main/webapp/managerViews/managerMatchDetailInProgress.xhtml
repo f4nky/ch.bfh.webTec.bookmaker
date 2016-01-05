@@ -31,7 +31,11 @@
                     </div>
                     <div class="col-md-6 text-right">
                         <strong>#{messages.managerMatchesDetail_total_amount_placed_bets}</strong>
-                        <p>#{championship.getTotalUserBetAmountByMatch(matchBetBean.matchEvent)}</p>
+                        <p>
+                            <h:outputText value="#{championship.getTotalUserBetAmountByMatch(matchBetBean.matchEvent)}">
+                                <f:convertNumber pattern="CHF #0.00" locale="de-CH" />
+                            </h:outputText>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -60,8 +64,8 @@
                                             <tr>
                                                 <th class="col-md-7">#{messages.managerMatchesDetail_desc}</th>
                                                 <th class="col-md-1 text-right">#{messages.managerMatchesDetail_odds}</th>
-                                                <th class="col-md-1 text-right">#{messages.managerMatchesDetail_amount_placed_bets}</th>
-                                                <th class="col-md-1 text-right">#{messages.managerMatchesDetail_amount_payout_on_occurrence}</th>
+                                                <th class="col-md-2 text-right">#{messages.managerMatchesDetail_amount_placed_bets}</th>
+                                                <th class="col-md-2 text-right">#{messages.managerMatchesDetail_amount_payout_on_occurrence}</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -69,9 +73,15 @@
                                                 <tr>
                                                     <td>#{matchBet.descriptionEn}</td>
                                                     <td class="text-right">#{matchBet.odds}</td>
-                                                    <td class="text-right">#{matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet)}</td>
                                                     <td class="text-right">
-                                                        #{matchBetBean.calculateMatchBetWinAmount(matchBet.odds, matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet))}
+                                                        <h:outputText value="#{matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet)}">
+                                                            <f:convertNumber pattern="CHF #0.00" locale="de-CH" />
+                                                        </h:outputText>
+                                                    </td>
+                                                    <td class="text-right text-danger">
+                                                        <h:outputText value="#{matchBetBean.calculateMatchBetWinAmount(matchBet.odds, matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet))}">
+                                                            <f:convertNumber pattern="CHF -#0.00" locale="de-CH" />
+                                                        </h:outputText>
                                                     </td>
                                                 </tr>
                                             </ui:repeat>

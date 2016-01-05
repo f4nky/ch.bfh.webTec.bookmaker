@@ -4,16 +4,14 @@ import dao.UserDao;
 import helpers.LanguageHelper;
 import helpers.PasswordHasher;
 import model.User;
-import org.eclipse.persistence.sessions.Session;
 import validators.UserValidator;
 import validators.ValidationFault;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -29,13 +27,14 @@ import java.util.List;
  * 1.1  23.12.2015  Joel Holzer  Added register fields (member variables) and methods. Added validation and translation for login.
  * 1.2  28.12.2015  Joel Holzer  Added fields (member variables) and methods for profile.
  * 1.3  01.01.2016  Joel Holzer  Added field for the saldo of the user account.
+ * 1.4  05.01.2016  Michael Fankhauser Added method for reading all users from database.
  * </pre>
  *
- * @author Joel Holzer
- * @version 1.3
- * @since 01.01.2016
+ * @author Joel Holzer, Michael Fankhauser
+ * @version 1.4
+ * @since 05.01.2016
  */
-@ManagedBean
+@ManagedBean(name = "userBean")
 @RequestScoped
 public class UserBean implements Serializable {
 
@@ -45,6 +44,7 @@ public class UserBean implements Serializable {
     private String password;
     private String passwordRepetition;
     private double saldo;
+    private List<User> users;
 
     @ManagedProperty(value="#{navigationBean}")
     private NavigationBean navigationBean;
@@ -160,6 +160,17 @@ public class UserBean implements Serializable {
             passwordRepetition = loggedInUser.getPassword();
             saldo = loggedInUser.getSaldo();
         }
+    }
+
+    /**
+     * Gets every registered user from the database and returns them.
+     *
+     * @return A list of users
+     * @since 05.01.2016
+     */
+    @PostConstruct
+    public List<User> getUsers() {
+        return UserDao.getInstance().getUsers();
     }
 
     /**

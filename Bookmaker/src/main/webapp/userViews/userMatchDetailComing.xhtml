@@ -29,7 +29,11 @@
                     </div>
                     <div class="col-md-4">
                         <strong>#{messages.userMatchesDetails_amount_placed}</strong>
-                        <p>CHF #{userBetBean.totalSetAmount}</p>
+                        <p>
+                            <h:outputText value="#{userBetBean.totalSetAmount}">
+                                <f:convertNumber pattern="CHF #0.00" locale="de-CH" />
+                            </h:outputText>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -108,8 +112,16 @@
                                             </td>
                                             <td>#{userBet.matchBetId.descriptionEn}</td>
                                             <td class="text-right">#{userBet.matchBetId.odds}</td>
-                                            <td class="text-right">#{userBet.amount}</td>
-                                            <td class="text-right text-success">CHF +#{userBetBean.calculateMatchBetWinAmount(userBet.matchBetId.odds, userBet.amount)}</td>
+                                            <td class="text-right">
+                                                <h:outputText value="#{userBet.amount}">
+                                                    <f:convertNumber pattern="CHF #0.00" locale="de-CH" />
+                                                </h:outputText>
+                                            </td>
+                                            <td class="text-right text-success">
+                                                <h:outputText value="#{userBetBean.calculateMatchBetWinAmount(userBet.matchBetId.odds, userBet.amount)}">
+                                                    <f:convertNumber pattern="CHF +#0.00" locale="de-CH" />
+                                                </h:outputText>
+                                            </td>
                                         </tr>
                                     </ui:repeat>
                                     </tbody>

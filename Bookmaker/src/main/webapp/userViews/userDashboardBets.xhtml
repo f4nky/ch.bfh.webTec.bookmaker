@@ -72,9 +72,15 @@
                                                 </p>
                                             </td>
                                             <td class="text-right">#{userBet.matchBetId.odds}</td>
-                                            <td class="text-right">#{userBet.amount}</td>
+                                            <td class="text-right">
+                                                <h:outputText value="#{userBet.amount}">
+                                                    <f:convertNumber pattern="CHF #0.00" locale="de-CH" />
+                                                </h:outputText>
+                                            </td>
                                             <td class="text-right text-success">
-                                                CHF +#{userBetBean.calculateMatchBetWinAmount(userBet.matchBetId.odds, userBet.amount)}
+                                                <h:outputText value="#{userBetBean.calculateMatchBetWinAmount(userBet.matchBetId.odds, userBet.amount)}">
+                                                    <f:convertNumber pattern="CHF +#0.00" locale="de-CH" />
+                                                </h:outputText>
                                             </td>
                                         </tr>
                                     </ui:repeat>
@@ -123,15 +129,22 @@
                                                 </p>
                                             </td>
                                             <td class="text-right">#{userBet.matchBetId.odds}</td>
-                                            <td class="text-right">#{userBet.amount}</td>
+                                            <td class="text-right">
+                                                <h:outputText value="#{userBet.amount}">
+                                                    <f:convertNumber pattern="CHF #0.00" locale="de-CH" />
+                                                </h:outputText></td>
                                             <h:panelGroup rendered="#{userBet.matchBetId.isActive eq true}">
                                                 <td class="text-right text-success">
-                                                    CHF +#{userBetBean.calculateMatchBetWinAmount(userBet.matchBetId.odds, userBet.amount)}
+                                                    <h:outputText value="#{userBet.amount}">
+                                                        <f:convertNumber pattern="CHF +#0.00" locale="de-CH" />
+                                                    </h:outputText>
                                                 </td>
                                             </h:panelGroup>
                                             <h:panelGroup rendered="#{userBet.matchBetId.isActive eq false}">
                                                 <td class="text-right text-danger">
-                                                    CHF -#{userBet.amount}
+                                                    <h:outputText value="#{userBet.amount}">
+                                                        <f:convertNumber pattern="CHF -#0.00" locale="de-CH" />
+                                                    </h:outputText>
                                                 </td>
                                             </h:panelGroup>
                                         </tr>
