@@ -5,9 +5,7 @@ import dao.MatchEventDao;
 import dao.UserBetDao;
 import dao.UserDao;
 import helpers.LanguageHelper;
-import model.MatchBet;
-import model.MatchEvent;
-import model.UserBet;
+import model.*;
 import validators.MatchEventValidator;
 import validators.ValidationFault;
 
@@ -17,6 +15,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -43,17 +43,74 @@ import java.util.Map;
 @RequestScoped
 public class ChampionshipBean implements Serializable {
 
+    private String matchEventDateTime;
+    private String matchEventGroup;
+    private Integer matchEventNr;
+    private Stage stage;
+    private Team teamHome;
+    private Team teamAway;
     private String scoreTeamHome;
     private String scoreTeamAway;
     private List<MatchEvent> matchEventsComing;
     private List<MatchEvent> matchEventsPast;
     private String finishMatchErrorMessage = null;
 
+    private String createEventErrorMessage = null;
+
     @ManagedProperty(value="#{navigationBean}")
     private NavigationBean navigationBean;
 
 
     private static final String FINISH_MATCH_FORM_NAME = "finishMatch";
+    private static final String CREATE_EVENT_FORM_NAME = "newEvent";
+
+    public Team getTeamAway() {
+        return teamAway;
+    }
+
+    public void setTeamAway(Team teamAway) {
+        this.teamAway = teamAway;
+    }
+
+    public String getMatchEventDateTime() {
+        return matchEventDateTime;
+    }
+
+    public void setMatchEventDateTime(String matchEventDateTime) {
+        this.matchEventDateTime = matchEventDateTime;
+    }
+
+    public String getMatchEventGroup() {
+        return matchEventGroup;
+    }
+
+    public void setMatchEventGroup(String matchEventGroup) {
+        this.matchEventGroup = matchEventGroup;
+    }
+
+    public Integer getMatchEventNr() {
+        return matchEventNr;
+    }
+
+    public void setMatchEventNr(Integer matchEventNr) {
+        this.matchEventNr = matchEventNr;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public Team getTeamHome() {
+        return teamHome;
+    }
+
+    public void setTeamHome(Team teamHome) {
+        this.teamHome = teamHome;
+    }
 
     public String getScoreTeamHome() {
         return scoreTeamHome;
@@ -115,6 +172,38 @@ public class ChampionshipBean implements Serializable {
     @PostConstruct
     public List<MatchEvent> getMatchEventsPast() {
         return MatchEventDao.getInstance().getMatchesPast();
+    }
+
+    /**
+     * Validates the input data for creating a new match event and add the match event to the database if no validation
+     * fault occurred. After adding the event to the database, the modal dialog to add the match event is closed and the
+     * site is refreshed.
+     * If at least one validation fault occurred, the validation fault are displayed and the match event is not added to
+     * the database. See {@link MatchEventValidator} for the validation routine.
+     * @since 11.01.2016
+     */
+    public void createMatchEvent() throws IOException, ParseException {
+        MatchEvent matchEvent = new MatchEvent();
+        matchEvent.setStage(stage);
+        matchEvent.setMatchEventNr(matchEventNr);
+        matchEvent.setTeamHome(teamHome);
+        matchEvent.setTeamAway(teamAway);
+
+        //Validate input data
+        MatchEventValidator matchEventValidator = new MatchEventValidator();
+        List<ValidationFault> validationFaults = matchEventValidator.validateAddMatchEvent(matchEvent, matchEventDateTime);
+
+        if (validationFaults.size() == 0) {
+            //No validation faults
+            //Save event in database
+            matchEvent.setMatchEventDateTime(new SimpleDateFormat("dd.MM.yyyy HH:mm").parse(matchEventDateTime));
+            MatchEventDao.getInstance().createMatchEvent(matchEvent);
+            createEventErrorMessage = null;
+            navigationBean.redirectToManagerHome();
+        } else {
+            //Validation faults -> display validation faults
+            createEventErrorMessage = LanguageHelper.createValidationFaultOutput(CREATE_EVENT_FORM_NAME, validationFaults);
+        }
     }
 
     /**

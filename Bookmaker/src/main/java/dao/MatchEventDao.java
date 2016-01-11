@@ -20,11 +20,12 @@ import java.util.List;
  * 1.1  27.12.2015  Michael Fankhauser          Method for finding a single matchEvent by id implemented.
  * 1.2  31.12.2015  Joel Holzer                 Method {@link #getMatchesInProgress} added.
  * 1.3  02.01.2016  Joel Holzer                 Added method {@link #updateScores(MatchEvent)}
+ * 1.4  11.01.2016  Michael Fankhauser          Added method {@link #createMatchEvent(MatchEvent)}
  * </pre>
  *
  * @author Michael Fankhauser, Joel Holzer
- * @version 1.3
- * @since 02.01.2016
+ * @version 1.4
+ * @since 11.01.2016
  */
 public class MatchEventDao {
 
@@ -90,6 +91,18 @@ public class MatchEventDao {
      */
     public MatchEvent findMatchEventById(Long matchEventId) {
         return entityManager.find(MatchEvent.class, matchEventId);
+    }
+
+    /**
+     * Adds the given match event to the database (creates a new matchEvent-record).
+     *
+     * @param newMatchEvent Match event to add to the database.
+     * @since 11.01.2016
+     */
+    public void createMatchEvent(MatchEvent newMatchEvent) {
+        entityManager.getTransaction().begin();
+        entityManager.persist(newMatchEvent);
+        entityManager.getTransaction().commit();
     }
 
     /**

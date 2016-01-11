@@ -1,6 +1,11 @@
 package validators;
 
+import model.MatchEvent;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,6 +23,58 @@ import java.util.List;
  * @since 02.01.2016
  */
 public class MatchEventValidator {
+
+    private static final int MAX_VARCHAR_LENGTH = 255;
+
+    /**
+     * Validates an {@link MatchEvent}-object when the match bet will be added.
+     * Validates the description de, description en, description fr, description it and the odds.
+     *
+     * All descriptions are validated as follows:
+     * - not empty
+     * - is not longer than 255 chars
+     *
+     * Odds is validated as follows:
+     * - not empty
+     * - correct format (decimal, like 5.4)
+     *
+     * @param matchEventToValidate Match bet to validate the fields.
+     * @return List of the occurred validation faults. Empty if no validation fault occurred.
+     * @since 11.01.2016
+     */
+    public List<ValidationFault> validateAddMatchEvent(MatchEvent matchEventToValidate, String matchEventDateTime) {
+
+        List<ValidationFault> validationFaults = new ArrayList<ValidationFault>();
+
+        //Validate matchEventDateTime
+        Date convertedDate;
+        String matchEventDateTimeName = "dateTime";
+
+        if (matchEventDateTime == null) {
+            validationFaults.add(new ValidationFault(matchEventDateTimeName, ValidationFault.EMTPY_CODE));
+        }
+
+        try {
+            convertedDate = stringToDate(matchEventDateTime);
+
+            if (convertedDate.before(new Date())) {
+                validationFaults.add(new ValidationFault(matchEventDateTime, ValidationFault.DATE_EXPIRED));
+            }
+        } catch (ParseException ex) {
+            validationFaults.add(new ValidationFault(matchEventDateTimeName, ValidationFault.INVALID_DATE));
+        }
+
+        //Validate matchEventGroup
+        String matchEventGroup = matchEventToValidate.getMatchEventGroup();
+        String matchEventGroupName = "eventGroup";
+        if (matchEventGroup == null || matchEventGroup.isEmpty()) {
+            validationFaults.add(new ValidationFault(matchEventGroupName, ValidationFault.EMTPY_CODE));
+        } else if (matchEventGroup.length() > MAX_VARCHAR_LENGTH) {
+            validationFaults.add(new ValidationFault(matchEventGroupName, ValidationFault.TO_LONG_CODE));
+        }
+
+        return validationFaults;
+    }
 
     /**
      * Validates the form inputs to finish a match event. A match event is finished by entering the score of both teams
@@ -64,5 +121,17 @@ public class MatchEventValidator {
      */
     private static boolean isInteger(String stringToCheck) {
         return stringToCheck.matches("^\\d+$");
+    }
+
+    /**
+     * Converts a string to date.
+     *
+     * @param date date in string format to convert.
+     * @return Date if no error occurs, otherwise throw an Exception
+     * @since 11.01.2016
+     */
+    private Date stringToDate(String date) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        return formatter.parse(date);
     }
 }

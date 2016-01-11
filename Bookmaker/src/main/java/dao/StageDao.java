@@ -1,6 +1,6 @@
 package dao;
 
-import model.Team;
+import model.Stage;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -15,16 +15,16 @@ import java.util.List;
  *
  * <b>History:</b>
  * <pre>
- * 1.0	22.12.2015	Michael Fankhauser         Class created.
+ * 1.0	11.01.2016	Michael Fankhauser         Class created.
  * </pre>
  *
  * @author Michael Fankhauser
  * @version 1.0
- * @since 22.12.2015
+ * @since 11.01.2016
  */
-public class TeamDao {
+public class StageDao {
 
-    private static TeamDao instance;
+    private static StageDao instance;
     private EntityManager entityManager;
 
     /**
@@ -34,22 +34,22 @@ public class TeamDao {
      * @return Active instance.
      * @since 22.12.2015
      */
-    public static TeamDao getInstance() {
+    public static StageDao getInstance() {
         if (instance == null) {
-            instance = new TeamDao();
+            instance = new StageDao();
             instance.entityManager = Persistence.createEntityManagerFactory("BMUnit").createEntityManager();
         }
         return instance;
     }
 
     /**
-     * Gets all teams from the database and returns them.
-     * @return A List of Teams
-     * @since 22.12.2015
+     * Gets all stages from the database and returns them.
+     * @return A List of Stages
+     * @since 11.01.2016
      */
-    public List<Team> getTeams() {
-        Query query = entityManager.createQuery("SELECT t FROM " + Team.TABLE_NAME + " t ORDER BY t.nameEn");
-        List<Team> teams = query.getResultList();
-        return teams;
+    public List<Stage> getStages() {
+        Query query = entityManager.createQuery("SELECT s FROM " + Stage.TABLE_NAME + " s");
+        List<Stage> stages = query.getResultList();
+        return stages;
     }
 }

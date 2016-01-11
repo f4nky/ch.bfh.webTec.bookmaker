@@ -9,11 +9,12 @@ package validators;
  * <pre>
  * 1.0  23.12.2015  Joel Holzer         Class created.
  * 1.1  01.01.2016  Joel Holzer         Added fault number 5 for wrong credit card number.
+ * 1.2  11.01.2016  Michael Fankhauser  Added fault number 6 + 7 for invalid + expired date.
  * </pre>
  *
- * @author Joel Holzer
- * @version 1.1
- * @since 01.01.2016
+ * @author Joel Holzer, Michael Fankhauser
+ * @version 1.2
+ * @since 11.01.2016
  */
 public class ValidationFault {
 
@@ -26,6 +27,8 @@ public class ValidationFault {
     public static final byte INCORRECT_CHAR_CODE = 3;
     public static final byte ALREADY_EXISTS_CODE = 4;
     public static final byte WRONG_NUMBER = 5;
+    public static final byte INVALID_DATE = 6;
+    public static final byte DATE_EXPIRED = 7;
 
     /**
      * Returns the name of the field in the form where the validation fault occurred.
@@ -46,6 +49,8 @@ public class ValidationFault {
      * 3 = value has incorrect characters
      * 4 = value already exist in database
      * 5 = wrong number (just for credit card)
+     * 6 = invalid date
+     * 7 = date expired
      *
      * @return Fault code which tells the occurred fault.
      * @since 23.12.2015
