@@ -41,7 +41,7 @@ public class UserBetTest {
         em.getTransaction().begin();
 
         MatchEvent matchEvent = new MatchEvent();
-        matchEvent.setMatchEventNr(1);
+        matchEvent.setMatchEventNr("1");
         matchEvent.setMatchEventDateTime(tmpDate);
 
         em.persist(matchEvent);

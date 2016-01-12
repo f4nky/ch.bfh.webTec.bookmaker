@@ -37,7 +37,7 @@ public class MatchEvent {
     private Long id;
     @Basic
     @Column(name = COLUMN_NAME_MATCH_EVENT_NR)
-    private Integer matchEventNr;
+    private String matchEventNr;
     @ManyToOne
     @JoinColumn(name = COLUMN_NAME_STAGE_ID)
     private Stage stage;
@@ -69,11 +69,11 @@ public class MatchEvent {
         this.id = id;
     }
 
-    public Integer getMatchEventNr() {
+    public String getMatchEventNr() {
         return matchEventNr;
     }
 
-    public void setMatchEventNr(Integer matchEventNr) {
+    public void setMatchEventNr(String matchEventNr) {
         this.matchEventNr = matchEventNr;
     }
 

@@ -55,7 +55,7 @@ public class MatchEventTest {
         em.persist(teamAway);
 
         MatchEvent matchEvent = new MatchEvent();
-        matchEvent.setMatchEventNr(1);
+        matchEvent.setMatchEventNr("1");
         matchEvent.setMatchEventDateTime(tmpDate);
         matchEvent.setStage(stage);
         matchEvent.setMatchEventGroup("A");

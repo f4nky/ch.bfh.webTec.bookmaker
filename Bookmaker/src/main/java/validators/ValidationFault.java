@@ -29,6 +29,7 @@ public class ValidationFault {
     public static final byte WRONG_NUMBER = 5;
     public static final byte INVALID_DATE = 6;
     public static final byte DATE_EXPIRED = 7;
+    public static final byte TEAM_IDENTICAL = 8;
 
     /**
      * Returns the name of the field in the form where the validation fault occurred.

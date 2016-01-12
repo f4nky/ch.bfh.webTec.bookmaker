@@ -17,10 +17,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * TODO
@@ -45,7 +42,7 @@ public class ChampionshipBean implements Serializable {
 
     private String matchEventDateTime;
     private String matchEventGroup;
-    private Integer matchEventNr;
+    private String matchEventNr;
     private Stage stage;
     private Team teamHome;
     private Team teamAway;
@@ -54,7 +51,6 @@ public class ChampionshipBean implements Serializable {
     private List<MatchEvent> matchEventsComing;
     private List<MatchEvent> matchEventsPast;
     private String finishMatchErrorMessage = null;
-
     private String createEventErrorMessage = null;
 
     @ManagedProperty(value="#{navigationBean}")
@@ -62,7 +58,7 @@ public class ChampionshipBean implements Serializable {
 
 
     private static final String FINISH_MATCH_FORM_NAME = "finishMatch";
-    private static final String CREATE_EVENT_FORM_NAME = "newEvent";
+    private static final String CREATE_EVENT_FORM_NAME = "newMatch";
 
     public Team getTeamAway() {
         return teamAway;
@@ -88,11 +84,11 @@ public class ChampionshipBean implements Serializable {
         this.matchEventGroup = matchEventGroup;
     }
 
-    public Integer getMatchEventNr() {
+    public String getMatchEventNr() {
         return matchEventNr;
     }
 
-    public void setMatchEventNr(Integer matchEventNr) {
+    public void setMatchEventNr(String matchEventNr) {
         this.matchEventNr = matchEventNr;
     }
 
@@ -134,6 +130,14 @@ public class ChampionshipBean implements Serializable {
 
     public void setFinishMatchErrorMessage(String finishMatchErrorMessage) {
         this.finishMatchErrorMessage = finishMatchErrorMessage;
+    }
+
+    public String getCreateEventErrorMessage() {
+        return createEventErrorMessage;
+    }
+
+    public void setCreateEventErrorMessage(String createEventErrorMessage) {
+        this.createEventErrorMessage = createEventErrorMessage;
     }
 
     public NavigationBean getNavigationBean() {
@@ -184,8 +188,9 @@ public class ChampionshipBean implements Serializable {
      */
     public void createMatchEvent() throws IOException, ParseException {
         MatchEvent matchEvent = new MatchEvent();
-        matchEvent.setStage(stage);
         matchEvent.setMatchEventNr(matchEventNr);
+        matchEvent.setMatchEventGroup(matchEventGroup);
+        matchEvent.setStage(stage);
         matchEvent.setTeamHome(teamHome);
         matchEvent.setTeamAway(teamAway);
 
@@ -291,4 +296,17 @@ public class ChampionshipBean implements Serializable {
             finishMatchErrorMessage = LanguageHelper.createValidationFaultOutput(FINISH_MATCH_FORM_NAME, validationFaults);
         }
     }
+
+    /**
+     * Returns the stage which this match event belongs to.
+     *
+     * @return stage which this match event belongs to.
+     * @since 12.01.2016
+     */
+    /*public Stage getStage() {
+        if (stage == null) {
+            stage = MatchEventDao.getInstance().findMatchEventById();
+        }
+        return stage;
+    }*/
 }

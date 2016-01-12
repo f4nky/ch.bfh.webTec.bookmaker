@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:body>
     <ui:composition template="managerLayout.xhtml">
@@ -225,26 +226,24 @@
                             <h4>Neuer Match</h4>
                         </div>
                         <div class="modal-body">
-                            <h:form class="form-horizontal">
+                            <h:panelGroup layout="block" id="createEventErrorMessage" class="form-group">
+                                <h:outputText escape="false" class="errorbox" rendered="#{championship.createEventErrorMessage !=null}" value="#{championship.createEventErrorMessage}"/>
+                            </h:panelGroup>
+                            <h:form class="form-horizontal" id="newMatchForm">
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">#{messages.form_newMatch_dateTime}</label>
-
                                     <div class="col-md-9">
-                                        <div class="col-xs-6">
-                                            <input type="text" class="form-control"
-                                                   value="#{championship.matchEventDateTime}"
-                                                   placeholder="01.01.1970 20:00"/>
-                                        </div>
+                                        <h:inputText class="form-control" id="matchEventDateTime"
+                                               value="#{championship.matchEventDateTime}"
+                                               p:placeholder="01.01.1970 20:00"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">#{messages.form_newMatch_stage}</label>
-
+                                    <label class="col-md-3 control-label">#{messages.form_newMatch_eventNr}</label>
                                     <div class="col-md-9">
-                                        <h:selectOneMenu value="#{championship.stage}" class="form-control">
-                                            <f:selectItems value="#{stageBean.stages}" var="stage"
-                                                           itemLabel="#{stage.nameEn}" itemValue="#{stage}"/>
-                                        </h:selectOneMenu>
+                                        <h:inputText class="form-control" id="matchEventNr"
+                                                     value="#{championship.matchEventNr}"
+                                                     p:placeholder="1"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -254,6 +253,15 @@
                                         <input type="text" class="form-control"
                                                value="#{championship.matchEventGroup}"
                                                placeholder="#{messages.form_newMatch_eventGroup}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">#{messages.form_newMatch_stage}</label>
+                                    <div class="col-md-9">
+                                        <h:selectOneMenu value="#{championship.stage}" class="form-control">
+                                            <f:selectItems value="#{stageBean.stages}" var="stage"
+                                                           itemLabel="#{stage.nameEn}" itemValue="#{stage}"/>
+                                        </h:selectOneMenu>
                                     </div>
                                 </div>
                                 <div class="form-group">

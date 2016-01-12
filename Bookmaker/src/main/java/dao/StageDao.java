@@ -16,11 +16,12 @@ import java.util.List;
  * <b>History:</b>
  * <pre>
  * 1.0	11.01.2016	Michael Fankhauser         Class created.
+ * 1.1  12.01.2016  Michael Fankhauser         Added method {@link #findStageById(Long)}
  * </pre>
  *
  * @author Michael Fankhauser
- * @version 1.0
- * @since 11.01.2016
+ * @version 1.1
+ * @since 12.01.2016
  */
 public class StageDao {
 
@@ -51,5 +52,15 @@ public class StageDao {
         Query query = entityManager.createQuery("SELECT s FROM " + Stage.TABLE_NAME + " s");
         List<Stage> stages = query.getResultList();
         return stages;
+    }
+
+    /**
+     * Gets a single stage by id.
+     *
+     * @return A single stage
+     * @since 12.01.2016
+     */
+    public Stage findStageById(Long stageId) {
+        return entityManager.find(Stage.class, stageId);
     }
 }

@@ -1,6 +1,7 @@
 package validators;
 
 import model.MatchEvent;
+import model.Team;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,13 +65,32 @@ public class MatchEventValidator {
             validationFaults.add(new ValidationFault(matchEventDateTimeName, ValidationFault.INVALID_DATE));
         }
 
+        //Validate matchEventNr
+        String matchEventNr = matchEventToValidate.getMatchEventNr();
+        String matchEventNrName = "eventNr";
+        if (matchEventNr != null) {
+            if (matchEventNr.length() > MAX_VARCHAR_LENGTH) {
+                validationFaults.add(new ValidationFault(matchEventNrName, ValidationFault.TO_LONG_CODE));
+            }
+        }
+
         //Validate matchEventGroup
         String matchEventGroup = matchEventToValidate.getMatchEventGroup();
         String matchEventGroupName = "eventGroup";
-        if (matchEventGroup == null || matchEventGroup.isEmpty()) {
-            validationFaults.add(new ValidationFault(matchEventGroupName, ValidationFault.EMTPY_CODE));
-        } else if (matchEventGroup.length() > MAX_VARCHAR_LENGTH) {
-            validationFaults.add(new ValidationFault(matchEventGroupName, ValidationFault.TO_LONG_CODE));
+        if (matchEventGroup != null) {
+            if (matchEventGroup.length() > MAX_VARCHAR_LENGTH) {
+                validationFaults.add(new ValidationFault(matchEventGroupName, ValidationFault.TO_LONG_CODE));
+            }
+        }
+
+        //Validate teams
+        Team teamHome = matchEventToValidate.getTeamHome();
+        Team teamAway = matchEventToValidate.getTeamAway();
+        String teamAwayName = "teamAway";
+        if (teamHome != null && teamAway != null) {
+            if (teamHome == teamAway) {
+                validationFaults.add(new ValidationFault(teamAwayName, ValidationFault.TEAM_IDENTICAL));
+            }
         }
 
         return validationFaults;

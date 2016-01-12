@@ -16,11 +16,12 @@ import java.util.List;
  * <b>History:</b>
  * <pre>
  * 1.0	22.12.2015	Michael Fankhauser         Class created.
+ * 1.1  12.11.2016  Michael Fankhauser         Added method {@link #findTeamById(Long)}
  * </pre>
  *
  * @author Michael Fankhauser
- * @version 1.0
- * @since 22.12.2015
+ * @version 1.1
+ * @since 12.01.2016
  */
 public class TeamDao {
 
@@ -51,5 +52,15 @@ public class TeamDao {
         Query query = entityManager.createQuery("SELECT t FROM " + Team.TABLE_NAME + " t ORDER BY t.nameEn");
         List<Team> teams = query.getResultList();
         return teams;
+    }
+
+    /**
+     * Gets a single team by id.
+     *
+     * @return A single team
+     * @since 12.01.2016
+     */
+    public Team findTeamById(Long teamId) {
+        return entityManager.find(Team.class, teamId);
     }
 }
