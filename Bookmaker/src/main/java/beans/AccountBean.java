@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * TODO
+ * This bean is used for actions concerning the account of a gambler.
+ * Every gambler has an account where he can charge money with a credit card transaction. When a gambler bets money, the
+ * bet amount is withdraw from the account (saldo).
  *
  * <b>History:</b>
  * <pre>
@@ -44,7 +46,6 @@ public class AccountBean {
 
     @ManagedProperty(value="#{navigationBean}")
     private NavigationBean navigationBean;
-
 
     public String getAmount() {
         return amount;
@@ -102,9 +103,20 @@ public class AccountBean {
         this.chargeErrorMessage = chargeErrorMessage;
     }
 
+    public NavigationBean getNavigationBean() {
+        return navigationBean;
+    }
+
+    public void setNavigationBean(NavigationBean navigationBean) {
+        this.navigationBean = navigationBean;
+    }
+
     /**
+     * Prepares a Map which contains the year figures of this and the next 5 years (2016, 2017, 2018, 2019, 2020).
+     * The key and the value of every map item are the year figure (2016, usw).
      *
-     * @return
+     * @return Map which contains the year figure of this and the next 5 years. Key and value are the year figure,
+     *         (e.g 2016).
      * @since 01.01.2016
      */
     public Map<Integer,Integer> getExpireYearChoices() {
@@ -118,15 +130,10 @@ public class AccountBean {
         return expireYearChoices;
     }
 
-    public NavigationBean getNavigationBean() {
-        return navigationBean;
-    }
-
-    public void setNavigationBean(NavigationBean navigationBean) {
-        this.navigationBean = navigationBean;
-    }
-
     /**
+     * Charges the account of the logged in user with the amount of this bean ({@link #amount}).
+     * Before the account is charged, the amount is validated (see {@link AccountValidator}). If validation errors occurred,
+     * the account is not charged and the validation faults are displayed.
      *
      * @throws IOException
      * @since 01.01.2016

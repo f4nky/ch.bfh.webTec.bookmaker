@@ -9,7 +9,7 @@ import javax.faces.bean.RequestScoped;
 import java.util.List;
 
 /**
- * Bean to obtain a list of teams to fill dropdown lists.
+ * Bean to obtain a list of stages to fill dropdown lists.
  *
  * <b>History:</b>
  * <pre>

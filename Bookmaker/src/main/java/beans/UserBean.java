@@ -19,7 +19,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**
- * TODO
+ * This bean is used for actions concerning users, e.g. to login a user on the system, to logout a user, to change
+ * the profile data, to register or to get all the users of the system.
  *
  * <b>History:</b>
  * <pre>
@@ -150,6 +151,12 @@ public class UserBean implements Serializable {
         this.profileSuccessMessage = profileSuccessMessage;
     }
 
+    /**
+     * Constructor.
+     * Initializes the member variables email, firstName, lastName, password, passwordRepetition and saldo with the
+     * data of the logged in user (if a user is logged in).
+     * @since 12.11.2015
+     */
     public UserBean() {
         User loggedInUser = SessionBean.getUser();
         if (loggedInUser != null) {
@@ -163,7 +170,7 @@ public class UserBean implements Serializable {
     }
 
     /**
-     * Gets every registered user from the database and returns them.
+     * Gets all registered user from the database and returns them.
      *
      * @return A list of users
      * @since 05.01.2016
@@ -185,7 +192,7 @@ public class UserBean implements Serializable {
      *
      * @since 23.12.2015
      */
-    public void register() {
+    public void register() throws NoSuchAlgorithmException, UnsupportedEncodingException {
         //Validate input data
         User user = new User(email, firstName, lastName, password, false);
         UserValidator userValidator = new UserValidator();
@@ -194,13 +201,7 @@ public class UserBean implements Serializable {
         if (validationFaults.size() == 0) {
             //No validation faults
             //Encrypt password
-            try {
-                user.setPassword(PasswordHasher.generatePasswordHash(password));
-            } catch (NoSuchAlgorithmException e) {
-                //TODO exception handling
-            } catch (UnsupportedEncodingException e) {
-                //TODO exception handling
-            }
+            user.setPassword(PasswordHasher.generatePasswordHash(password));
             //Save user in database and display success message
             UserDao.getInstance().createUser(user);
             registerErrorMessage = null;
@@ -223,15 +224,9 @@ public class UserBean implements Serializable {
      *
      * @since 12.11.2015, Updated: 23.12.2015
      */
-    public void login() throws IOException {
+    public void login() throws IOException, NoSuchAlgorithmException, UnsupportedEncodingException {
         //Encrypt password
-        try {
-            password = PasswordHasher.generatePasswordHash(password);
-        } catch (NoSuchAlgorithmException e) {
-            //TODO exception handling
-        } catch (UnsupportedEncodingException e) {
-            //TODO exception handling
-        }
+        password = PasswordHasher.generatePasswordHash(password);
         User user = UserDao.getInstance().getUserByEmailPassword(email, password);
 
         //User exists in database
@@ -250,10 +245,12 @@ public class UserBean implements Serializable {
 
     /**
      * Saves the profile of the user with the input data of the profile form.
+     * Before saving the profile data, the input data are validated and if a validation error occurred, the validation
+     * message are displayed.
      *
      * @since 28.12.2015
      */
-    public void saveProfile() {
+    public void saveProfile() throws NoSuchAlgorithmException, UnsupportedEncodingException {
         //Validate input data
         User oldUserData = SessionBean.getUser();
         User newUserData = new User(oldUserData.getId(), email, firstName, lastName, password, oldUserData.getIsManager());
@@ -265,13 +262,7 @@ public class UserBean implements Serializable {
             //No validation faults
             //Encrypt password if changed
             if (password != null && !password.isEmpty()) {
-                try {
-                    newUserData.setPassword(PasswordHasher.generatePasswordHash(password));
-                } catch (NoSuchAlgorithmException e) {
-                    //TODO exception handling
-                } catch (UnsupportedEncodingException e) {
-                    //TODO exception handling
-                }
+                newUserData.setPassword(PasswordHasher.generatePasswordHash(password));
             } else {
                 newUserData.setPassword(oldUserData.getPassword());
             }
