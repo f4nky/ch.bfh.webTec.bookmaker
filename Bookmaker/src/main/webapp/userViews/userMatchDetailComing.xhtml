@@ -25,7 +25,17 @@
                 <div class="well well-sm col-md-12">
                     <div class="col-md-4">
                         <strong>#{messages.userMatchesDetails_encounter}</strong>
-                        <p>#{userBetBean.matchEvent.teamHome.nameEn} - #{userBetBean.matchEvent.teamAway.nameEn}</p>
+                        <p>
+                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{userBetBean.matchEvent.teamHome.nameDe} "/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{userBetBean.matchEvent.teamHome.nameEn} "/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{userBetBean.matchEvent.teamHome.nameFr} "/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{userBetBean.matchEvent.teamHome.nameIt} "/>
+                            -
+                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value=" #{userBetBean.matchEvent.teamAway.nameDe}"/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value=" #{userBetBean.matchEvent.teamAway.nameEn}"/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value=" #{userBetBean.matchEvent.teamAway.nameFr}"/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value=" #{userBetBean.matchEvent.teamAway.nameIt}"/>
+                        </p>
                     </div>
                     <div class="col-md-4">
                         <strong>#{messages.userMatchesDetails_amount_placed}</strong>
@@ -69,7 +79,12 @@
                                     <tbody>
                                     <ui:repeat value="#{userBetBean.matchBets}" var="matchBet">
                                         <tr>
-                                            <td>#{matchBet.descriptionEn}</td>
+                                            <td>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchBet.descriptionDe}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchBet.descriptionEn}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchBet.descriptionFr}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchBet.descriptionIt}"/>
+                                            </td>
                                             <td class="text-right">#{matchBet.odds}</td>
                                             <td class="text-right">
                                                 <h:form>
@@ -110,7 +125,12 @@
                                                     <f:convertDateTime pattern="dd.MM.yy" />
                                                 </h:outputText>
                                             </td>
-                                            <td>#{userBet.matchBetId.descriptionEn}</td>
+                                            <td>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{userBet.matchBetId.descriptionDe}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{userBet.matchBetId.descriptionEn}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{userBet.matchBetId.descriptionFr}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{userBet.matchBetId.descriptionIt}"/>
+                                            </td>
                                             <td class="text-right">#{userBet.matchBetId.odds}</td>
                                             <td class="text-right">
                                                 <h:outputText value="#{userBet.amount}">

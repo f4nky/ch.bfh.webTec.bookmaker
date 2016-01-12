@@ -106,11 +106,11 @@ INSERT INTO matchEvent (id, matchEventNr, stageId, matchEventGroup, matchEventDa
 
 	(51, 51, 5, null, '2016-07-10 21:00:00', null, null); # Winner 49 - Winner 50
 
-INSERT INTO matchBet (id, matchEventId, descriptionEn, odds) VALUES
-	(1, 1, 'France leads after 90\'', 1.5),
-	(2, 1, 'Romania leads after 90\'', 3.0),
-	(3, 1, 'France wins', 1.2),
-	(4, 1, 'Romania wins', 6.0);
+INSERT INTO matchBet (id, matchEventId, descriptionEn, descriptionDe, descriptionFr, descriptionIt, odds) VALUES
+	(1, 1, 'France leads after 90\'', 'Frankreich führt nach 90\'', 'France leads after 90\'_FR', 'France leads after 90\'_IT', 1.5),
+	(2, 1, 'Romania leads after 90\'', 'Rumänien führt nach 90\'', 'Romania leads after 90\'_FR', 'Romania leads after 90\'_IT', 3.0),
+	(3, 1, 'France wins', 'Frankreich gewinnt', 'France wins_FR', 'France wins_IT', 1.2),
+	(4, 1, 'Romania wins', 'Rumänien gewinnt', 'Romania wins_FR', 'Romania wins_IT', 6.0);
     
 INSERT INTO userBet (id, matchBetId, userId, entryDateTime, amount) VALUES
 	(1, 1, 2, '2015-12-27 16:00:00', 100.0),

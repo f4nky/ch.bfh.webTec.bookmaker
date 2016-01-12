@@ -3,8 +3,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <h:body>
     <ui:composition template="managerLayout.xhtml">
@@ -26,7 +25,15 @@
                     <div class="col-md-4">
                         <strong>#{messages.managerMatchesDetails_encounter}</strong>
                         <p>
-                            #{matchBetBean.matchEvent.teamHome.nameEn} - #{matchBetBean.matchEvent.teamAway.nameEn}
+                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchBetBean.matchEvent.teamHome.nameDe} "/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchBetBean.matchEvent.teamHome.nameEn} "/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchBetBean.matchEvent.teamHome.nameFr} "/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchBetBean.matchEvent.teamHome.nameIt} "/>
+                            -
+                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value=" #{matchBetBean.matchEvent.teamAway.nameDe}"/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value=" #{matchBetBean.matchEvent.teamAway.nameEn}"/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value=" #{matchBetBean.matchEvent.teamAway.nameFr}"/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value=" #{matchBetBean.matchEvent.teamAway.nameIt}"/>
                         </p>
                     </div>
                     <div class="col-md-4 text-center">
@@ -88,7 +95,12 @@
                                             <ui:repeat value="#{matchBetBean.matchBets}" var="matchBet">
                                                 <tr>
                                                     <h:form>
-                                                        <td>#{matchBet.descriptionEn}</td>
+                                                        <td>
+                                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchBet.descriptionDe}"/>
+                                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchBet.descriptionEn}"/>
+                                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchBet.descriptionFr}"/>
+                                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchBet.descriptionIt}"/>
+                                                        </td>
                                                         <td class="text-center">
                                                             <h:selectBooleanCheckbox value="#{matchBet.isActive}" onclick="return false"/>
                                                         </td>

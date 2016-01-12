@@ -24,7 +24,17 @@
                 <div class="well well-sm col-md-12">
                 <div class="col-md-4">
                     <strong>#{messages.userMatchesDetails_encounter}</strong>
-                    <p>#{matchBetBean.matchEvent.teamHome.nameEn} - #{matchBetBean.matchEvent.teamAway.nameEn}</p>
+                    <p>
+                        <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchBetBean.matchEvent.teamHome.nameDe} "/>
+                        <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchBetBean.matchEvent.teamHome.nameEn} "/>
+                        <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchBetBean.matchEvent.teamHome.nameFr} "/>
+                        <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchBetBean.matchEvent.teamHome.nameIt} "/>
+                        -
+                        <h:outputText rendered="#{localeBean.locale.language == 'de'}" value=" #{matchBetBean.matchEvent.teamAway.nameDe}"/>
+                        <h:outputText rendered="#{localeBean.locale.language == 'en'}" value=" #{matchBetBean.matchEvent.teamAway.nameEn}"/>
+                        <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value=" #{matchBetBean.matchEvent.teamAway.nameFr}"/>
+                        <h:outputText rendered="#{localeBean.locale.language == 'it'}" value=" #{matchBetBean.matchEvent.teamAway.nameIt}"/>
+                    </p>
                 </div>
                     <div class="col-md-4">
                         <strong>#{messages.userMatchesDetails_result}</strong>
@@ -95,7 +105,12 @@
                                     <tbody>
                                     <ui:repeat value="#{matchBetBean.getActiveMatchBetsWithUserAmount(matchBetBean.matchEvent)}" var="activeMatchBet">
                                         <tr>
-                                            <td>#{activeMatchBet.descriptionEn}</td>
+                                            <td>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{activeMatchBet.descriptionDe}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{activeMatchBet.descriptionEn}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{activeMatchBet.descriptionFr}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{activeMatchBet.descriptionIt}"/>
+                                            </td>
                                             <td class="text-right">#{activeMatchBet.odds}</td>
                                             <td class="text-right">CHF #{activeMatchBet.setUserAmount}</td>
                                             <td class="text-right text-success">
@@ -128,7 +143,12 @@
                                     <tbody>
                                     <ui:repeat value="#{matchBetBean.getNotActiveMatchBetsWithUserAmount(matchBetBean.matchEvent)}" var="notActiveMatchBet">
                                         <tr>
-                                            <td>#{notActiveMatchBet.descriptionEn}</td>
+                                            <td>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{notActiveMatchBet.descriptionDe}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{notActiveMatchBet.descriptionEn}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{notActiveMatchBet.descriptionFr}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{notActiveMatchBet.descriptionIt}"/>
+                                            </td>
                                             <td class="text-right">#{notActiveMatchBet.odds}</td>
                                             <td class="text-right">
                                                 <h:outputText value="#{notActiveMatchBet.setUserAmount}">

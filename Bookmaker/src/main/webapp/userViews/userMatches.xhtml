@@ -55,10 +55,19 @@
                                             </h:outputText>
                                         </td>
                                         <td>
-                                            <p>#{matchEvent.stage.nameEn}</p>
+                                            <p>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.stage.nameDe}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.stage.nameEn}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.stage.nameFr}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.stage.nameIt}"/>
+                                            </p>
                                             <h:outputText value="#{messages.matches_group} #{matchEvent.matchEventGroup}" rendered="#{not empty matchEvent.matchEventGroup}" />
                                         </td>
-                                        <td class="text-right">#{matchEvent.teamHome.nameEn}
+                                        <td class="text-right">
+                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.teamHome.nameDe} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.teamHome.nameEn} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.teamHome.nameFr} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.teamHome.nameIt} "/>
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamHome.nameEn}" />
                                         </td>
                                         <td class="text-center">
@@ -66,7 +75,10 @@
                                         </td>
                                         <td>
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
-                                            #{matchEvent.teamAway.nameEn}
+                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value=" #{matchEvent.teamAway.nameDe}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value=" #{matchEvent.teamAway.nameEn}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value=" #{matchEvent.teamAway.nameFr}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value=" #{matchEvent.teamAway.nameIt}"/>
                                         </td>
                                         <td class="text-right">
                                             <h:outputText value="#{matchBetBean.getTotalSetUserAmountFromLoggedInUser(matchEvent)}">
@@ -102,10 +114,19 @@
                                             </h:outputText>
                                         </td>
                                         <td>
-                                            <p>#{matchEvent.stage.nameEn}</p>
+                                            <p>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.stage.nameDe}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.stage.nameEn}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.stage.nameFr}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.stage.nameIt}"/>
+                                            </p>
                                             <h:outputText value="#{messages.matches_group} #{matchEvent.matchEventGroup}" rendered="#{not empty matchEvent.matchEventGroup}" />
                                         </td>
-                                        <td class="text-right">#{matchEvent.teamHome.nameEn}
+                                        <td class="text-right">
+                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.teamHome.nameDe} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.teamHome.nameEn} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.teamHome.nameFr} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.teamHome.nameIt} "/>
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamHome.nameEn}" />
                                         </td>
                                         <td class="text-center">
@@ -114,7 +135,10 @@
                                         </td>
                                         <td>
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
-                                            #{matchEvent.teamAway.nameEn}
+                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value=" #{matchEvent.teamAway.nameDe}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value=" #{matchEvent.teamAway.nameEn}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value=" #{matchEvent.teamAway.nameFr}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value=" #{matchEvent.teamAway.nameIt}"/>
                                         </td>
                                         <td class="text-right">
                                             <h:outputText value="#{matchBetBean.getTotalSetUserAmountFromLoggedInUser(matchEvent)}">
@@ -164,10 +188,19 @@
                                             </h:outputText>
                                         </td>
                                         <td>
-                                            <p>#{matchEvent.stage.nameEn}</p>
+                                            <p>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.stage.nameDe}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.stage.nameEn}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.stage.nameFr}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.stage.nameIt}"/>
+                                            </p>
                                             <h:outputText value="#{messages.matches_group} #{matchEvent.matchEventGroup}" rendered="#{not empty matchEvent.matchEventGroup}" />
                                         </td>
-                                        <td class="text-right">#{matchEvent.teamHome.nameEn}
+                                        <td class="text-right">
+                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.teamHome.nameDe} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.teamHome.nameEn} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.teamHome.nameFr} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.teamHome.nameIt} "/>
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamHome.nameEn}" />
                                         </td>
                                         <td class="text-center">
@@ -176,7 +209,10 @@
                                         </td>
                                         <td>
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
-                                            #{matchEvent.teamAway.nameEn}
+                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value=" #{matchEvent.teamAway.nameDe}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value=" #{matchEvent.teamAway.nameEn}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value=" #{matchEvent.teamAway.nameFr}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value=" #{matchEvent.teamAway.nameIt}"/>
                                         </td>
                                         <td class="text-right">
                                             <h:outputText value="#{matchBetBean.getTotalSetUserAmountFromLoggedInUser(matchEvent)}">

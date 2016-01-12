@@ -25,7 +25,17 @@
                 <div class="well well-sm col-md-12">
                     <div class="col-md-6">
                         <strong>#{messages.managerMatchesDetails_encounter}</strong>
-                        <p>#{matchBetBean.matchEvent.teamHome.nameEn} - #{matchBetBean.matchEvent.teamAway.nameEn}</p>
+                        <p>
+                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchBetBean.matchEvent.teamHome.nameDe} "/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchBetBean.matchEvent.teamHome.nameEn} "/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchBetBean.matchEvent.teamHome.nameFr} "/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchBetBean.matchEvent.teamHome.nameIt} "/>
+                            -
+                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value=" #{matchBetBean.matchEvent.teamAway.nameDe}"/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value=" #{matchBetBean.matchEvent.teamAway.nameEn}"/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value=" #{matchBetBean.matchEvent.teamAway.nameFr}"/>
+                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value=" #{matchBetBean.matchEvent.teamAway.nameIt}"/>
+                        </p>
                     </div>
                     <div class="col-md-6 text-right">
                         <strong>#{messages.managerMatchesDetail_total_amount_placed_bets}</strong>
@@ -73,7 +83,12 @@
                                                     <td class="text-right">
                                                         <a href="#"><i class="fa fa-pencil-square-o"></i></a>
                                                     </td>
-                                                    <td>#{matchBet.descriptionEn}</td>
+                                                    <td>
+                                                        <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchBet.descriptionDe}"/>
+                                                        <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchBet.descriptionEn}"/>
+                                                        <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchBet.descriptionFr}"/>
+                                                        <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchBet.descriptionIt}"/>
+                                                    </td>
                                                     <td class="text-right">#{matchBet.odds}</td>
                                                     <td class="text-right">
                                                         <h:outputText value="#{matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet)}">
