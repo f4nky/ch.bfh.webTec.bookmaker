@@ -7,7 +7,7 @@ import javax.faces.context.FacesContext;
 import java.io.IOException;
 
 /**
- * Bean to navigate from one site to another.
+ * Bean to navigate from one site to another. Contains different methods to navigate to different sites.
  *
  * <b>History:</b>
  * <pre>

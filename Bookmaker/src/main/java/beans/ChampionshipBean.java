@@ -17,7 +17,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * TODO
+ * This bean is used for actions concerning a championship. A championship is a match event, respectively the europe
+ * championship which contains multiple matches. For more infos about matches, see {@link MatchEvent}.
+ *
+ * This class contains actions to
  *
  * <b>History:</b>
  * <pre>
@@ -171,8 +174,9 @@ public class ChampionshipBean implements Serializable {
     }
 
     /**
+     * Gets and returns all the coming matches.
      *
-     * @return
+     * @return All the coming matches.
      * @since 25.12.2015
      */
     @PostConstruct
@@ -181,8 +185,10 @@ public class ChampionshipBean implements Serializable {
     }
 
     /**
+     * Gets and returns all the matches in progress. A match is in progress when the start date of the match is in the
+     * past but the finished flag was not set by the manager.
      *
-     * @return
+     * @return All the matches in progress
      * @since 31.12.2015
      */
     @PostConstruct
@@ -191,8 +197,9 @@ public class ChampionshipBean implements Serializable {
     }
 
     /**
+     * Gets and returns all the past matches. A match is a past match when the finished flag is set.
      *
-     * @return
+     * @return All the past matches.
      * @since 25.12.2015
      */
     @PostConstruct
@@ -206,6 +213,7 @@ public class ChampionshipBean implements Serializable {
      * site is refreshed.
      * If at least one validation fault occurred, the validation fault are displayed and the match event is not added to
      * the database. See {@link MatchEventValidator} for the validation routine.
+     *
      * @since 11.01.2016
      */
     public void createMatchEvent() throws IOException, ParseException {
@@ -234,6 +242,7 @@ public class ChampionshipBean implements Serializable {
     }
 
     /**
+<<<<<<< HEAD
      * Validates the input data for editing a match event and update the match event on the database if no validation
      * fault occurred. After updating the event on the database, the modal dialog to update the match event is closed and the
      * site is refreshed.
@@ -267,9 +276,12 @@ public class ChampionshipBean implements Serializable {
     }
 
     /**
+=======
+     * Calculates the sum of all amounts which the logged in user has set to the given match.
+>>>>>>> 24719b0b1b39a1b5fb343158f9c3b9f39aa3f25e
      *
-     * @param matchEvent
-     * @return
+     * @param matchEvent Match to calculate the sum of all set amounts of the logged in user.
+     * @return Sum of all amounts which the logged in user has set to the given match. 0 if no amount is set.
      * @since 01.01.2016
      */
     public double getTotalUserBetAmountByMatch(MatchEvent matchEvent) {
@@ -282,9 +294,11 @@ public class ChampionshipBean implements Serializable {
     }
 
     /**
+     * Calculates the amount which the manager win or lost for the given match event.
+     * The manager wins if the returned amount is positive and lost if the returned amount is negative.
      *
-     * @param matchEvent
-     * @return
+     * @param matchEvent Match event to calculate the win/lost amount of the manager.
+     * @return Win/Lost amount of the manager. Positiv value = win amount, Negative vaule = lost amount.
      * @since 01.01.2016
      */
     public double calculateManagerWinLostAmountByMatch(MatchEvent matchEvent) {
@@ -302,9 +316,14 @@ public class ChampionshipBean implements Serializable {
     }
 
     /**
+     * Marks the given match as finished. This method sets the finished flag of the match, sets the scores and marks
+     * also the match bets of the match as active or not active (depends on the flags the manager sets in the frontend).
+     * Then this method also calculates the new saldos of the manager and every users which set something to the match
+     * event and updates this saldos in the database.
      *
-     * @param matchEvent
-     * @param matchBets
+     * @param matchEvent Match to mark as finished.
+     * @param matchBets List of the match bets to update their active status and to update the user amounts of all the user
+     *                  which sets money to a match bet which is set as active.
      * @throws IOException
      * @since 02.01.2016
      */
@@ -351,6 +370,7 @@ public class ChampionshipBean implements Serializable {
             finishMatchErrorMessage = LanguageHelper.createValidationFaultOutput(FINISH_MATCH_FORM_NAME, validationFaults);
         }
     }
+<<<<<<< HEAD
 
     /**
      * Returns the stage which this match event belongs to.
@@ -390,4 +410,6 @@ public class ChampionshipBean implements Serializable {
         }
         return teamAway;
     }
+=======
+>>>>>>> 24719b0b1b39a1b5fb343158f9c3b9f39aa3f25e
 }

@@ -21,7 +21,11 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * TODO
+ * This bean is used for actions concerning the user bets
+ * For more information about user bets, see {@link UserBet}.
+ *
+ * Action concerning user bets are actions to read the user bets of a specific match, a specific user or from a specific
+ * match bet, to calculate win/lost amounts, to create user bets, and many more.
  *
  * <b>History:</b>
  * <pre>
@@ -95,8 +99,10 @@ public class UserBetBean implements Serializable {
     }
 
     /**
+     * Gets and returns all the match bets of the set match (set match is variable {@link #matchEvent}). This are all match bets
+     * which the manager has created for a match.
      *
-     * @return
+     * @return All the match bets of the set match in a list. Empty list if no match bets is available for the match.
      * @since 29.12.2015
      */
     public List<MatchBet> getMatchBets() {
@@ -107,8 +113,13 @@ public class UserBetBean implements Serializable {
     }
 
     /**
+     * Gets and returns all the outstanding user bets of the logged in user. An outstanding user bet is a bet which a
+     * user set to a match in the future. As soon as the match has finished and the manager marked the match as finished,
+     * the user bet is no longer outstanding.
      *
-     * @return
+     * For more information about user bets, see {@link UserBet}.
+     *
+     * @return All the outstanding user bets of the logged in user.
      * @since 31.12.2015
      */
     public List<UserBet> getOutstandingUserBets() {
@@ -119,8 +130,12 @@ public class UserBetBean implements Serializable {
     }
 
     /**
+     * Gets and returns all the finished user bets of the logged in user. A user bet is finished as soon as the gambler
+     * marked the match, which the user bets belongs to, as finished.
      *
-     * @return
+     * For more information about user bets, see {@link UserBet}.
+     *
+     * @return All the finished user bets of the logged in user.
      * @since 31.12.2015
      */
     public List<UserBet> getFinishedUserBets() {
@@ -131,6 +146,11 @@ public class UserBetBean implements Serializable {
     }
 
     /**
+     * Adds a user bet (to the database). The user bet is only added if all form inputs are correct (first validated).
+     * If a validation error occurred, the user bet is not added and a validation error message with the wrong inputs
+     * is displayed.
+     *
+     * When a gambler adds a user bet, the set amount is withdraw from his account and the account is updated.
      *
      * @throws IOException
      * @since 27.12.2015
@@ -179,8 +199,10 @@ public class UserBetBean implements Serializable {
     }
 
     /**
+     * Calculates and returns the total amount which the logged in user has set to the match which is set for this bean.
+     * The match can set with the member variable {@link #matchEvent}.
      *
-     * @return
+     * @return The total amount which the logged in user has set to the match which is set for this bean. 0.00 if no amount is set.
      * @since 29.12.2015
      */
     public Double getTotalSetAmount() {
@@ -193,8 +215,9 @@ public class UserBetBean implements Serializable {
     }
 
     /**
+     * Gets the user bets for the logged in user and for a specific match (the set match (see {@link #matchEvent}).
      *
-     * @return
+     * @return All user bets from the logged in user for a specific match.
      * @since 29.12.2015
      */
     public List<UserBet> getUserBetsByMatch() {
@@ -205,10 +228,13 @@ public class UserBetBean implements Serializable {
     }
 
     /**
+     * Calculates an returns the win amount of a bet. This win amount is calculated with the following formula:
+     * Odd * Set amount
      *
-     * @param matchBetOdd
-     * @param setUserAmount
-     * @return
+     *
+     * @param matchBetOdd Odd.
+     * @param setUserAmount Set amount.
+     * @return Win amount of a bet with the given odd and amount.
      * @since 29.12.2015
      */
     public double calculateMatchBetWinAmount(double matchBetOdd, double setUserAmount) {
