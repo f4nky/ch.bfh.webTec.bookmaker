@@ -17,11 +17,12 @@ import java.util.List;
  * <b>History:</b>
  * <pre>
  * 1.0  02.01.2016  Joel Holzer         Class created.
+ * 1.1  12.01.2016  Michael Fankhauser  Added method {@link #validateAddMatchEvent(MatchEvent, String)}
  * </pre>
  *
- * @author Joel Holzer
- * @version 1.0
- * @since 02.01.2016
+ * @author Joel Holzer, Michael Fankhauser
+ * @version 1.1
+ * @since 12.01.2016
  */
 public class MatchEventValidator {
 
@@ -59,7 +60,7 @@ public class MatchEventValidator {
             convertedDate = stringToDate(matchEventDateTime);
 
             if (convertedDate.before(new Date())) {
-                validationFaults.add(new ValidationFault(matchEventDateTime, ValidationFault.DATE_EXPIRED));
+                validationFaults.add(new ValidationFault(matchEventDateTimeName, ValidationFault.DATE_EXPIRED));
             }
         } catch (ParseException ex) {
             validationFaults.add(new ValidationFault(matchEventDateTimeName, ValidationFault.INVALID_DATE));

@@ -1,9 +1,6 @@
 package beans;
 
-import dao.MatchBetDao;
-import dao.MatchEventDao;
-import dao.UserBetDao;
-import dao.UserDao;
+import dao.*;
 import helpers.LanguageHelper;
 import model.*;
 import validators.MatchEventValidator;
@@ -30,11 +27,12 @@ import java.util.*;
  * 1.3  01.01.2016  Joel Holzer         Added methods {@link #getTotalUserBetAmountByMatch} and
  *                                      {@link #calculateManagerWinLostAmountByMatch}
  * 1.4  02.01.2016  Joel Holzer         Added method {@link #finishMatch(MatchEvent, List)}
+ * 1.5  12.01.2016  Michael Fankhauser  Added methods {@link #getStage()}, {@link #getTeamHome()} and {@link #getTeamAway()}
  * </pre>
  *
  * @author Michael Fankhauser, Joel Holzer
- * @version 1.2
- * @since 02.01.2016
+ * @version 1.5
+ * @since 12.01.2016
  */
 @ManagedBean(name = "championship")
 @RequestScoped
@@ -43,8 +41,11 @@ public class ChampionshipBean implements Serializable {
     private String matchEventDateTime;
     private String matchEventGroup;
     private String matchEventNr;
+    private Long stageId;
     private Stage stage;
+    private Long teamHomeId;
     private Team teamHome;
+    private Long teamAwayId;
     private Team teamAway;
     private String scoreTeamHome;
     private String scoreTeamAway;
@@ -52,6 +53,7 @@ public class ChampionshipBean implements Serializable {
     private List<MatchEvent> matchEventsPast;
     private String finishMatchErrorMessage = null;
     private String createEventErrorMessage = null;
+    private String updateEventErrorMessage = null;
 
     @ManagedProperty(value="#{navigationBean}")
     private NavigationBean navigationBean;
@@ -59,14 +61,6 @@ public class ChampionshipBean implements Serializable {
 
     private static final String FINISH_MATCH_FORM_NAME = "finishMatch";
     private static final String CREATE_EVENT_FORM_NAME = "newMatch";
-
-    public Team getTeamAway() {
-        return teamAway;
-    }
-
-    public void setTeamAway(Team teamAway) {
-        this.teamAway = teamAway;
-    }
 
     public String getMatchEventDateTime() {
         return matchEventDateTime;
@@ -92,20 +86,40 @@ public class ChampionshipBean implements Serializable {
         this.matchEventNr = matchEventNr;
     }
 
-    public Stage getStage() {
-        return stage;
+    public Long getStageId() {
+        return stageId;
+    }
+
+    public void setStageId(Long stageId) {
+        this.stageId = stageId;
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    public Team getTeamHome() {
-        return teamHome;
+    public Long getTeamHomeId() {
+        return teamHomeId;
+    }
+
+    public void setTeamHomeId(Long teamHomeId) {
+        this.teamHomeId = teamHomeId;
     }
 
     public void setTeamHome(Team teamHome) {
         this.teamHome = teamHome;
+    }
+
+    public Long getTeamAwayId() {
+        return teamAwayId;
+    }
+
+    public void setTeamAwayId(Long teamAwayId) {
+        this.teamAwayId = teamAwayId;
+    }
+
+    public void setTeamAway(Team teamAway) {
+        this.teamAway = teamAway;
     }
 
     public String getScoreTeamHome() {
@@ -138,6 +152,14 @@ public class ChampionshipBean implements Serializable {
 
     public void setCreateEventErrorMessage(String createEventErrorMessage) {
         this.createEventErrorMessage = createEventErrorMessage;
+    }
+
+    public String getUpdateEventErrorMessage() {
+        return updateEventErrorMessage;
+    }
+
+    public void setUpdateEventErrorMessage(String updateEventErrorMessage) {
+        this.updateEventErrorMessage = updateEventErrorMessage;
     }
 
     public NavigationBean getNavigationBean() {
@@ -190,9 +212,9 @@ public class ChampionshipBean implements Serializable {
         MatchEvent matchEvent = new MatchEvent();
         matchEvent.setMatchEventNr(matchEventNr);
         matchEvent.setMatchEventGroup(matchEventGroup);
-        matchEvent.setStage(stage);
-        matchEvent.setTeamHome(teamHome);
-        matchEvent.setTeamAway(teamAway);
+        matchEvent.setStage(getStage());
+        matchEvent.setTeamHome(getTeamHome());
+        matchEvent.setTeamAway(getTeamAway());
 
         //Validate input data
         MatchEventValidator matchEventValidator = new MatchEventValidator();
@@ -208,6 +230,39 @@ public class ChampionshipBean implements Serializable {
         } else {
             //Validation faults -> display validation faults
             createEventErrorMessage = LanguageHelper.createValidationFaultOutput(CREATE_EVENT_FORM_NAME, validationFaults);
+        }
+    }
+
+    /**
+     * Validates the input data for editing a match event and update the match event on the database if no validation
+     * fault occurred. After updating the event on the database, the modal dialog to update the match event is closed and the
+     * site is refreshed.
+     * If at least one validation fault occurred, the validation fault are displayed and the match event is not updated on
+     * the database. See {@link MatchEventValidator} for the validation routine.
+     * @since 13.01.2016
+     */
+    public void updateMatchEvent() throws IOException, ParseException {
+        MatchEvent matchEvent = new MatchEvent();
+        matchEvent.setMatchEventNr(matchEventNr);
+        matchEvent.setMatchEventGroup(matchEventGroup);
+        matchEvent.setStage(getStage());
+        matchEvent.setTeamHome(getTeamHome());
+        matchEvent.setTeamAway(getTeamAway());
+
+        //Validate input data
+        MatchEventValidator matchEventValidator = new MatchEventValidator();
+        List<ValidationFault> validationFaults = matchEventValidator.validateAddMatchEvent(matchEvent, matchEventDateTime);
+
+        if (validationFaults.size() == 0) {
+            //No validation faults
+            //Save event in database
+            matchEvent.setMatchEventDateTime(new SimpleDateFormat("dd.MM.yyyy HH:mm").parse(matchEventDateTime));
+            MatchEventDao.getInstance().updateMatchEvent(matchEvent);
+            updateEventErrorMessage = null;
+            navigationBean.redirectToManagerHome();
+        } else {
+            //Validation faults -> display validation faults
+            updateEventErrorMessage = LanguageHelper.createValidationFaultOutput(CREATE_EVENT_FORM_NAME, validationFaults);
         }
     }
 
@@ -303,10 +358,36 @@ public class ChampionshipBean implements Serializable {
      * @return stage which this match event belongs to.
      * @since 12.01.2016
      */
-    /*public Stage getStage() {
+    public Stage getStage() {
         if (stage == null) {
-            stage = MatchEventDao.getInstance().findMatchEventById();
+            stage = StageDao.getInstance().findStageById(stageId);
         }
         return stage;
-    }*/
+    }
+
+    /**
+     * Returns the team home which belongs to a match event.
+     *
+     * @return team home which belongs to a match event.
+     * @since 12.01.2016
+     */
+    public Team getTeamHome() {
+        if (teamHome == null) {
+            teamHome = TeamDao.getInstance().findTeamById(teamHomeId);
+        }
+        return teamHome;
+    }
+
+    /**
+     * Returns the team away which belongs to a match event.
+     *
+     * @return team away which belongs to a match event.
+     * @since 12.01.2016
+     */
+    public Team getTeamAway() {
+        if (teamAway == null) {
+            teamAway = TeamDao.getInstance().findTeamById(teamAwayId);
+        }
+        return teamAway;
+    }
 }

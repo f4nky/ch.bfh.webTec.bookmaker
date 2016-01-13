@@ -36,220 +36,226 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <a href="#" data-toggle="modal" data-target="#newMatchModal"
-                                   class="btn btn-default btn-sm">Neuer Match</a>
+                                   class="btn btn-default btn-sm">#{messages.managerMatches_newMatch}</a>
                             </div>
                         </div>
-                        <table class="table table-responsive table-striped" id="matchesComing">
-                            <thead>
-                            <tr>
-                                <th class="col-md-1">#</th>
-                                <th class="col-md-2">#{messages.managerMatches_datetime}</th>
-                                <th class="col-md-2">#{messages.managerMatches_stage}
-                                    <br/>#{messages.managerMatches_group}</th>
-                                <th class="col-md-2 text-right">#{messages.managerMatches_home}</th>
-                                <th class="col-md-1"></th>
-                                <th class="col-md-2">#{messages.managerMatches_away}</th>
-                                <th class="col-md-2 text-right">#{messages.managerMatches_set_amount}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <ui:repeat value="#{championship.matchEventsComing}" var="matchEvent">
-                                <tr data-href="managerMatchDetail.xhtml?matchEventId=#{matchEvent.id}">
-                                    <td>#{matchEvent.matchEventNr}</td>
-                                    <td>
-                                        <h:outputText value="#{matchEvent.matchEventDateTime}">
-                                            <f:convertDateTime pattern="E, dd.MM. HH:mm" locale="de_DE"/>
-                                        </h:outputText>
-                                    </td>
-                                    <td>
-                                        <p>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.stage.nameDe}"/>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.stage.nameEn}"/>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.stage.nameFr}"/>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.stage.nameIt}"/>
-                                        </p>
-                                        <h:outputText value="#{messages.matches_group} #{matchEvent.matchEventGroup}"
-                                                      rendered="#{not empty matchEvent.matchEventGroup}"/>
-                                    </td>
-                                    <td class="text-right">
-                                        <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.teamHome.nameDe} "/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.teamHome.nameEn} "/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.teamHome.nameFr} "/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.teamHome.nameIt} "/>
-                                        <h:graphicImage
-                                                value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png"
-                                                width="24px" rendered="#{not empty matchEvent.teamHome.nameEn}"/>
-                                    </td>
-                                    <td class="text-center">
-                                        <h:outputText
-                                                value="#{not empty matchEvent.scoreTeamHome ? matchEvent.scoreTeamHome : '-'}"/> :
-                                        <h:outputText
-                                                value="#{not empty matchEvent.scoreTeamAway ? matchEvent.scoreTeamAway : '-'}"/>
-                                    </td>
-                                    <td>
-                                        <h:graphicImage
-                                                value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png"
-                                                width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}"/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'de'}" value=" #{matchEvent.teamAway.nameDe}"/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'en'}" value=" #{matchEvent.teamAway.nameEn}"/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value=" #{matchEvent.teamAway.nameFr}"/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'it'}" value=" #{matchEvent.teamAway.nameIt}"/>
-                                    </td>
-                                    <td class="text-right">
-                                        <h:outputText value="#{championship.getTotalUserBetAmountByMatch(matchEvent)}">
-                                            <f:convertNumber pattern="CHF #0.00" locale="de-CH"/>
-                                        </h:outputText>
-                                    </td>
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="matchesComing">
+                                <thead>
+                                <tr>
+                                    <th class="col-md-1">#</th>
+                                    <th class="col-md-2">#{messages.managerMatches_datetime}</th>
+                                    <th class="col-md-2">#{messages.managerMatches_stage}
+                                        <br/>#{messages.managerMatches_group}</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatches_home}</th>
+                                    <th class="col-md-1"></th>
+                                    <th class="col-md-2">#{messages.managerMatches_away}</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatches_set_amount}</th>
                                 </tr>
-                            </ui:repeat>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="tab-pane" id="inProgress">
-                        <table class="table table-responsive table-striped" id="matchesInProgress">
-                            <thead>
-                            <tr>
-                                <th class="col-md-1">#</th>
-                                <th class="col-md-2">#{messages.managerMatches_datetime}</th>
-                                <th class="col-md-2">#{messages.managerMatches_stage}
-                                    <br/>#{messages.managerMatches_group}</th>
-                                <th class="col-md-2 text-right">#{messages.managerMatches_home}</th>
-                                <th class="col-md-1"></th>
-                                <th class="col-md-2">#{messages.managerMatches_away}</th>
-                                <th class="col-md-2 text-right">#{messages.managerMatches_set_amount}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <ui:repeat value="#{championship.matchEventsInProgress}" var="matchEvent">
-                                <tr data-href="managerMatchDetailInProgress.xhtml?matchEventId=#{matchEvent.id}">
-                                    <td>#{matchEvent.matchEventNr}</td>
-                                    <td>
-                                        <h:outputText value="#{matchEvent.matchEventDateTime}">
-                                            <f:convertDateTime pattern="E, dd.MM. HH:mm" locale="de_DE"/>
-                                        </h:outputText>
-                                    </td>
-                                    <td>
-                                        <p>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.stage.nameDe}"/>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.stage.nameEn}"/>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.stage.nameFr}"/>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.stage.nameIt}"/>
-                                        </p>
-                                        <h:outputText value="#{messages.matches_group} #{matchEvent.matchEventGroup}"
-                                                      rendered="#{not empty matchEvent.matchEventGroup}"/>
-                                    </td>
-                                    <td class="text-right">
-                                        <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.teamHome.nameDe} "/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.teamHome.nameEn} "/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.teamHome.nameFr} "/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.teamHome.nameIt} "/>
-                                        <h:graphicImage
-                                                value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png"
-                                                width="24px" rendered="#{not empty matchEvent.teamHome.nameEn}"/>
-                                    </td>
-                                    <td class="text-center">
-                                        <h:outputText
-                                                value="#{not empty matchEvent.scoreTeamHome ? matchEvent.scoreTeamHome : '-'}"/> :
-                                        <h:outputText
-                                                value="#{not empty matchEvent.scoreTeamAway ? matchEvent.scoreTeamAway : '-'}"/>
-                                    </td>
-                                    <td>
-                                        <h:graphicImage
-                                                value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png"
-                                                width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}"/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'de'}" value=" #{matchEvent.teamAway.nameDe}"/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'en'}" value=" #{matchEvent.teamAway.nameEn}"/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value=" #{matchEvent.teamAway.nameFr}"/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'it'}" value=" #{matchEvent.teamAway.nameIt}"/>
-                                    </td>
-                                    <td class="text-right">
-                                        <h:outputText value="#{championship.getTotalUserBetAmountByMatch(matchEvent)}">
-                                            <f:convertNumber pattern="CHF #0.00" locale="de-CH"/>
-                                        </h:outputText>
-                                    </td>
-                                </tr>
-                            </ui:repeat>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="tab-pane" id="finished">
-                        <table class="table table-responsive table-striped" id="matchesFinished">
-                            <thead>
-                            <tr>
-                                <th class="col-md-1">#</th>
-                                <th class="col-md-2">#{messages.matches_datetime}</th>
-                                <th class="col-md-2">#{messages.matches_stage}<br/>#{messages.matches_group}</th>
-                                <th class="col-md-2 text-right">#{messages.matches_home}</th>
-                                <th class="col-md-1"></th>
-                                <th class="col-md-2">#{messages.matches_away}</th>
-                                <th class="col-md-2 text-right">#{messages.managerMatches_amount_won_lost}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <ui:repeat value="#{championship.matchEventsPast}" var="matchEvent">
-                                <tr data-href="managerMatchDetailFinished.xhtml?matchEventId=#{matchEvent.id}">
-                                    <td>#{matchEvent.matchEventNr}</td>
-                                    <td>
-                                        <h:outputText value="#{matchEvent.matchEventDateTime}">
-                                            <f:convertDateTime pattern="E, dd.MM. HH:mm" locale="de_DE"/>
-                                        </h:outputText>
-                                    </td>
-                                    <td>
-                                        <p>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.stage.nameDe}"/>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.stage.nameEn}"/>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.stage.nameFr}"/>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.stage.nameIt}"/>
-                                        </p>
-                                        <h:outputText value="#{messages.matches_group} #{matchEvent.matchEventGroup}"
-                                                      rendered="#{not empty matchEvent.matchEventGroup}"/>
-                                    </td>
-                                    <td class="text-right">
-                                        <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.teamHome.nameDe} "/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.teamHome.nameEn} "/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.teamHome.nameFr} "/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.teamHome.nameIt} "/>
-                                        <h:graphicImage
-                                                value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png"
-                                                width="24px" rendered="#{not empty matchEvent.teamHome.nameEn}"/>
-                                    </td>
-                                    <td class="text-center">
-                                        <h:outputText
-                                                value="#{not empty matchEvent.scoreTeamHome ? matchEvent.scoreTeamHome : '-'}"/> :
-                                        <h:outputText
-                                                value="#{not empty matchEvent.scoreTeamAway ? matchEvent.scoreTeamAway : '-'}"/>
-                                    </td>
-                                    <td>
-                                        <h:graphicImage
-                                                value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png"
-                                                width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}"/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'de'}" value=" #{matchEvent.teamAway.nameDe}"/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'en'}" value=" #{matchEvent.teamAway.nameEn}"/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value=" #{matchEvent.teamAway.nameFr}"/>
-                                        <h:outputText rendered="#{localeBean.locale.language == 'it'}" value=" #{matchEvent.teamAway.nameIt}"/>
-                                    </td>
-                                    <h:panelGroup
-                                            rendered="#{championship.calculateManagerWinLostAmountByMatch(matchEvent) ge 0}">
-                                        <td class="text-right text-success">
-                                            <h:outputText
-                                                    value="#{championship.calculateManagerWinLostAmountByMatch(matchEvent)}">
-                                                <f:convertNumber pattern="CHF +#0.00" locale="de-CH"/>
+                                </thead>
+                                <tbody>
+                                <ui:repeat value="#{championship.matchEventsComing}" var="matchEvent">
+                                    <tr data-href="managerMatchDetail.xhtml?matchEventId=#{matchEvent.id}">
+                                        <td>#{matchEvent.matchEventNr}</td>
+                                        <td>
+                                            <h:outputText value="#{matchEvent.matchEventDateTime}">
+                                                <f:convertDateTime pattern="E, dd.MM. HH:mm" locale="de_DE"/>
                                             </h:outputText>
                                         </td>
-                                    </h:panelGroup>
-                                    <h:panelGroup
-                                            rendered="#{championship.calculateManagerWinLostAmountByMatch(matchEvent) lt 0}">
-                                        <td class="text-right text-danger">
+                                        <td>
+                                            <p>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.stage.nameDe}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.stage.nameEn}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.stage.nameFr}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.stage.nameIt}"/>
+                                            </p>
+                                            <h:outputText value="#{messages.matches_group} #{matchEvent.matchEventGroup}"
+                                                          rendered="#{not empty matchEvent.matchEventGroup}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.teamHome.nameDe} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.teamHome.nameEn} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.teamHome.nameFr} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.teamHome.nameIt} "/>
+                                            <h:graphicImage
+                                                    value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png"
+                                                    width="24px" rendered="#{not empty matchEvent.teamHome.nameEn}"/>
+                                        </td>
+                                        <td class="text-center">
                                             <h:outputText
-                                                    value="#{championship.calculateManagerWinLostAmountByMatch(matchEvent)}">
+                                                    value="#{not empty matchEvent.scoreTeamHome ? matchEvent.scoreTeamHome : '-'}"/> :
+                                            <h:outputText
+                                                    value="#{not empty matchEvent.scoreTeamAway ? matchEvent.scoreTeamAway : '-'}"/>
+                                        </td>
+                                        <td>
+                                            <h:graphicImage
+                                                    value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png"
+                                                    width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value=" #{matchEvent.teamAway.nameDe}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value=" #{matchEvent.teamAway.nameEn}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value=" #{matchEvent.teamAway.nameFr}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value=" #{matchEvent.teamAway.nameIt}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <h:outputText value="#{championship.getTotalUserBetAmountByMatch(matchEvent)}">
                                                 <f:convertNumber pattern="CHF #0.00" locale="de-CH"/>
                                             </h:outputText>
                                         </td>
-                                    </h:panelGroup>
+                                    </tr>
+                                </ui:repeat>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="inProgress">
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="matchesInProgress">
+                                <thead>
+                                <tr>
+                                    <th class="col-md-1">#</th>
+                                    <th class="col-md-2">#{messages.managerMatches_datetime}</th>
+                                    <th class="col-md-2">#{messages.managerMatches_stage}
+                                        <br/>#{messages.managerMatches_group}</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatches_home}</th>
+                                    <th class="col-md-1"></th>
+                                    <th class="col-md-2">#{messages.managerMatches_away}</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatches_set_amount}</th>
                                 </tr>
-                            </ui:repeat>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                <ui:repeat value="#{championship.matchEventsInProgress}" var="matchEvent">
+                                    <tr data-href="managerMatchDetailInProgress.xhtml?matchEventId=#{matchEvent.id}">
+                                        <td>#{matchEvent.matchEventNr}</td>
+                                        <td>
+                                            <h:outputText value="#{matchEvent.matchEventDateTime}">
+                                                <f:convertDateTime pattern="E, dd.MM. HH:mm" locale="de_DE"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.stage.nameDe}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.stage.nameEn}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.stage.nameFr}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.stage.nameIt}"/>
+                                            </p>
+                                            <h:outputText value="#{messages.matches_group} #{matchEvent.matchEventGroup}"
+                                                          rendered="#{not empty matchEvent.matchEventGroup}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.teamHome.nameDe} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.teamHome.nameEn} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.teamHome.nameFr} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.teamHome.nameIt} "/>
+                                            <h:graphicImage
+                                                    value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png"
+                                                    width="24px" rendered="#{not empty matchEvent.teamHome.nameEn}"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <h:outputText
+                                                    value="#{not empty matchEvent.scoreTeamHome ? matchEvent.scoreTeamHome : '-'}"/> :
+                                            <h:outputText
+                                                    value="#{not empty matchEvent.scoreTeamAway ? matchEvent.scoreTeamAway : '-'}"/>
+                                        </td>
+                                        <td>
+                                            <h:graphicImage
+                                                    value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png"
+                                                    width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value=" #{matchEvent.teamAway.nameDe}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value=" #{matchEvent.teamAway.nameEn}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value=" #{matchEvent.teamAway.nameFr}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value=" #{matchEvent.teamAway.nameIt}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <h:outputText value="#{championship.getTotalUserBetAmountByMatch(matchEvent)}">
+                                                <f:convertNumber pattern="CHF #0.00" locale="de-CH"/>
+                                            </h:outputText>
+                                        </td>
+                                    </tr>
+                                </ui:repeat>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="finished">
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="matchesFinished">
+                                <thead>
+                                <tr>
+                                    <th class="col-md-1">#</th>
+                                    <th class="col-md-2">#{messages.matches_datetime}</th>
+                                    <th class="col-md-2">#{messages.matches_stage}<br/>#{messages.matches_group}</th>
+                                    <th class="col-md-2 text-right">#{messages.matches_home}</th>
+                                    <th class="col-md-1"></th>
+                                    <th class="col-md-2">#{messages.matches_away}</th>
+                                    <th class="col-md-2 text-right">#{messages.managerMatches_amount_won_lost}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <ui:repeat value="#{championship.matchEventsPast}" var="matchEvent">
+                                    <tr data-href="managerMatchDetailFinished.xhtml?matchEventId=#{matchEvent.id}">
+                                        <td>#{matchEvent.matchEventNr}</td>
+                                        <td>
+                                            <h:outputText value="#{matchEvent.matchEventDateTime}">
+                                                <f:convertDateTime pattern="E, dd.MM. HH:mm" locale="de_DE"/>
+                                            </h:outputText>
+                                        </td>
+                                        <td>
+                                            <p>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.stage.nameDe}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.stage.nameEn}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.stage.nameFr}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.stage.nameIt}"/>
+                                            </p>
+                                            <h:outputText value="#{messages.matches_group} #{matchEvent.matchEventGroup}"
+                                                          rendered="#{not empty matchEvent.matchEventGroup}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.teamHome.nameDe} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.teamHome.nameEn} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.teamHome.nameFr} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.teamHome.nameIt} "/>
+                                            <h:graphicImage
+                                                    value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png"
+                                                    width="24px" rendered="#{not empty matchEvent.teamHome.nameEn}"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <h:outputText
+                                                    value="#{not empty matchEvent.scoreTeamHome ? matchEvent.scoreTeamHome : '-'}"/> :
+                                            <h:outputText
+                                                    value="#{not empty matchEvent.scoreTeamAway ? matchEvent.scoreTeamAway : '-'}"/>
+                                        </td>
+                                        <td>
+                                            <h:graphicImage
+                                                    value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png"
+                                                    width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value=" #{matchEvent.teamAway.nameDe}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value=" #{matchEvent.teamAway.nameEn}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value=" #{matchEvent.teamAway.nameFr}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value=" #{matchEvent.teamAway.nameIt}"/>
+                                        </td>
+                                        <h:panelGroup
+                                                rendered="#{championship.calculateManagerWinLostAmountByMatch(matchEvent) ge 0}">
+                                            <td class="text-right text-success">
+                                                <h:outputText
+                                                        value="#{championship.calculateManagerWinLostAmountByMatch(matchEvent)}">
+                                                    <f:convertNumber pattern="CHF +#0.00" locale="de-CH"/>
+                                                </h:outputText>
+                                            </td>
+                                        </h:panelGroup>
+                                        <h:panelGroup
+                                                rendered="#{championship.calculateManagerWinLostAmountByMatch(matchEvent) lt 0}">
+                                            <td class="text-right text-danger">
+                                                <h:outputText
+                                                        value="#{championship.calculateManagerWinLostAmountByMatch(matchEvent)}">
+                                                    <f:convertNumber pattern="CHF #0.00" locale="de-CH"/>
+                                                </h:outputText>
+                                            </td>
+                                        </h:panelGroup>
+                                    </tr>
+                                </ui:repeat>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -286,25 +292,16 @@
                                     <label class="col-md-3 control-label">#{messages.form_newMatch_eventGroup}</label>
 
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control"
+                                        <h:inputText class="form-control" id="matchEventGroup"
                                                value="#{championship.matchEventGroup}"
-                                               placeholder="#{messages.form_newMatch_eventGroup}"/>
+                                               p:placeholder="#{messages.form_newMatch_eventGroup}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-3 control-label">#{messages.form_newMatch_stage}</label>
                                     <div class="col-md-9">
-                                        <h:selectOneMenu value="#{championship.stage}" class="form-control" rendered="#{localeBean.locale.language == 'de'}">
-                                            <f:selectItems value="#{stageBean.stages}" var="stage" itemLabel="#{stage.nameDe}" itemValue="#{stage}"/>
-                                        </h:selectOneMenu>
-                                        <h:selectOneMenu value="#{championship.stage}" class="form-control" rendered="#{localeBean.locale.language == 'en'}">
-                                            <f:selectItems value="#{stageBean.stages}" var="stage" itemLabel="#{stage.nameEn}" itemValue="#{stage}"/>
-                                        </h:selectOneMenu>
-                                        <h:selectOneMenu value="#{championship.stage}" class="form-control" rendered="#{localeBean.locale.language == 'fr'}">
-                                            <f:selectItems value="#{stageBean.stages}" var="stage" itemLabel="#{stage.nameFr}" itemValue="#{stage}"/>
-                                        </h:selectOneMenu>
-                                        <h:selectOneMenu value="#{championship.stage}" class="form-control" rendered="#{localeBean.locale.language == 'it'}">
-                                            <f:selectItems value="#{stageBean.stages}" var="stage" itemLabel="#{stage.nameIt}" itemValue="#{stage}"/>
+                                        <h:selectOneMenu value="#{championship.stageId}" class="form-control" id="stageId">
+                                            <f:selectItems value="#{stageBean.stages}" var="stage" itemLabel="#{stage.nameEn}" itemValue="#{stage.id}"/>
                                         </h:selectOneMenu>
                                     </div>
                                 </div>
@@ -312,21 +309,9 @@
                                     <label class="col-md-3 control-label">#{messages.form_newMatch_teamHome}</label>
 
                                     <div class="col-md-9">
-                                        <h:selectOneMenu rendered="#{localeBean.locale.language == 'de'}" value="#{championship.teamHome}" class="form-control">
+                                        <h:selectOneMenu value="#{championship.teamHomeId}" class="form-control" id="teamHomeId">
                                             <f:selectItem></f:selectItem>
-                                            <f:selectItems value="#{teamBean.teams}" var="team" itemLabel="#{team.nameDe}" itemValue="#{team}"/>
-                                        </h:selectOneMenu>
-                                        <h:selectOneMenu rendered="#{localeBean.locale.language == 'en'}" value="#{championship.teamHome}" class="form-control">
-                                            <f:selectItem></f:selectItem>
-                                            <f:selectItems value="#{teamBean.teams}" var="team" itemLabel="#{team.nameEn}" itemValue="#{team}"/>
-                                        </h:selectOneMenu>
-                                        <h:selectOneMenu rendered="#{localeBean.locale.language == 'fr'}" value="#{championship.teamHome}" class="form-control">
-                                            <f:selectItem></f:selectItem>
-                                            <f:selectItems value="#{teamBean.teams}" var="team" itemLabel="#{team.nameFr}" itemValue="#{team}"/>
-                                        </h:selectOneMenu>
-                                        <h:selectOneMenu rendered="#{localeBean.locale.language == 'it'}" value="#{championship.teamHome}" class="form-control">
-                                            <f:selectItem></f:selectItem>
-                                            <f:selectItems value="#{teamBean.teams}" var="team" itemLabel="#{team.nameIt}" itemValue="#{team}"/>
+                                            <f:selectItems value="#{teamBean.teams}" var="team" itemLabel="#{team.nameEn}" itemValue="#{team.id}"/>
                                         </h:selectOneMenu>
                                     </div>
                                 </div>
@@ -334,27 +319,15 @@
                                     <label class="col-md-3 control-label">#{messages.form_newMatch_teamAway}</label>
 
                                     <div class="col-md-9">
-                                        <h:selectOneMenu rendered="#{localeBean.locale.language == 'de'}" value="#{championship.teamAway}" class="form-control">
+                                        <h:selectOneMenu value="#{championship.teamAwayId}" class="form-control" id="teamAwayId">
                                             <f:selectItem></f:selectItem>
-                                            <f:selectItems value="#{teamBean.teams}" var="team" itemLabel="#{team.nameDe}" itemValue="#{team}"/>
-                                        </h:selectOneMenu>
-                                        <h:selectOneMenu rendered="#{localeBean.locale.language == 'en'}" value="#{championship.teamAway}" class="form-control">
-                                            <f:selectItem></f:selectItem>
-                                            <f:selectItems value="#{teamBean.teams}" var="team" itemLabel="#{team.nameEn}" itemValue="#{team}"/>
-                                        </h:selectOneMenu>
-                                        <h:selectOneMenu rendered="#{localeBean.locale.language == 'fr'}" value="#{championship.teamAway}" class="form-control">
-                                            <f:selectItem></f:selectItem>
-                                            <f:selectItems value="#{teamBean.teams}" var="team" itemLabel="#{team.nameFr}" itemValue="#{team}"/>
-                                        </h:selectOneMenu>
-                                        <h:selectOneMenu rendered="#{localeBean.locale.language == 'it'}" value="#{championship.teamAway}" class="form-control">
-                                            <f:selectItem></f:selectItem>
-                                            <f:selectItems value="#{teamBean.teams}" var="team" itemLabel="#{team.nameIt}" itemValue="#{team}"/>
+                                            <f:selectItems value="#{teamBean.teams}" var="team" itemLabel="#{team.nameEn}" itemValue="#{team.id}"/>
                                         </h:selectOneMenu>
                                     </div>
                                 </div>
                                 <h:commandLink class="btn btn-info btn-fill btn-block" id="saveBtn"
                                                value="#{messages.btn_save}" action="#{championship.createMatchEvent}">
-                                    <f:ajax execute="matchEventDateTime matchEventGroup stage teamHome teamAway"
+                                    <f:ajax execute="matchEventDateTime matchEventNr matchEventGroup stageId teamHomeId teamAwayId"
                                             render="createEventErrorMessage coming"/>
                                 </h:commandLink>
                             </h:form>

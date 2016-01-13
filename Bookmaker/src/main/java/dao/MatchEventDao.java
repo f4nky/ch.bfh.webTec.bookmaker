@@ -106,6 +106,24 @@ public class MatchEventDao {
     }
 
     /**
+     * Updates every attribute of the match event.
+     *
+     * @param matchEventToUpdate Match event with updated values
+     * @since 13.01.2016
+     */
+    public void updateMatchEvent(MatchEvent matchEventToUpdate) {
+        MatchEvent matchEvent = entityManager.find(MatchEvent.class, matchEventToUpdate.getId());
+        entityManager.getTransaction().begin();
+        matchEvent.setMatchEventDateTime(matchEventToUpdate.getMatchEventDateTime());
+        matchEvent.setMatchEventNr(matchEventToUpdate.getMatchEventNr());
+        matchEvent.setMatchEventGroup(matchEventToUpdate.getMatchEventGroup());
+        matchEvent.setStage(matchEventToUpdate.getStage());
+        matchEvent.setTeamHome(matchEventToUpdate.getTeamHome());
+        matchEvent.setTeamAway(matchEventToUpdate.getTeamAway());
+        entityManager.getTransaction().commit();
+    }
+
+    /**
      * Updates the scores of the teams of a match (score from the home team and away team).
      * The new score (score to update the score in the database) is part of the given match event object.
      *
