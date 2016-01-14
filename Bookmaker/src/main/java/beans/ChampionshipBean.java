@@ -369,6 +369,18 @@ public class ChampionshipBean implements Serializable {
     }
 
     /**
+     * Deletes the given match event.
+     *
+     * @param matchEventToDelete Match event to delete.
+     * @throws IOException
+     * @since 12.01.2016
+     */
+    public void deleteMatchEvent(MatchEvent matchEventToDelete) throws IOException {
+        MatchEventDao.getInstance().deleteMatchEvent(matchEventToDelete);
+        navigationBean.redirectToManagerHome();
+    }
+
+    /**
      * Returns the stage which this match event belongs to.
      *
      * @return stage which this match event belongs to.

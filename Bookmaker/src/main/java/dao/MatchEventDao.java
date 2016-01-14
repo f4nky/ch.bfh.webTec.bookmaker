@@ -138,4 +138,17 @@ public class MatchEventDao {
         matchEvent.setScoreTeamAway(matchEventToUpdateScores.getScoreTeamAway());
         entityManager.getTransaction().commit();
     }
+
+    /**
+     * Deletes the given match event from the database.
+     *
+     * @param matchEventToDelete Match event to delete
+     * @since 02.01.2016
+     */
+    public void deleteMatchEvent(MatchEvent matchEventToDelete) {
+        MatchEvent matchEvent = entityManager.find(MatchEvent.class, matchEventToDelete.getId());
+        entityManager.getTransaction().begin();
+        entityManager.remove(matchEvent);
+        entityManager.getTransaction().commit();
+    }
 }

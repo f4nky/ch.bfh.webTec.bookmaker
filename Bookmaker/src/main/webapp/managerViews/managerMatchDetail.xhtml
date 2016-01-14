@@ -49,10 +49,13 @@
                         </div>
                     </div>
                     <div class="row">
+                        <h:form>
                         <div class="col-md-12">
                             <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#editMatchModal">Edit</button>
-                            <button class="btn btn-default btn-sm btn-danger">Delete</button>
+                                <h:commandLink class="btn btn-default btn-sm btn-danger" id="deleteMatchEvent"
+                                               value="#{messages.managerMatchesDetail_delete}" action="#{championship.deleteMatchEvent(matchBetBean.matchEvent)}" />
                         </div>
+                        </h:form>
                     </div>
                 </div>
             </div>
