@@ -39,7 +39,7 @@ public class UserBetValidator {
 
         //Validate amount
         String amountName = "amount";
-        if (amountOfUserBet == null || amountOfUserBet.isEmpty() || (isNumeric(amountOfUserBet) && Integer.parseInt(amountOfUserBet) <= 0)) {
+        if (amountOfUserBet == null || amountOfUserBet.isEmpty() || (isNumeric(amountOfUserBet) && Double.parseDouble(amountOfUserBet) <= 0.00)) {
             validationFaults.add(new ValidationFault(amountName, ValidationFault.EMTPY_CODE));
         } else if (!isNumeric(amountOfUserBet)) {
             validationFaults.add(new ValidationFault(amountName, ValidationFault.INCORRECT_CHAR_CODE));
