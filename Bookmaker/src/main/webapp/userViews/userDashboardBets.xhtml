@@ -152,7 +152,7 @@
                                                 </h:outputText></td>
                                             <h:panelGroup rendered="#{userBet.matchBetId.isActive eq true}">
                                                 <td class="text-right text-success">
-                                                    <h:outputText value="#{userBet.amount}">
+                                                    <h:outputText value="#{userBetBean.calculateMatchBetWinAmount(userBet.matchBetId.odds, userBet.amount)}">
                                                         <f:convertNumber pattern="CHF +#0.00" locale="de-CH" />
                                                     </h:outputText>
                                                 </td>
