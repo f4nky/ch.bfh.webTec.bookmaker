@@ -67,16 +67,16 @@
                                                          -
                                                     </span>
                                                     <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{userBet.matchBetId.matchEventId.teamAway.countryCode}.png" width="24px" rendered="#{not empty userBet.matchBetId.matchEventId.teamAway.nameEn}" />
-                                                    <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{userBet.matchBetId.matchEventId.teamAway.nameDe}"/>
-                                                    <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{userBet.matchBetId.matchEventId.teamAway.nameEn}"/>
-                                                    <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{userBet.matchBetId.matchEventId.teamAway.nameFr}"/>
-                                                    <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{userBet.matchBetId.matchEventId.teamAway.nameIt}"/>
+                                                    <h:outputText rendered="#{localeBean.locale.language == 'de'}" value=" #{userBet.matchBetId.matchEventId.teamAway.nameDe}"/>
+                                                    <h:outputText rendered="#{localeBean.locale.language == 'en'}" value=" #{userBet.matchBetId.matchEventId.teamAway.nameEn}"/>
+                                                    <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value=" #{userBet.matchBetId.matchEventId.teamAway.nameFr}"/>
+                                                    <h:outputText rendered="#{localeBean.locale.language == 'it'}" value=" #{userBet.matchBetId.matchEventId.teamAway.nameIt}"/>
                                                 </p>
                                                 <p>
-                                                    <h:outputText rendered="#{localeBean.locale.language == 'de'}" value=" #{userBet.matchBetId.descriptionDe}"/>
-                                                    <h:outputText rendered="#{localeBean.locale.language == 'en'}" value=" #{userBet.matchBetId.descriptionEn}"/>
-                                                    <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value=" #{userBet.matchBetId.descriptionFr}"/>
-                                                    <h:outputText rendered="#{localeBean.locale.language == 'it'}" value=" #{userBet.matchBetId.descriptionIt}"/>
+                                                    <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{userBet.matchBetId.descriptionDe}"/>
+                                                    <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{userBet.matchBetId.descriptionEn}"/>
+                                                    <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{userBet.matchBetId.descriptionFr}"/>
+                                                    <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{userBet.matchBetId.descriptionIt}"/>
                                                 </p>
                                             </td>
                                             <td class="text-right">#{userBet.matchBetId.odds}</td>
