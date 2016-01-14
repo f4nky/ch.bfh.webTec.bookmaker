@@ -48,14 +48,16 @@
                             </p>
                         </div>
                     </div>
-                    <div class="row">
-                        <h:form>
-                        <div class="col-md-12">
-                                <h:commandLink class="btn btn-default btn-sm btn-danger" id="deleteMatchEvent"
-                                               value="#{messages.managerMatchesDetail_delete}" action="#{championship.deleteMatchEvent(matchBetBean.matchEvent)}" />
+                    <h:panelGroup rendered="#{empty matchBetBean.matchBets}">
+                        <div class="row">
+                            <h:form>
+                                <div class="col-md-12">
+                                    <h:commandLink class="btn btn-default btn-sm btn-danger" id="deleteMatchEvent"
+                                                   value="#{messages.managerMatchesDetail_delete}" action="#{championship.deleteMatchEvent(matchBetBean.matchEvent)}" />
+                                </div>
+                            </h:form>
                         </div>
-                        </h:form>
-                    </div>
+                    </h:panelGroup>
                 </div>
             </div>
             <div class="row top-buffer">
@@ -81,7 +83,6 @@
                                         <table class="table table-responsive table-striped">
                                             <thead>
                                             <tr>
-                                                <th class="col-md-1 text-right"></th>
                                                 <th class="col-md-7">#{messages.managerMatchesDetail_desc}</th>
                                                 <th class="col-md-2 text-right">#{messages.managerMatchesDetail_odds}</th>
                                                 <th class="col-md-2 text-right">#{messages.managerMatchesDetail_amount_placed_bets}</th>
@@ -91,9 +92,6 @@
                                             <tbody>
                                             <ui:repeat value="#{matchBetBean.matchBets}" var="matchBet">
                                                 <tr>
-                                                    <td class="text-right">
-                                                        <a href="#"><i class="fa fa-pencil-square-o"></i></a>
-                                                    </td>
                                                     <td>
                                                         <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchBet.descriptionDe}"/>
                                                         <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchBet.descriptionEn}"/>
