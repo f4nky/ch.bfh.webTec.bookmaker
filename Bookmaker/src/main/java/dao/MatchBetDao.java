@@ -100,6 +100,19 @@ public class MatchBetDao {
     }
 
     /**
+     * Deletes the given match bet from the database.
+     *
+     * @param matchBetToDelete Match bet to delete from the database.
+     * @since 29.12.2015
+     */
+    public void deleteMatchBet(MatchBet matchBetToDelete) {
+        MatchBet matchBet = entityManager.find(MatchBet.class, matchBetToDelete.getId());
+        entityManager.getTransaction().begin();
+        entityManager.remove(matchBet);
+        entityManager.getTransaction().commit();
+    }
+
+    /**
      * Updates the is active value of the given match bet in the database.
      * The is active value is set, when the manager marks a match bet as occurred.
      *

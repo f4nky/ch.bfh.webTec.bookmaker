@@ -48,14 +48,16 @@
                             </p>
                         </div>
                     </div>
-                    <div class="row">
-                        <h:form>
-                        <div class="col-md-12">
-                                <h:commandLink class="btn btn-default btn-sm btn-danger" id="deleteMatchEvent"
-                                               value="#{messages.managerMatchesDetail_delete}" action="#{championship.deleteMatchEvent(matchBetBean.matchEvent)}" />
+                    <h:panelGroup rendered="#{empty matchBetBean.matchBets}">
+                        <div class="row">
+                            <h:form>
+                                <div class="col-md-12">
+                                    <h:commandLink class="btn btn-default btn-sm btn-danger" id="deleteMatchEvent"
+                                                   value="#{messages.managerMatchesDetail_delete}" action="#{championship.deleteMatchEvent(matchBetBean.matchEvent)}" />
+                                </div>
+                            </h:form>
                         </div>
-                        </h:form>
-                    </div>
+                    </h:panelGroup>
                 </div>
             </div>
             <div class="row top-buffer">
@@ -92,7 +94,9 @@
                                             <ui:repeat value="#{matchBetBean.matchBets}" var="matchBet">
                                                 <tr>
                                                     <td class="text-right">
-                                                        <a href="#"><i class="fa fa-pencil-square-o"></i></a>
+                                                        <h:form>
+                                                            <h:commandLink rendered="#{matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet) eq 0.00}" class="fa fa-trash" action="#{matchBetBean.deleteMatchBet(matchBet)}" />
+                                                        </h:form>
                                                     </td>
                                                     <td>
                                                         <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchBet.descriptionDe}"/>
