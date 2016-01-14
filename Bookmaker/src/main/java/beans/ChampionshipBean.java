@@ -242,7 +242,6 @@ public class ChampionshipBean implements Serializable {
     }
 
     /**
-<<<<<<< HEAD
      * Validates the input data for editing a match event and update the match event on the database if no validation
      * fault occurred. After updating the event on the database, the modal dialog to update the match event is closed and the
      * site is refreshed.
@@ -276,9 +275,7 @@ public class ChampionshipBean implements Serializable {
     }
 
     /**
-=======
      * Calculates the sum of all amounts which the logged in user has set to the given match.
->>>>>>> 24719b0b1b39a1b5fb343158f9c3b9f39aa3f25e
      *
      * @param matchEvent Match to calculate the sum of all set amounts of the logged in user.
      * @return Sum of all amounts which the logged in user has set to the given match. 0 if no amount is set.
@@ -370,7 +367,6 @@ public class ChampionshipBean implements Serializable {
             finishMatchErrorMessage = LanguageHelper.createValidationFaultOutput(FINISH_MATCH_FORM_NAME, validationFaults);
         }
     }
-<<<<<<< HEAD
 
     /**
      * Returns the stage which this match event belongs to.
@@ -410,6 +406,4 @@ public class ChampionshipBean implements Serializable {
         }
         return teamAway;
     }
-=======
->>>>>>> 24719b0b1b39a1b5fb343158f9c3b9f39aa3f25e
 }

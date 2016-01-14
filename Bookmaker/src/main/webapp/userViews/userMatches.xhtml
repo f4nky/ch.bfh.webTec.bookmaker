@@ -106,7 +106,7 @@
                                 </thead>
                                 <tbody>
                                 <ui:repeat value="#{championship.matchEventsInProgress}" var="matchEvent">
-                                    <tr data-href="userMatchDetailFinished.xhtml?matchEventId=#{matchEvent.id}">
+                                    <tr data-href="userMatchDetailInProgress.xhtml?matchEventId=#{matchEvent.id}">
                                         <td>#{matchEvent.matchEventNr}</td>
                                         <td>
                                             <h:outputText value="#{matchEvent.matchEventDateTime}" >
