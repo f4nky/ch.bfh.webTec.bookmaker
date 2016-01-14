@@ -101,7 +101,6 @@
                                     <th class="col-md-1"></th>
                                     <th class="col-md-2">#{messages.matches_away}</th>
                                     <th class="col-md-2 text-right">#{messages.userMatches_amount_placed}</th>
-                                    <th class="col-md-2 text-right"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -130,8 +129,7 @@
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamHome.nameEn}" />
                                         </td>
                                         <td class="text-center">
-                                            <h:outputText value="#{not empty matchEvent.scoreTeamHome ? matchEvent.scoreTeamHome : '-'}" /> :
-                                            <h:outputText value="#{not empty matchEvent.scoreTeamAway ? matchEvent.scoreTeamAway : '-'}" />
+                                            -
                                         </td>
                                         <td>
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
@@ -145,20 +143,6 @@
                                                 <f:convertNumber pattern="CHF #0.00" locale="de-CH" />
                                             </h:outputText>
                                         </td>
-                                        <h:panelGroup rendered="#{matchBetBean.calculateMatchEventWinLostAmount(matchEvent) ge 0}">
-                                            <td class="text-right text-success">
-                                                <h:outputText value="#{matchBetBean.calculateMatchEventWinLostAmount(matchEvent)}">
-                                                    <f:convertNumber pattern="CHF +#0.00" locale="de-CH" />
-                                                </h:outputText>
-                                            </td>
-                                        </h:panelGroup>
-                                        <h:panelGroup rendered="#{matchBetBean.calculateMatchEventWinLostAmount(matchEvent) lt 0}">
-                                            <td class="text-right text-danger">
-                                                <h:outputText value="#{matchBetBean.calculateMatchEventWinLostAmount(matchEvent)}">
-                                                    <f:convertNumber pattern="CHF #0.00" locale="de-CH" />
-                                                </h:outputText>
-                                            </td>
-                                        </h:panelGroup>
                                     </tr>
                                 </ui:repeat>
                                 </tbody>

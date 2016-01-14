@@ -70,8 +70,7 @@
                                                 <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamHome.nameEn}" />
                                             </td>
                                             <td class="text-center">
-                                                <h:outputText value="#{not empty matchEvent.scoreTeamHome ? matchEvent.scoreTeamHome : '-'}" /> :
-                                                <h:outputText value="#{not empty matchEvent.scoreTeamAway ? matchEvent.scoreTeamAway : '-'}" />
+                                                -
                                             </td>
                                             <td>
                                                 <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
@@ -108,23 +107,22 @@
                                         </td>
                                         <td>
                                             <p>
-                                                <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.stage.nameDe} "/>
-                                                <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.stage.nameEn} "/>
-                                                <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.stage.nameFr} "/>
-                                                <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.stage.nameIt} "/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.stage.nameDe}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.stage.nameEn}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.stage.nameFr}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.stage.nameIt}"/>
                                             </p>
                                             <h:outputText value="#{messages.matches_group} #{matchEvent.matchEventGroup}" rendered="#{not empty matchEvent.matchEventGroup}" />
                                         </td>
                                         <td class="text-right">
-                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.teamHome.nameDe}"/>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.teamHome.nameEn}"/>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.teamHome.nameFr}"/>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.teamHome.nameIt}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.teamHome.nameDe} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.teamHome.nameEn} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.teamHome.nameFr} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.teamHome.nameIt} "/>
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamHome.nameEn}" />
                                         </td>
                                         <td class="text-center">
-                                            <h:outputText value="#{not empty matchEvent.scoreTeamHome ? matchEvent.scoreTeamHome : '-'}" /> :
-                                            <h:outputText value="#{not empty matchEvent.scoreTeamAway ? matchEvent.scoreTeamAway : '-'}" />
+                                            -
                                         </td>
                                         <td>
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamAway.countryCode}.png" width="24px" rendered="#{not empty matchEvent.teamAway.nameEn}" />
@@ -161,20 +159,20 @@
                                         </td>
                                         <td>
                                             <p>
-                                                <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.stage.nameDe} "/>
-                                                <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.stage.nameEn} "/>
-                                                <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.stage.nameFr} "/>
-                                                <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.stage.nameIt} "/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.stage.nameDe}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.stage.nameEn}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.stage.nameFr}"/>
+                                                <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.stage.nameIt}"/>
                                             </p>
                                             <c:if test="#{matchEvent.matchEventGroup == null}">
                                                 <p>#{messages.matches_group} #{matchEvent.matchEventGroup}</p>
                                             </c:if>
                                         </td>
                                         <td class="text-right">
-                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.teamHome.nameDe}"/>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.teamHome.nameEn}"/>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.teamHome.nameFr}"/>
-                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.teamHome.nameIt}"/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchEvent.teamHome.nameDe} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchEvent.teamHome.nameEn} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'fr'}" value="#{matchEvent.teamHome.nameFr} "/>
+                                            <h:outputText rendered="#{localeBean.locale.language == 'it'}" value="#{matchEvent.teamHome.nameIt} "/>
                                             <h:graphicImage value="http://img.uefa.com/imgml/flags/50x50/#{matchEvent.teamHome.countryCode}.png" width="24px" rendered="#{matchEvent.teamHome.nameEn != null}" />
                                         </td>
                                         <td class="text-center">
