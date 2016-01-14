@@ -54,7 +54,7 @@ public class MatchEventDao {
      * @since 25.12.2015
      */
     public List<MatchEvent> getMatchesComing() {
-        Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m WHERE m.matchEventDateTime > :matchEventDateTime");
+        Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m WHERE m.matchEventDateTime > :matchEventDateTime ORDER BY m.matchEventDateTime ASC");
         query.setParameter("matchEventDateTime", new Date());
         return query.getResultList();
     }
@@ -66,7 +66,7 @@ public class MatchEventDao {
      * @since 25.12.2015
      */
     public List<MatchEvent> getMatchesPast() {
-        Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m WHERE m.matchEventDateTime <= :dateNow AND m.scoreTeamAway IS NOT NULL AND m.scoreTeamHome IS NOT NULL");
+        Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m WHERE m.matchEventDateTime <= :dateNow AND m.scoreTeamAway IS NOT NULL AND m.scoreTeamHome IS NOT NULL ORDER BY m.matchEventDateTime ASC");
         query.setParameter("dateNow", new Date());
         return query.getResultList();
     }
@@ -78,7 +78,7 @@ public class MatchEventDao {
      * @since 31.12.2015
      */
     public List<MatchEvent> getMatchesInProgress() {
-        Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m WHERE m.matchEventDateTime <= :dateNow AND m.scoreTeamAway IS NULL AND m.scoreTeamHome IS NULL");
+        Query query = entityManager.createQuery("SELECT m FROM " + model.MatchEvent.TABLE_NAME + " m WHERE m.matchEventDateTime <= :dateNow AND m.scoreTeamAway IS NULL AND m.scoreTeamHome IS NULL ORDER BY m.matchEventDateTime ASC");
         query.setParameter("dateNow", new Date());
         return query.getResultList();
     }
