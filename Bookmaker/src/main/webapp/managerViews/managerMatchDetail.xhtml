@@ -83,6 +83,7 @@
                                         <table class="table table-responsive table-striped">
                                             <thead>
                                             <tr>
+                                                <th class="col-md-1 text-right"></th>
                                                 <th class="col-md-7">#{messages.managerMatchesDetail_desc}</th>
                                                 <th class="col-md-2 text-right">#{messages.managerMatchesDetail_odds}</th>
                                                 <th class="col-md-2 text-right">#{messages.managerMatchesDetail_amount_placed_bets}</th>
@@ -92,6 +93,11 @@
                                             <tbody>
                                             <ui:repeat value="#{matchBetBean.matchBets}" var="matchBet">
                                                 <tr>
+                                                    <td class="text-right">
+                                                        <h:form>
+                                                            <h:commandLink rendered="#{matchBetBean.getTotalSetAmountAllUsersByMatchBet(matchBet) eq 0.00}" class="fa fa-trash" action="#{matchBetBean.deleteMatchBet(matchBet)}" />
+                                                        </h:form>
+                                                    </td>
                                                     <td>
                                                         <h:outputText rendered="#{localeBean.locale.language == 'de'}" value="#{matchBet.descriptionDe}"/>
                                                         <h:outputText rendered="#{localeBean.locale.language == 'en'}" value="#{matchBet.descriptionEn}"/>

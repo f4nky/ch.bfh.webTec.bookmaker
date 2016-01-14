@@ -164,6 +164,17 @@ public class MatchBetBean implements Serializable {
     }
 
     /**
+     * Deletes the given match bet.
+     *
+     * @param matchBetToDelete Match bet to delete.
+     * @since 28.12.2015
+     */
+    public void deleteMatchBet(MatchBet matchBetToDelete) throws IOException {
+        MatchBetDao.getInstance().deleteMatchBet(matchBetToDelete);
+        navigationBean.redirectToManagerMatchDetail(matchEventId);
+    }
+
+    /**
      * Gets and returns the match event which this match bet belongs to.
      *
      * @return Match event which this match bet belongs to.
