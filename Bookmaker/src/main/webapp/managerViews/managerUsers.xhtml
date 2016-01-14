@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
@@ -13,21 +12,24 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th></th>
                         <th>#</th>
                         <th>#{messages.managerUsers_first_name}</th>
                         <th>#{messages.managerUsers_last_name}</th>
                         <th>#{messages.managerUsers_email}</th>
+                        <th>#{messages.managerUsers_role}</th>
                     </tr>
                     </thead>
                     <tbody>
                     <ui:repeat value="#{userBean.users}" var="user">
                         <tr>
-                            <td><input type="checkbox" class="form-input" /></td>
                             <td>#{user.id}</td>
                             <td>#{user.firstName}</td>
                             <td>#{user.lastName}</td>
                             <td>#{user.email}</td>
+                            <td>
+                                <h:outputText rendered="#{user.isManager == true}" value="Manager"/>
+                                <h:outputText rendered="#{user.isManager == false}" value="Gambler"/>
+                            </td>
                         </tr>
                     </ui:repeat>
                     </tbody>
