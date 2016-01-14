@@ -87,7 +87,7 @@ INSERT INTO matchEvent (id, matchEventNr, stageId, matchEventGroup, matchEventDa
 	(35, 35, 1, 'E', '2016-06-22 21:00:00', 18, 19), # E2 - E3
 	(36, 36, 1, 'E', '2016-06-22 21:00:00', 20, 17), # E4 - E1
 
-	(37, 37, 2, null, '2016-06-25 15:00:00', null, null), # 2nd A - 2nd C
+	/*(37, 37, 2, null, '2016-06-25 15:00:00', null, null), # 2nd A - 2nd C
 	(38, 38, 2, null, '2016-06-25 18:00:00', null, null), # Winner B - 3rd A/C/D
 	(39, 39, 2, null, '2016-06-25 21:00:00', null, null), # Winner D - 3rd B/E/F
 	(40, 40, 2, null, '2016-06-26 15:00:00', null, null), # Winner A - 3rd C/D/E
@@ -104,7 +104,7 @@ INSERT INTO matchEvent (id, matchEventNr, stageId, matchEventGroup, matchEventDa
 	(49, 49, 4, null, '2016-07-06 21:00:00', null, null), # Winner 45 - Winner 46
 	(50, 50, 4, null, '2016-07-07 21:00:00', null, null), # Winner 47 - Winner 48
 
-	(51, 51, 5, null, '2016-07-10 21:00:00', null, null); # Winner 49 - Winner 50
+	(51, 51, 5, null, '2016-07-10 21:00:00', null, null); # Winner 49 - Winner 50*/
 
 INSERT INTO matchBet (id, matchEventId, descriptionEn, descriptionDe, descriptionFr, descriptionIt, odds) VALUES
 	(1, 1, 'France leads after 90\'', 'Frankreich führt nach 90\'', 'France leads after 90\'_FR', 'France leads after 90\'_IT', 1.5),

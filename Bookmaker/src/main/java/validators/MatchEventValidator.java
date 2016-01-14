@@ -152,7 +152,7 @@ public class MatchEventValidator {
      * @since 11.01.2016
      */
     private Date stringToDate(String date) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         return formatter.parse(date);
     }
 }
