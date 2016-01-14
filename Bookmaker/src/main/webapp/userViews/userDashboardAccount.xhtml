@@ -13,7 +13,11 @@
                     <div class="col-md-4 col-md-offset-2">
                         <div class="well well-sm">
                             <h5>#{messages.userDashboardAccount_saldo}</h5>
-                            <p class="text-success">CHF +#{userBean.saldo}</p>
+                            <p class="text-success">
+                                <h:outputText value="#{userBean.saldo}">
+                                    <f:convertNumber pattern="CHF #0.00" locale="de-CH" />
+                                </h:outputText>
+                            </p>
                         </div>
                     </div>
                     <div class="col-md-4">
