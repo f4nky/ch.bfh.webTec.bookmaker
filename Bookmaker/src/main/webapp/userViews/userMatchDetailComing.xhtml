@@ -88,7 +88,7 @@
                                             <td class="text-right">#{matchBet.odds}</td>
                                             <td class="text-right">
                                                 <h:form>
-                                                    <h:commandLink class="btn btn-default btn-xs" value="#{messages.userBets_place_amount}" action="#{userBetBean.setMatchBetId(matchBet.id)}"
+                                                    <h:commandLink rendered="#{userBetBean.isMatchEventInPast() eq false}" class="btn btn-default btn-xs" value="#{messages.userBets_place_amount}" action="#{userBetBean.setMatchBetId(matchBet.id)}"
                                                                    onclick="$('#betModal').modal('show');" immediate="true">
                                                         <f:ajax execute="@this" render="amount"/>
                                                     </h:commandLink>

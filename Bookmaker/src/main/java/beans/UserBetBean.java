@@ -240,4 +240,19 @@ public class UserBetBean implements Serializable {
     public double calculateMatchBetWinAmount(double matchBetOdd, double setUserAmount) {
         return matchBetOdd * setUserAmount;
     }
+
+    /**
+     * Is the match event in past.
+     *
+     * @return Match event in past.
+     * @since 29.12.2015
+     */
+    public boolean isMatchEventInPast() {
+        Date dateNow = new Date();
+        Date dateEvent = getMatchEvent().getMatchEventDateTime();
+        if (dateNow.after(dateEvent)) {
+            return true;
+        }
+        return false;
+    }
 }
